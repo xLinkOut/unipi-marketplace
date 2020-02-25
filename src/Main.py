@@ -3,7 +3,6 @@
 import logging
 import json
 import Keyboards
-import os
 
 from sys import exit
 from re import search
@@ -13,6 +12,7 @@ from time import time
 from datetime import datetime
 from functools import wraps
 from dotenv import load_dotenv
+from os import getenv
 
 # SQLAlchemy
 from sqlalchemy import create_engine
@@ -32,11 +32,11 @@ from telegram import InputMediaPhoto
 
 load_dotenv()
 
-API_TOKEN = os.getenv("API_TOKEN")
-DB_FILE = os.getenv("DB_FILE")
-LANG_FILE = os.getenv("LANG_FILE") # [IT, EN, ES, DE]
-IMG_NOT_AVAILABLE = os.getenv("IMG_NOT_AVAILABLE")
-ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID")
+API_TOKEN = getenv("API_TOKEN")
+DB_FILE = getenv("DB_FILE")
+LANG_FILE = getenv("LANG_FILE") # [IT, EN, ES, DE]
+IMG_NOT_AVAILABLE = getenv("IMG_NOT_AVAILABLE")
+ADMIN_CHAT_ID = getenv("ADMIN_CHAT_ID")
 
 # CHAT ACTION
 def typing_action(func):
