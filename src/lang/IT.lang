@@ -1,0 +1,117 @@
+{
+    
+    "welcome": "Ciao $$! 😊 Io sono un bot e ti aiuterò a vendere e a comprare libri universitari, dispense ed appunti direttamente da altri studenti.\nIl mio funzionamento è molto semplice: ci sono due grandi menu, 💰 *Vendi* e 💸 *Compra*. Dal primo puoi inserire un nuovo annuncio di vendita e controllare gli annunci che hai già pubblicato; dal menu Compra invece puoi cercare un libro, una dispensa o più genericamente degli appunti, sia per *nome* che per *facoltà*. Se hai trovato qualcosa che ti interessa, puoi metterti in contatto con l'altra persona senza lasciare il bot, così da poter completare l'acquisto.\n\nSe hai bisogno di aiuto, se hai riscontrato un problema di qualsiasi natura (tecnico, errori nei testi...) o vuoi suggerire una modifica, posso recapitare un messaggio al mio sviluppatore tramite il comando /feedback. Allo stesso modo, posso inoltrarti una sua eventuale risposta, in modo completamente anonimo, in quanto il tuo nome e le tue informazioni non vengono inviate insieme al messaggio.\n\nGrazie del supporto! ❤️",
+    "welcome_back": "Ciao $$! 😎",
+
+    "feedback":"Se hai riscontrato un problema o un malfunzionamento, o vuoi suggerire una modifica al bot, puoi inviare un feedback tramite questa funzione. Scrivi qui il tuo messaggio, sarà mio dovere inviarlo in maniera *anonima* al mio sviluppatore. Se sarà necessario risponderti, io farò da tramite.\n\nGrazie per il supporto! ❤️",
+    "feedback_done":"Perfetto! Grazie del feedback! ⭐️",
+    "feedback_undo":"Nessun problema, ti riporto al menu principale.\nSe dovessi cambiare idea, usa il comando /feedback",
+    "feedback_received":"🔔 Feedback ricevuto!\n\n*Chat ID:* $$\n*Username:* @$$\n*First name:* $$\n\n*Messaggio:* ⬇️",
+
+    "main_menu":"Menu principale",
+    "sell": "💰 Vendi",
+    "buy": "💸 Compra",
+    "info": "Si usa così bla bla\nCon /feedback ci puoi mandare un messaggio anonimo\nBona",
+
+    "sell_title":"Bene, pubblichiamo insieme un nuovo annuncio. 📚\nMandami il *titolo* e gli *autori* del libro.\n\n_Puoi tornare al menu in qualsiasi momento premendo su Annulla ⬇️_",
+    "sell_price":"💰 A che *prezzo* vuoi vendere il libro?\n\n_Puoi usare la tastiera con alcune scorciatoie oppure inserire manualmente il prezzo in uno dei seguenti formati: '10', '10€', '10,50', '12.63', '23,42€'_",
+    "sell_bad_price":"Il formato del prezzo inserito *non è corretto*, riprova usando uno dei seguenti formati: '10', '10€', '10,50', '12.63', '23,42€'",
+    "sell_photo":"📷 Vuoi aggiungere una *foto*?\n\n_E' un passo facoltativo, puoi saltarlo premendo su ⏩ Salta._",
+    "sell_skip_photo":"D'accordo, niente foto. 🤷‍♂️",
+    "sell_courses":"🎓 Scegli la *facoltà* dalla lista sottostante.\n\n_Una lista più specifica arriverà a breve. Se la tua facoltà manca, ti preghiamo di segnalarlo tramite il comando /feedback, grazie._",
+    "sell_wrong_course":"Scegli una delle falcotà presenti nella tastiera. ⬇️",
+    "sell_undo":"Nessun problema, ti riporto al menù principale.",
+    "sell_done":"✅ *Finito!* Ecco come apparirà il tuo annuncio nella ricerca.",
+    
+    "sell_empty_my_items":"Non hai ancora pubblicato *nessun annuncio!* Prova subito a vendere i tuoi libri o i tuoi appunti, premi su _'➕ Nuovo annuncio'._ 😎",
+    "sell_count_my_items_one":"Hai pubblicato *un solo annuncio*, eccolo qui. Prova a pubblicarne altri dal menu _Vendi_, e disfati dei vecchi appunti che stanno prendendo polvere!\n\n_Se vuoi rimuoverlo, premi su '🗑 Elimina.'_",
+    "sell_count_my_items_many":"Hai pubblicato *$$ annunci*, ti mando il primo della lista. Usa i tasti ⬅️ _Precedente_ e  ➡️ _Successivo_ per navigare tra i tuoi annunci e qualora ne volessi eliminare uno, premi su 🗑 _Elimina (l'azione non è reversibile)_.",
+    "sell_cb_no_prev_items":"🚫 Non ci sono annunci precedenti.",
+    "sell_cb_no_next_items":"🚫 Non ci sono annunci successivi.",
+    
+    "buy_search_by_name":"Per cercare un articolo per nome, mandami un messaggio con i termini della ricerca, che possono essere: il *titolo* di un libro, il nome (o più di uno) dell'*autore*, il titolo di una dispensa e così via.\n\n_Se non riesci a trovare quello che cerchi, prova ad affinare o generalizzale la tua ricerca, oppure usa la funzione 'Cerca per facoltà'!_",
+    "buy_search_by_name_done":"Ho trovato *$$ elementi* che probabilmente corrispondono a quello che stai cercando. Usa i *tasti di navigazine* per vederli tutti.",
+    "buy_search_by_name_more_char":"Aggiungi qualche altro carattere alla tua ricerca, con così poco non posso fare nulla...",
+    "buy_search_by_name_no_result":"Mi spice, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
+    "buy_search_by_name_undo":"D'accordo, niente ricerca! 🧐",
+
+    "caption": {
+        "title":"Titolo",
+        "price":"Prezzo",
+        "course":"Facoltà",
+        "posted":"Pubblicato"
+    },
+
+    "callback_answers": {
+        "previous":"⬅️ Precedente",
+        "next":"Successivo ➡️"
+    },
+
+    "keyboards": {
+        "start": {
+            "sell": "💰 Vendi",
+            "buy": "💸 Compra",
+            "info": "❓ Info"
+        },
+
+        "sell": {
+            "new_item": "➕ Nuovo annuncio",
+            "my_items": "📚 I miei annunci",
+            "back": "🔙 Indietro",
+            "instructions": "❓ Istruzioni"
+        },
+
+        "back": {
+            "back":"🔙 Indietro"
+        },
+
+        "buy": {
+            "search_by_name": "🔍 Cerca per nome",
+            "search_by_course": "🎓 Cerca per facoltà",
+            "last_added": "🔝 Ultimi aggiunti",
+            "back": "🔙 Indietro",
+            "instructions": "❓ Istruzioni"
+        },
+
+        "abort": {
+            "abort": "❌ Annulla"
+        },
+
+        "skip": {
+            "skip": "⏩ Salta"
+        },
+
+        "courses": [
+            "Agraria",
+            "Architettura",
+            "Beni Culturali",
+            "Biologia",
+            "Biotecnologie",
+            "Chimica",
+            "Design",
+            "Economia",
+            "Farmacia",
+            "Filosofia",
+            "Fisica",
+            "Giurisprudenza",
+            "Informatica",
+            "Ingegneria",
+            "Lettere",
+            "Matematica",
+            "Medicina",
+            "Psicologia",
+            "Veterinaria"
+        ],
+
+        "my_items": {
+            "previous": "Precedente ⬅️",
+            "next": "➡️ Successivo",
+            "delete": "🗑 Elimina"
+        },
+
+        "search_items": {
+            "previous": "Precedente ⬅️",
+            "next": "➡️ Successivo"
+        }
+    }
+}
