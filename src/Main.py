@@ -1,35 +1,35 @@
 # -*- coding: utf-8 -*-
 
-import logging
 import json
+import logging
 import Keyboards
 
 from sys import exit
-from re import search
-from os.path import isfile as file_exists
-from uuid import uuid1
-from time import time
-from datetime import datetime
-from functools import wraps
-from dotenv import load_dotenv
 from os import getenv
+from re import search
+from time import time
+from uuid import uuid1
+from functools import wraps
+from datetime import datetime
+from dotenv import load_dotenv
+from os.path import isfile as file_exists
 
 # SQLAlchemy
-from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, Float, String, Boolean
-from sqlalchemy import text
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy import desc, asc
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, Float, String, Boolean, text
 
 # Telegram Bot
-from telegram import ReplyKeyboardMarkup
 from telegram import ChatAction
-from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, CallbackQueryHandler
 from telegram.ext import Filters
 from telegram.ext import Updater
 from telegram import InputMediaPhoto
+from telegram import ReplyKeyboardMarkup
+from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, CallbackQueryHandler
 
+# Load environment
 load_dotenv()
 
 API_TOKEN = getenv("API_TOKEN")
