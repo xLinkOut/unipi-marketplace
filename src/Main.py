@@ -3,6 +3,8 @@
 import logging
 import json
 import Keyboards
+import os
+
 from sys import exit
 from re import search
 from os.path import isfile as file_exists
@@ -10,6 +12,7 @@ from uuid import uuid1
 from time import time
 from datetime import datetime
 from functools import wraps
+from dotenv import load_dotenv
 
 # SQLAlchemy
 from sqlalchemy import create_engine
@@ -27,11 +30,13 @@ from telegram.ext import Filters
 from telegram.ext import Updater
 from telegram import InputMediaPhoto
 
-API_TOKEN = None
-DB_FILE = "Database.db"
-LANG = "IT" # [IT, EN, ES, DE]
-IMG_NOT_AVAILABLE = None
-ADMIN_CHAT_ID = None
+load_dotenv()
+
+API_TOKEN = os.getenv("API_TOKEN")
+DB_FILE = os.getenv("DB_FILE")
+LANG_FILE = os.getenv("LANG_FILE") # [IT, EN, ES, DE]
+IMG_NOT_AVAILABLE = os.getenv("IMG_NOT_AVAILABLE")
+ADMIN_CHAT_ID = os.getenv("ADMIN_CHAT_ID")
 
 # CHAT ACTION
 def typing_action(func):
@@ -425,8 +430,8 @@ if __name__ == "__main__":
         level=logging.DEBUG, # DEBUG
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     
-    with open(f"{LANG}.lang", 'r') as lang_file:
-        statements = json.load(lang_file)
+    with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
+        statements = json.load(lang_f)
 
     # HANDLERS
     start_handler = CommandHandler('start', start)

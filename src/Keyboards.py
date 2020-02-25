@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from json import load
+import os
 
 from telegram import ReplyKeyboardMarkup
 from telegram import InlineKeyboardMarkup
 from telegram import InlineKeyboardButton
+from dotenv import load_dotenv
+load_dotenv()
 
-LANG = "IT" # [IT, EN, ES, DE]
-with open(f"{LANG}.lang", 'r') as lang_file:
+LANG_FILE = os.getenv("LANG_FILE") # [IT, EN, ES, DE]
+with open(f"lang/{LANG_FILE}.lang", 'r') as lang_file:
     statements = load(lang_file)['keyboards']
 
 # START
