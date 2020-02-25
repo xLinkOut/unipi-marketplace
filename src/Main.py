@@ -57,7 +57,8 @@ def photo_action(func):
 def start(update, context):
     if session.query(User).filter_by(chat_id=update.message.chat_id).first():
         # User already exists
-        context.bot.send_message(chat_id=update.message.chat_id, 
+        context.bot.send_message(
+            chat_id=update.message.chat_id, 
             text=statements['welcome_back'].replace("$$",update.message.chat.first_name), 
             reply_markup=Keyboards.Start,
             parse_mode="Markdown")
@@ -68,7 +69,8 @@ def start(update, context):
             username = update.message.chat.username,
             first_name = update.message.chat.first_name))
         session.commit()
-        context.bot.send_message(chat_id=update.message.chat_id,
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
             text=statements['welcome'].replace("$$",update.message.chat.first_name),
             reply_markup=Keyboards.Start,
             parse_mode="Markdown")
@@ -84,77 +86,130 @@ def sell(update, context):
 
 @typing_action
 def sell_title(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_title"], reply_markup=Keyboards.Undo, parse_mode="markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_title"],
+        reply_markup=Keyboards.Undo,
+        parse_mode="markdown")
     context.user_data['item_id'] = uuid1().hex
     return "TITLE"
 
 @typing_action
 def sell_price(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_undo"], reply_markup=Keyboards.Sell, parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_undo"],
+            reply_markup=Keyboards.Sell,
+            parse_mode="markdown")
         context.user_data.clear()
         return ConversationHandler.END
 
     # Save title
     # Check for SQL Injection 
     context.user_data['title'] = update.message.text
-    context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_price"], reply_markup=Keyboards.Price, parse_mode="markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_price"],
+        reply_markup=Keyboards.Price,
+        parse_mode="markdown")
     return "PRICE"
 
 @typing_action
 def sell_photo(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_undo"], reply_markup=Keyboards.Sell, parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_undo"],
+            reply_markup=Keyboards.Sell,
+            parse_mode="markdown")
         context.user_data.clear()
         return ConversationHandler.END
 
     if search(r"^[0-9]{1,3}(\,|.|$)[0-9]{0,2}(€){0,1}$", update.message.text):
         # Save price
         context.user_data['price'] = update.message.text.replace('€','').replace(',','.')
-        context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_photo"], reply_markup=Keyboards.Skip, parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_photo"],
+            reply_markup=Keyboards.Skip,
+            parse_mode="markdown")
         return "COURSE"
     else:
-        context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_bad_price"], parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_bad_price"],
+            parse_mode="markdown")
         return "PRICE"
 
 @typing_action
 def sell_skip_photo(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_undo"], reply_markup=Keyboards.Sell, parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_undo"],
+            reply_markup=Keyboards.Sell,
+            parse_mode="markdown")
         context.user_data.clear()
         return ConversationHandler.END
 
     context.user_data['photo'] = '0'
-    context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_skip_photo"], parse_mode="markdown")
-    context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_courses"], reply_markup=Keyboards.Courses, parse_mode="markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_skip_photo"],
+        parse_mode="markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_courses"],
+        reply_markup=Keyboards.Courses,
+        parse_mode="markdown")
     return "DONE"
 
 @typing_action
 def sell_courses(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_undo"], reply_markup=Keyboards.Sell, parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_undo"],
+            reply_markup=Keyboards.Sell,
+            parse_mode="markdown")
         context.user_data.clear()
         return ConversationHandler.END
 
     context.user_data["photo"] = update.message.photo[len(update.message.photo)-1].file_id
-    context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_courses"], reply_markup=Keyboards.Courses, parse_mode="markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_courses"],
+        reply_markup=Keyboards.Courses,
+        parse_mode="markdown")
     return "DONE"
 
 @typing_action
 def sell_undo(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_undo"], reply_markup=Keyboards.Sell, parse_mode="markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_undo"],
+        reply_markup=Keyboards.Sell,
+        parse_mode="markdown")
     context.user_data.clear()
     return ConversationHandler.END
 
 @typing_action
 def sell_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_undo"], reply_markup=Keyboards.Sell, parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_undo"],
+            reply_markup=Keyboards.Sell,
+            parse_mode="markdown")
         context.user_data.clear()
         return ConversationHandler.END
 
     if not update.message.text in statements['keyboards']['courses']:
-        context.bot.send_message(chat_id=update.message.chat_id,text=statements["sell_wrong_course"],parse_mode="Markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_wrong_course"],
+            parse_mode="Markdown")
         return "DONE"
         
     context.user_data['course'] = update.message.text
@@ -173,7 +228,11 @@ def sell_done(update, context):
         )
     )
     session.commit()
-    context.bot.send_message(chat_id=update.message.chat_id, text=statements["sell_done"], reply_markup=Keyboards.Sell, parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_done"],
+        reply_markup=Keyboards.Sell,
+        parse_mode="Markdown")
     
     item = get_item_by_id(context.user_data['item_id'])
     context.bot.send_photo(
@@ -189,9 +248,14 @@ def sell_my_items(update, context):
     # Prendere solo il primo
     my_items = get_my_items(update.message.chat_id)
     if not my_items:
-        context.bot.send_message(chat_id=update.message.chat_id,text=statements['sell_empty_my_items'],parse_mode="Markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['sell_empty_my_items'],
+            parse_mode="Markdown")
     else:
-        context.bot.send_chat_action(chat_id=update.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
+        context.bot.send_chat_action(
+            chat_id=update.message.chat_id,
+            action=ChatAction.UPLOAD_PHOTO)
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell_count_my_items_many'].replace('$$',str(len(my_items))) if len(my_items) > 1 else statements['sell_count_my_items_one'],
@@ -207,8 +271,12 @@ def sell_my_items(update, context):
 def sell_my_items_prev(update, context):
     prev_item = get_my_items_prev(update.callback_query.data[5:])
     if prev_item:
-        context.bot.send_chat_action(chat_id=update.callback_query.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
-        context.bot.answer_callback_query(update.callback_query.id,text=statements['callback_answers']['previous'])
+        context.bot.send_chat_action(
+            chat_id=update.callback_query.message.chat_id,
+            action=ChatAction.UPLOAD_PHOTO)
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['callback_answers']['previous'])
         context.bot.edit_message_media(
             chat_id=update.callback_query.message.chat_id,
             message_id=update.callback_query.message.message_id,
@@ -218,13 +286,19 @@ def sell_my_items_prev(update, context):
                 parse_mode="Markdown"),
             reply_markup=Keyboards.build_my_items_keyboard(prev_item.item_id))
     else:
-        context.bot.answer_callback_query(update.callback_query.id,text=statements['sell_cb_no_prev_items'],cache_time=5)
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['sell_cb_no_prev_items'],cache_time=5)
 
 def sell_my_items_next(update, context):
     next_item = get_my_items_next(update.callback_query.data[5:])
     if next_item:
-        context.bot.send_chat_action(chat_id=update.callback_query.message.chat_id, action=ChatAction.UPLOAD_PHOTO)
-        context.bot.answer_callback_query(update.callback_query.id,text=statements['callback_answers']['next'])    
+        context.bot.send_chat_action(
+            chat_id=update.callback_query.message.chat_id,
+            action=ChatAction.UPLOAD_PHOTO)
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['callback_answers']['next'])    
         context.bot.edit_message_media(
             chat_id=update.callback_query.message.chat_id,
             message_id=update.callback_query.message.message_id,
@@ -234,15 +308,22 @@ def sell_my_items_next(update, context):
                 parse_mode="Markdown"),
             reply_markup=Keyboards.build_my_items_keyboard(next_item.item_id))
     else:
-        context.bot.answer_callback_query(update.callback_query.id,text=statements['sell_cb_no_next_items'],cache_time=5)
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['sell_cb_no_next_items'],cache_time=5)
 
 def sell_my_items_delete(update, context):
-    context.bot.send_chat_action(chat_id=update.callback_query.message.chat_id, action=ChatAction.TYPING)
+    context.bot.send_chat_action(
+        chat_id=update.callback_query.message.chat_id,
+        action=ChatAction.TYPING)
     item = get_item_by_id(update.callback_query.data[7:])
     #title = item.title
     session.delete(item)
     session.commit()
-    context.bot.answer_callback_query(update.callback_query.id,text=f"{item.title}  🚮",cache_time=10)
+    context.bot.answer_callback_query(
+        update.callback_query.id,
+        text=f"{item.title}  🚮",
+        cache_time=10)
 
     items = get_my_items(update.callback_query.message.chat_id)
     if items:
@@ -256,24 +337,43 @@ def sell_my_items_delete(update, context):
             reply_markup=Keyboards.build_my_items_keyboard(items[0].item_id))
     else:
         # Maybe another method?
-        context.bot.delete_message(chat_id=update.callback_query.message.chat_id,message_id=update.callback_query.message.message_id)
-        context.bot.send_message(chat_id=update.callback_query.message.chat_id,text=statements['sell_empty_my_items'],parse_mode="Markdown")
+        context.bot.delete_message(
+            chat_id=update.callback_query.message.chat_id,
+            message_id=update.callback_query.message.message_id)
+        context.bot.send_message(
+            chat_id=update.callback_query.message.chat_id,
+            text=statements['sell_empty_my_items'],
+            parse_mode="Markdown")
       
 # BUY
 def buy(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id,text=statements['buy'],reply_markup=Keyboards.Buy,parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['buy'],
+        reply_markup=Keyboards.Buy,
+        parse_mode="Markdown")
 
 def buy_search_by_name(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id,text=statements['buy_search_by_name'],parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['buy_search_by_name'],
+        parse_mode="Markdown")
     return "DONE"
 
 def buy_search_by_name_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(chat_id=update.message.chat_id,text=statements['buy_search_by_name_undo'],reply_markup=Keyboards.Buy,parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_name_undo'],
+            reply_markup=Keyboards.Buy,
+            parse_mode="markdown")
         return ConversationHandler.END
 
     if len(update.message.text) < 4:
-        context.bot.send_message(chat_id=update.message.chat_id,text=statements['buy_search_by_name_more_char'],parse_mode="Markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_name_more_char'],
+            parse_mode="Markdown")
         return "DONE"
 
     # EH 
@@ -282,7 +382,11 @@ def buy_search_by_name_done(update, context):
 
     if items:
         context.user_data['last_query'] = update.message.text
-        context.bot.send_message(chat_id=update.message.chat_id,text=statements['buy_search_by_name_done'],reply_markup=Keyboards.Buy,parse_mode="Markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_name_done'],
+            reply_markup=Keyboards.Buy,
+            parse_mode="Markdown")
         context.bot.send_photo(
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
@@ -290,12 +394,20 @@ def buy_search_by_name_done(update, context):
             reply_markup=Keyboards.build_items_keyboard(items[0].item_id),
             parse_mode="Markdown")
     else:
-        context.bot.send_message(chat_id=update.message.chat_id,text=statements['buy_search_by_name_no_result'],reply_markup=Keyboards.Buy, parse_mode="Markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_name_no_result'],
+            reply_markup=Keyboards.Buy,
+            parse_mode="Markdown")
 
     return ConversationHandler.END
 
 def buy_search_by_name_undo(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id,text=statements['buy_search_by_name_undo'],reply_markup=Keyboards.Buy,parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['buy_search_by_name_undo'],
+        reply_markup=Keyboards.Buy,
+        parse_mode="Markdown")
 
 
 @photo_action
@@ -311,20 +423,35 @@ def buy_last_added(update, context):
 
 # INFO
 def info(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id,text=statements['info'],parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['info'],
+        parse_mode="Markdown")
 
 # BACK
 def back(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id,text=statements['main_menu'],reply_markup=Keyboards.Start,parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['main_menu'],
+        reply_markup=Keyboards.Start,
+        parse_mode="Markdown")
 
 # FEEDBACK
 def feedback(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id,text=statements['feedback'],reply_markup=Keyboards.Undo,parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['feedback'],
+        reply_markup=Keyboards.Undo,
+        parse_mode="Markdown")
     return "DONE"
 
 def feedback_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(chat_id=update.message.chat_id,text=statements["feedback_undo"],reply_markup=Keyboards.Start,parse_mode="markdown")
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["feedback_undo"],
+            reply_markup=Keyboards.Start,
+            parse_mode="markdown")
         return ConversationHandler.END
 
     context.bot.send_message(
@@ -342,12 +469,20 @@ def feedback_done(update, context):
         message_id=update.message.message_id
     )
 
-    context.bot.send_message(chat_id=update.message.chat_id,text=statements['feedback_done'],reply_markup=Keyboards.Start,parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['feedback_done'],
+        reply_markup=Keyboards.Start,
+        parse_mode="Markdown")
     return ConversationHandler.END
 
 
 def feedback_undo(update, context):
-    context.bot.send_message(chat_id=update.message.chat_id,text=statements['feedback_undo'],reply_markup=Keyboards.Start,parse_mode="Markdown")
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['feedback_undo'],
+        reply_markup=Keyboards.Start,
+        parse_mode="Markdown")
 
 # UTILITY
 
