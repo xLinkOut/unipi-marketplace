@@ -1,6 +1,7 @@
 # Files
 src/.env
 .DS_Store
+src/Database.db
 
 # Directories
 venv/
