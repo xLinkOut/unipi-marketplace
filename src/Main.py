@@ -342,9 +342,15 @@ def sell_my_items_delete(update, context):
             message_id=update.callback_query.message.message_id)
         context.bot.send_message(
             chat_id=update.callback_query.message.chat_id,
-            text=statements['sell_empty_my_items'],
+            text=statements['sell_deleted_last_item'],
             parse_mode="Markdown")
       
+def sell_instructions(update, context):
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['instructions_sell'],
+        parse_mode="Markdown")
+
 # BUY
 def buy(update, context):
     context.bot.send_message(
@@ -421,11 +427,17 @@ def buy_last_added(update, context):
             #reply_markup=Keyboards.build_my_items_keyboard(item.item_id),
             parse_mode="Markdown")
 
+def buy_instructions(update, context):
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['instructions_buy'],
+        parse_mode="Markdown")
+
 # INFO
 def info(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['info'],
+        text=statements['instructions'],
         parse_mode="Markdown")
 
 # BACK
@@ -600,10 +612,12 @@ if __name__ == "__main__":
     sell_my_items_prev_handler = CallbackQueryHandler(sell_my_items_prev,pattern=r"^prev_")
     sell_my_items_next_handler = CallbackQueryHandler(sell_my_items_next,pattern=r"^next_")
     sell_my_items_delete_handler = CallbackQueryHandler(sell_my_items_delete,pattern=r"^delete_")
+    sell_instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), sell_instructions)
 
     buy_search_by_name_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), buy_search_by_name)
     buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), buy_last_added)
-
+    buy_instructions_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['instructions']}$"), buy_instructions)
+    
     def add_test(update, context):
         try:            
             session.query(Item).delete()
@@ -629,10 +643,12 @@ if __name__ == "__main__":
     dispatcher.add_handler(sell_my_items_prev_handler)
     dispatcher.add_handler(sell_my_items_next_handler)
     dispatcher.add_handler(sell_my_items_delete_handler)
+    dispatcher.add_handler(sell_instruction_handler)
     dispatcher.add_handler(feedback_handler)
     dispatcher.add_handler(add_test_handler)
     dispatcher.add_handler(buy_last_added_handler)
     dispatcher.add_handler(buy_search_by_name_handler)
+    dispatcher.add_handler(buy_instructions_handler)
 
     # POLLING
     updater.start_polling()
