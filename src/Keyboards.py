@@ -63,12 +63,17 @@ Buttons.append([statements['abort']['abort']])
 Courses = ReplyKeyboardMarkup(Buttons, resize_keyboard=True)
 
 # MY ITEMS
-def build_my_items_keyboard(item_id):
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton(statements['my_items']['previous'],callback_data=f"prev_{item_id}"),
-         InlineKeyboardButton(statements['my_items']['next'],callback_data=f"next_{item_id}")],
-        [InlineKeyboardButton(statements['my_items']['delete'],callback_data=f"delete_{item_id}")]
-    ])
+def build_my_items_keyboard(item_id,navigation=True):
+    if navigation:    
+        return InlineKeyboardMarkup([
+            [InlineKeyboardButton(statements['my_items']['previous'],callback_data=f"prev_{item_id}"),
+            InlineKeyboardButton(statements['my_items']['next'],callback_data=f"next_{item_id}")],
+            [InlineKeyboardButton(statements['my_items']['delete'],callback_data=f"delete_{item_id}")]
+        ])
+    else:
+       return InlineKeyboardMarkup([
+            [InlineKeyboardButton(statements['my_items']['delete'],callback_data=f"delete_{item_id}")]
+        ]) 
 
 # ITEM IN DB
 def build_items_keyboard(item_id):

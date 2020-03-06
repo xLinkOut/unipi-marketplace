@@ -249,16 +249,19 @@ def sell_my_items(update, context):
         context.bot.send_chat_action(
             chat_id=update.message.chat_id,
             action=ChatAction.UPLOAD_PHOTO)
+        
+        my_items_count = len(my_items)
+
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_count_my_items_many'].replace('$$',str(len(my_items))) if len(my_items) > 1 else statements['sell_count_my_items_one'],
+            text=statements['sell_count_my_items_many'].replace('$$',str(my_items_count)) if my_items_count > 1 else statements['sell_count_my_items_one'],
             parse_mode="Markdown")
         
         context.bot.send_photo(
             chat_id=update.message.chat_id,
             photo=my_items[0].photo if not my_items[0].photo == '0' else IMG_NOT_AVAILABLE,
             caption=build_item_caption(my_items[0]),
-            reply_markup=Keyboards.build_my_items_keyboard(my_items[0].item_id),
+            reply_markup=Keyboards.build_my_items_keyboard(my_items[0].item_id,navigation=bool(my_items_count-1)),
             parse_mode="Markdown")
 
 def sell_my_items_prev(update, context):
@@ -321,7 +324,7 @@ def sell_my_items_delete(update, context):
                 media=items[0].photo if not items[0].photo== '0' else IMG_NOT_AVAILABLE,
                 caption=build_item_caption(items[0]),
                 parse_mode="Markdown"),
-            reply_markup=Keyboards.build_my_items_keyboard(items[0].item_id))
+            reply_markup=Keyboards.build_my_items_keyboard(items[0].item_id,navigation=bool(len(items)-1)))
     else:
         # Maybe another method?
         context.bot.delete_message(
