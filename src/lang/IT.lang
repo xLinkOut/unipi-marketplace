@@ -29,7 +29,7 @@
     "sell_empty_my_items":"Non hai ancora pubblicato *nessun annuncio!* Prova subito a vendere i tuoi libri o i tuoi appunti, premi su _➕ Nuovo annuncio._",
     "sell_deleted_last_item":"Hai cancellato *l'ultimo* dei tuoi annunci. Se desideri aggiungerne un altro, premi su _➕ Nuovo annuncio._",
     "sell_count_my_items_one":"Hai pubblicato *un solo annuncio*, eccolo qui. Prova a pubblicarne altri dal menu _Vendi_ e disfati dei tuoi vecchi appunti che stanno prendendo polvere!\n\n_Se vuoi rimuoverlo, premi su 🗑 Elimina._",
-    "sell_count_my_items_many":"Hai pubblicato *$$ annunci*, ti mando il più recente.\n\n_Usa i tasti ⬅️ Precedente e  ➡️ Successivo per navigare tra i tuoi annunci ed il tasto 🗑 Elimina se desideri rimuoverne qualcuno (ricorda, è un'azione *irreversibile*)._",
+    "sell_count_my_items_many":"Hai pubblicato *$$ annunci*, ti mando il più recente.\n\n_Usa i tasti ⬅️ Precedente e  ➡️ Successivo per navigare tra i tuoi annunci ed il tasto 🗑 Elimina se desideri rimuoverne qualcuno (ricorda, è un'azione_ *irreversibile*_)._",
     "sell_cb_no_prev_items":"🚫 Non ci sono annunci precedenti.",
     "sell_cb_no_next_items":"🚫 Non ci sono annunci successivi.",
     
