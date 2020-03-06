@@ -266,7 +266,7 @@ def sell_my_items(update, context):
             parse_mode="Markdown")
 
 def sell_my_items_prev(update, context):
-    prev_item = get_my_items_prev(update.callback_query.data[5:])
+    prev_item = get_my_items_prev(update.callback_query.data[5:],update.callback_query.message.chat_id)
     if prev_item:
         context.bot.answer_callback_query(
             update.callback_query.id,
@@ -285,7 +285,7 @@ def sell_my_items_prev(update, context):
             text=statements['sell_cb_no_prev_items'],cache_time=5)
 
 def sell_my_items_next(update, context):
-    next_item = get_my_items_next(update.callback_query.data[5:])
+    next_item = get_my_items_next(update.callback_query.data[5:],update.callback_query.message.chat_id)
     if next_item:
         context.bot.answer_callback_query(
             update.callback_query.id,
@@ -494,14 +494,11 @@ def count_my_items(chat_id):
 def get_my_items(chat_id):
     return session.query(Item).filter_by(chat_id=chat_id).order_by(asc(Item.timestamp)).all()
 
-def get_my_items_prev(item_id):
-    return session.query(Item).filter(Item.item_id < item_id).order_by(desc(Item.timestamp)).first()
+def get_my_items_prev(item_id,chat_id):
+    return session.query(Item).filter_by(chat_id=chat_id).filter(Item.item_id < item_id).order_by(desc(Item.timestamp)).first()
 
-# Note: Invertire asc e desc tra queste due righe per visualizzare 
-# rispettivamente l'ultimo ed il primo nei miei annunci come primo risultato
-
-def get_my_items_next(item_id):
-    return session.query(Item).filter(Item.item_id > item_id).order_by(asc(Item.timestamp)).first()
+def get_my_items_next(item_id,chat_id):
+    return session.query(Item).filter_by(chat_id=chat_id).filter(Item.item_id > item_id).order_by(asc(Item.timestamp)).first()
 
 def build_item_caption(item):
     fromts = datetime.fromtimestamp(item.timestamp)
