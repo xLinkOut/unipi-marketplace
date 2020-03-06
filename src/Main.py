@@ -227,16 +227,16 @@ def sell_done(update, context):
         reply_markup=Keyboards.Sell,
         parse_mode="Markdown")
     
+    # Preview
     item = get_item_by_id(context.user_data['item_id'])
     context.bot.send_photo(
         chat_id=update.message.chat_id,
         photo=item.photo if not item.photo == '0' else IMG_NOT_AVAILABLE,
         caption=build_item_caption(item),
-        reply_markup=Keyboards.build_my_items_keyboard(item.item_id),
+        #reply_markup=Keyboards.build_my_items_keyboard(item.item_id),
         parse_mode="Markdown")
 
     return ConversationHandler.END
-
 def sell_my_items(update, context):
     # Prendere solo il primo
     my_items = get_my_items(update.message.chat_id)
