@@ -84,7 +84,6 @@ def sell(update, context):
         reply_markup=Keyboards.Sell,
         parse_mode="markdown")
 
-@typing_action
 def sell_title(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
@@ -94,7 +93,6 @@ def sell_title(update, context):
     context.user_data['item_id'] = uuid1().hex
     return "TITLE"
 
-@typing_action
 def sell_price(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
@@ -115,7 +113,6 @@ def sell_price(update, context):
         parse_mode="markdown")
     return "PRICE"
 
-@typing_action
 def sell_photo(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
@@ -142,7 +139,6 @@ def sell_photo(update, context):
             parse_mode="markdown")
         return "PRICE"
 
-@typing_action
 def sell_skip_photo(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
@@ -165,7 +161,6 @@ def sell_skip_photo(update, context):
         parse_mode="markdown")
     return "DONE"
 
-@typing_action
 def sell_courses(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
@@ -184,7 +179,6 @@ def sell_courses(update, context):
         parse_mode="markdown")
     return "DONE"
 
-@typing_action
 def sell_undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
@@ -194,7 +188,6 @@ def sell_undo(update, context):
     context.user_data.clear()
     return ConversationHandler.END
 
-@typing_action
 def sell_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
@@ -271,9 +264,6 @@ def sell_my_items(update, context):
 def sell_my_items_prev(update, context):
     prev_item = get_my_items_prev(update.callback_query.data[5:])
     if prev_item:
-        context.bot.send_chat_action(
-            chat_id=update.callback_query.message.chat_id,
-            action=ChatAction.UPLOAD_PHOTO)
         context.bot.answer_callback_query(
             update.callback_query.id,
             text=statements['callback_answers']['previous'])
@@ -293,9 +283,6 @@ def sell_my_items_prev(update, context):
 def sell_my_items_next(update, context):
     next_item = get_my_items_next(update.callback_query.data[5:])
     if next_item:
-        context.bot.send_chat_action(
-            chat_id=update.callback_query.message.chat_id,
-            action=ChatAction.UPLOAD_PHOTO)
         context.bot.answer_callback_query(
             update.callback_query.id,
             text=statements['callback_answers']['next'])    
@@ -416,7 +403,6 @@ def buy_search_by_name_undo(update, context):
         parse_mode="Markdown")
 
 
-@photo_action
 def buy_last_added(update, context):
     items = get_last_added()
     for item in items:
