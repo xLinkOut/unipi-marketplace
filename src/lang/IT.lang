@@ -30,15 +30,15 @@
     "sell_deleted_last_item":"Hai cancellato *l'ultimo* dei tuoi annunci. Se desideri aggiungerne un altro, premi su _➕ Nuovo annuncio._",
     "sell_count_my_items_one":"Hai pubblicato *un solo annuncio*, eccolo qui. Prova a pubblicarne altri dal menu _Vendi_ e disfati dei tuoi vecchi appunti che stanno prendendo polvere!\n\n_Se vuoi rimuoverlo, premi su 🗑 Elimina._",
     "sell_count_my_items_many":"Hai pubblicato *$$ annunci*, ti mando il più recente.\n\n_Usa i tasti ⬅️ Precedente e  ➡️ Successivo per navigare tra i tuoi annunci ed il tasto 🗑 Elimina se desideri rimuoverne qualcuno (ricorda, è un'azione_ *irreversibile*_)._",
-    "sell_cb_no_prev_items":"🚫 Non ci sono annunci precedenti.",
-    "sell_cb_no_next_items":"🚫 Non ci sono annunci successivi.",
-    
     "buy_search_by_name":"Per cercare un articolo per nome, mandami un messaggio con i termini della ricerca, che possono essere: il *titolo* di un libro, il nome (o più di uno) dell'*autore*, il titolo di una dispensa e così via.\n\n_Se non riesci a trovare quello che cerchi, prova ad affinare o generalizzale la tua ricerca, oppure usa la funzione 'Cerca per facoltà'!_",
     "buy_search_by_name_done":"Ho trovato *$$ elementi* che probabilmente corrispondono a quello che stai cercando. Usa i *tasti di navigazine* per vederli tutti.",
     "buy_search_by_name_more_char":"Aggiungi qualche altro carattere alla tua ricerca, con così poco non posso fare nulla...",
     "buy_search_by_name_no_result":"Mi spice, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
     "buy_search_by_name_undo":"D'accordo, niente ricerca! 🧐",
 
+    "no_prev_items":"🚫 Non ci sono annunci precedenti.",
+    "no_next_items":"🚫 Non ci sono annunci successivi.",
+    
     "caption": {
         "title":"Titolo",
         "price":"Prezzo",

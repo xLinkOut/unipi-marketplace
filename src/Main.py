@@ -282,7 +282,7 @@ def sell_my_items_prev(update, context):
     else:
         context.bot.answer_callback_query(
             update.callback_query.id,
-            text=statements['sell_cb_no_prev_items'],cache_time=5)
+            text=statements['no_prev_items'],cache_time=5)
 
 def sell_my_items_next(update, context):
     next_item = get_my_items_next(update.callback_query.data[5:],update.callback_query.message.chat_id)
@@ -301,7 +301,7 @@ def sell_my_items_next(update, context):
     else:
         context.bot.answer_callback_query(
             update.callback_query.id,
-            text=statements['sell_cb_no_next_items'],cache_time=5)
+            text=statements['no_next_items'],cache_time=5)
 
 def sell_my_items_delete(update, context):
     context.bot.send_chat_action(
@@ -375,10 +375,13 @@ def buy_search_by_name_done(update, context):
 
     # EH 
 
-    items = get_items_from_db(update.message.text)
+    items = get_items_by_name(update.message.chat_id, update.message.text)
 
     if items:
-        context.user_data['last_query'] = update.message.text
+        #context.user_data['last_query'] = update.message.text
+        context.user_data['last_items'] = items
+        context.user_data['last_count'] = 0
+        # Check len of items
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy_search_by_name_done'],
@@ -388,7 +391,8 @@ def buy_search_by_name_done(update, context):
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
             caption=build_item_caption(items[0]),
-            reply_markup=Keyboards.build_items_keyboard(items[0].item_id),
+            reply_markup=Keyboards.SearchNavigation,
+            #Keyboards.build_items_keyboard(-1,0,1),
             parse_mode="Markdown")
     else:
         context.bot.send_message(
@@ -396,8 +400,54 @@ def buy_search_by_name_done(update, context):
             text=statements['buy_search_by_name_no_result'],
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
+        #return "DONE"
 
     return ConversationHandler.END
+
+def buy_search_by_name_prev(update, context):
+    if context.user_data['last_count'] == 0:
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['no_prev_items'],cache_time=5)
+    else:
+        last_count = context.user_data['last_count']
+        prev_item = context.user_data['last_items'][last_count-1]
+        
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['callback_answers']['previous'])
+        context.bot.edit_message_media(
+            chat_id=update.callback_query.message.chat_id,
+            message_id=update.callback_query.message.message_id,
+            media=InputMediaPhoto(
+                media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
+                caption=build_item_caption(prev_item),
+                parse_mode="Markdown"),
+            reply_markup=Keyboards.SearchNavigation)
+            #Keyboards.build_items_keyboard(last_count-2,last_count-1,last_count))
+        context.user_data['last_count'] -= 1
+
+def buy_search_by_name_next(update, context):
+    if context.user_data['last_count'] == len(context.user_data['last_items'])-1:
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['no_next_items'],cache_time=5)
+    else:
+        last_count = context.user_data['last_count']
+        next_item = context.user_data['last_items'][last_count+1]
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['callback_answers']['next'])
+        context.bot.edit_message_media(
+            chat_id=update.callback_query.message.chat_id,
+            message_id=update.callback_query.message.message_id,
+            media=InputMediaPhoto(
+                media=next_item.photo if not next_item.photo == '0' else IMG_NOT_AVAILABLE,
+                caption=build_item_caption(next_item),
+                parse_mode="Markdown"),
+            reply_markup=Keyboards.SearchNavigation)
+            #Keyboards.build_items_keyboard(last_count,last_count+1,last_count+2))
+        context.user_data['last_count'] += 1
 
 def buy_search_by_name_undo(update, context):
     context.bot.send_message(
@@ -405,7 +455,6 @@ def buy_search_by_name_undo(update, context):
         text=statements['buy_search_by_name_undo'],
         reply_markup=Keyboards.Buy,
         parse_mode="Markdown")
-
 
 def buy_last_added(update, context):
     items = get_last_added()
@@ -511,8 +560,8 @@ def build_item_caption(item):
 def get_item_by_id(item_id):
     return session.query(Item).filter_by(item_id=item_id).first()
 
-def get_items_from_db(query):
-    return session.query(Item).filter(Item.title.like(query)).all()
+def get_items_by_name(chat_id, query):
+    return session.query(Item).filter_by(chat_id=chat_id).filter(Item.title.like(f"%{query}%")).all()
 
 def get_last_added():
     return session.query(Item).order_by(desc(Item.timestamp)).limit(3).all()
@@ -601,7 +650,17 @@ if __name__ == "__main__":
     sell_my_items_delete_handler = CallbackQueryHandler(sell_my_items_delete,pattern=r"^delete_")
     sell_instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), sell_instructions)
 
-    buy_search_by_name_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), buy_search_by_name)
+    buy_search_by_name_handler = ConversationHandler(
+        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), buy_search_by_name)],
+        states = {
+            "DONE" : [MessageHandler(Filters.text, buy_search_by_name_done)]
+        },
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"),buy_search_by_name_undo), CommandHandler('cancel',buy_search_by_name_undo)]
+    )
+
+    buy_search_by_name_prev_handler = CallbackQueryHandler(buy_search_by_name_prev,pattern=r"^s_prev")
+    buy_search_by_name_next_handler = CallbackQueryHandler(buy_search_by_name_next,pattern=r"^s_next")
+
     buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), buy_last_added)
     buy_instructions_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['instructions']}$"), buy_instructions)
     
@@ -640,6 +699,8 @@ if __name__ == "__main__":
     dispatcher.add_handler(add_test_handler)
     dispatcher.add_handler(buy_last_added_handler)
     dispatcher.add_handler(buy_search_by_name_handler)
+    dispatcher.add_handler(buy_search_by_name_next_handler)
+    dispatcher.add_handler(buy_search_by_name_prev_handler)
     dispatcher.add_handler(buy_instructions_handler)
 
     # POLLING

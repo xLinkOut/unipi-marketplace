@@ -76,12 +76,19 @@ def build_my_items_keyboard(item_id,navigation=True):
         ]) 
 
 # ITEM IN DB
-def build_items_keyboard(item_id):
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton(statements['search_items']['previous'],callback_data=f"prev_{item_id}"),
-         InlineKeyboardButton(statements['search_items']['next'],callback_data=f"next_{item_id}")]
-    ])
 
+SearchNavigation = InlineKeyboardMarkup([
+    [InlineKeyboardButton(statements['search_items']['previous'],callback_data=f"s_prev"),
+     InlineKeyboardButton(statements['search_items']['next'],callback_data=f"s_next")]
+])
+
+"""
+def build_items_keyboard(prev_id,item_id,next_id): # Maybe useless prev/next? 
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton(statements['search_items']['previous'],callback_data=f"s_prev_{item_id}"),
+         InlineKeyboardButton(statements['search_items']['next'],callback_data=f"s_next_{item_id}")]
+    ])
+"""
 
 # LAST ADDED
 # TODO
