@@ -473,7 +473,6 @@ def buy_search_by_course_done(update, context):
     items = get_items_by_course(update.message.chat_id, update.message.text)
 
     if items:
-        #context.user_data['last_query'] = update.message.text
         context.user_data['last_items'] = items
         context.user_data['last_count'] = 0
         context.bot.send_message(
@@ -490,7 +489,7 @@ def buy_search_by_course_done(update, context):
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_no_result'],
+            text=statements['buy_search_by_course_no_result'].replace("$$",update.message.text),
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         #return "DONE"
