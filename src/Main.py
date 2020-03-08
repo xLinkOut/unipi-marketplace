@@ -741,15 +741,15 @@ if __name__ == "__main__":
     def add_test(update, context):
         try:            
             session.query(Item).delete()
-            session.add(Item(item_id="13ead83ce55811e984af48452083e01e",chat_id=ADMIN_CHAT_ID,title="Primo libro",photo='0',price='5.00',course="Agraria",timestamp=int(time()),visible=True))
+            session.add(Item(item_id="13ead83ce55811e984af48452083e01e",chat_id=123456781,title="Primo libro",photo='0',price='5.00',course="Agraria",timestamp=int(time()),visible=True))
             sleep(1)
-            session.add(Item(item_id="1beadae6e55811e984af48452083e01e",chat_id=ADMIN_CHAT_ID,title="Secondo libro",photo='0',price='8.00',course="Biologia",timestamp=int(time()),visible=True))
+            session.add(Item(item_id="1beadae6e55811e984af48452083e01e",chat_id=123456782,title="Secondo libro",photo='0',price='8.00',course="Biologia",timestamp=int(time()),visible=True))
             sleep(1)
-            session.add(Item(item_id="2e497d96e55811e984af48452083e01e",chat_id=ADMIN_CHAT_ID,title="Terza dispensa",photo='0',price='10.00',course="Farmacia",timestamp=int(time()),visible=True))
+            session.add(Item(item_id="2e497d96e55811e984af48452083e01e",chat_id=123456783,title="Terza dispensa",photo='0',price='10.00',course="Farmacia",timestamp=int(time()),visible=True))
             sleep(1)
             session.add(Item(item_id="357bb0ace55811e984af48452083e01e",chat_id=ADMIN_CHAT_ID,title="Quarto libro",photo='0',price='12.00',course="Matematica",timestamp=int(time()),visible=True))
             sleep(1)
-            session.add(Item(item_id="469c5d00e55811e984af48452083e01e",chat_id=ADMIN_CHAT_ID,title="Quinta dispensa",photo='0',price='15.00',course="Psicologia",timestamp=int(time()),visible=True))
+            session.add(Item(item_id="469c5d00e55811e984af48452083e01e",chat_id=123456785,title="Quinta dispensa",photo='0',price='15.00',course="Psicologia",timestamp=int(time()),visible=True))
             session.commit()
             context.bot.send_message(chat_id=update.message.chat_id,text="Ho aggiunti gli item al db!")
         except Exception as e:
