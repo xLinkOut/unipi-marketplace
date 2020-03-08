@@ -34,13 +34,13 @@
     "buy_search_by_name":"Per cercare un articolo per nome, mandami un messaggio con i termini della ricerca, che possono essere: il *titolo* di un libro, il nome (o più di uno) dell'*autore*, il titolo di una dispensa e così via.\n\n_Se non riesci a trovare quello che cerchi, prova ad affinare o generalizzale la tua ricerca, oppure usa la funzione 'Cerca per facoltà'!_",
     "buy_search_by_name_done":"Ho trovato *$$ elementi* che probabilmente corrispondono a quello che stai cercando. Usa i *tasti di navigazione* per vederli tutti.",
     "buy_search_by_name_more_char":"Aggiungi qualche altro carattere alla tua ricerca, con così poco non posso fare nulla...",
-    "buy_search_by_name_no_result":"Mi spice, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
+    "buy_search_by_name_no_result":"Mi spiace, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
     "buy_search_by_name_undo":"D'accordo, niente ricerca! 🧐",
 
-    "buy_search_by_course":"Ricerca per facoltà",
+    "buy_search_by_course":"Puoi cercare libri, dispense o appunti per facoltà: nella tastiera in basso trovi una lista di corsi di laurea, premi su quelli che ti interessa e, se sono presenti annunci, te li farò vedere!",
     "buy_search_by_course_undo":"D'accordo, niente ricerca! 🧐",
-    "buy_search_by_course_invalid_course":"Facoltà non valida, riprova",
-    "buy_search_by_course_no_result":"Mi spice, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
+    "buy_search_by_course_invalid_course":"Non conosco questo corso di laurea! 😥 Quelli disponibili sono elencati nella tastiera che trovi in basso ⬇️.\n\n_Se la tua facoltà non è presente segnalalo tramite il comando /feedback._",
+    "buy_search_by_course_no_result":"Mi spiace, non ci sono annunci per la facoltà di $$ 😔.",
 
     "buy_instructions":"Se vendere è semplice, comprare lo è ancora di più! Ci sono sostanzialmente due modi per cercare materiale in vendita: per nome e per facoltà.\n\n*Cercare per nome* è molto intuitivo: premi su _🔍 Cerca per nome_, quindi scrivi quello che vuoi cercare. I libri sono indicizzati per titolo e per autori, così come le dispense e gli appunti. Fai qualche prova, se non riesci a trovare quello che cerci prova a rendere la ricerca più generale, oppure se vuoi filtrare maggiormente i risultati, usa termini più specifici.\n\nLa *ricerca per facoltà* può tornare utile quando quella per nome non porta il risultato sperato oppure vuoi solo guardare, come quando entri in un negozio di abbigliamento. Premi su _🎓 Cerca per facoltà_, scegli la facoltà che ti interessa e ad avrai una lista degli annunci disponibili.\n\n_Per qualsiasi altra informazione o dubbio, usa pure il comando /feedback._",
     
