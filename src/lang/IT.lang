@@ -37,6 +37,11 @@
     "buy_search_by_name_no_result":"Mi spice, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
     "buy_search_by_name_undo":"D'accordo, niente ricerca! 🧐",
 
+    "buy_search_by_course":"Ricerca per facoltà",
+    "buy_search_by_course_undo":"D'accordo, niente ricerca! 🧐",
+    "buy_search_by_course_invalid_course":"Facoltà non valida, riprova",
+    "buy_search_by_course_no_result":"Mi spice, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
+
     "buy_instructions":"Se vendere è semplice, comprare lo è ancora di più! Ci sono sostanzialmente due modi per cercare materiale in vendita: per nome e per facoltà.\n\n*Cercare per nome* è molto intuitivo: premi su _🔍 Cerca per nome_, quindi scrivi quello che vuoi cercare. I libri sono indicizzati per titolo e per autori, così come le dispense e gli appunti. Fai qualche prova, se non riesci a trovare quello che cerci prova a rendere la ricerca più generale, oppure se vuoi filtrare maggiormente i risultati, usa termini più specifici.\n\nLa *ricerca per facoltà* può tornare utile quando quella per nome non porta il risultato sperato oppure vuoi solo guardare, come quando entri in un negozio di abbigliamento. Premi su _🎓 Cerca per facoltà_, scegli la facoltà che ti interessa e ad avrai una lista degli annunci disponibili.\n\n_Per qualsiasi altra informazione o dubbio, usa pure il comando /feedback._",
     
     "no_prev_items":"🚫 Non ci sono annunci precedenti.",

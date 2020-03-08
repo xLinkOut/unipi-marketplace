@@ -445,6 +445,65 @@ def buy_search_by_name_undo(update, context):
         reply_markup=Keyboards.Buy,
         parse_mode="Markdown")
 
+def buy_search_by_course(update, context):
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['buy_search_by_course'],
+        reply_markup=Keyboards.Courses,
+        parse_mode="Markdown")
+    return "DONE"
+
+def buy_search_by_course_done(update, context):
+    if update.message.text == statements['keyboards']['abort']['abort']:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_undo'],
+            reply_markup=Keyboards.Buy,
+            parse_mode="markdown")
+        return ConversationHandler.END
+
+    if not update.message.text in statements['keyboards']['courses']:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_invalid_course'],
+            reply_markup=Keyboards.Courses,
+            parse_mode="markdown")
+        return "DONE"
+    
+    items = get_items_by_course(update.message.chat_id, update.message.text)
+
+    if items:
+        #context.user_data['last_query'] = update.message.text
+        context.user_data['last_items'] = items
+        context.user_data['last_count'] = 0
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_name_done'].replace('$$',str(len(items))),
+            reply_markup=Keyboards.Buy,
+            parse_mode="Markdown")
+        context.bot.send_photo(
+            chat_id=update.message.chat_id,
+            photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
+            caption=build_item_caption(items[0]),
+            reply_markup=Keyboards.SearchNavigation,
+            parse_mode="Markdown")
+    else:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_no_result'],
+            reply_markup=Keyboards.Buy,
+            parse_mode="Markdown")
+        #return "DONE"
+
+    return ConversationHandler.END
+
+def buy_search_by_course_undo(update, context):
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['buy_search_by_course_undo'],
+        reply_markup=Keyboards.Buy,
+        parse_mode="Markdown")
+
 def buy_last_added(update, context):
     items = get_last_added()
     for item in items:
@@ -525,7 +584,6 @@ def feedback_done(update, context):
         parse_mode="Markdown")
     return ConversationHandler.END
 
-
 def feedback_undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
@@ -560,6 +618,9 @@ def get_item_by_id(item_id):
 
 def get_items_by_name(chat_id, query):
     return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.title.like(f"%{query}%")).all()
+
+def get_items_by_course(chat_id, course):
+    return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.course == course).all()
 
 def get_last_added():
     return session.query(Item).order_by(desc(Item.timestamp)).limit(3).all()
@@ -655,9 +716,16 @@ if __name__ == "__main__":
         },
         fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"),buy_search_by_name_undo), CommandHandler('cancel',buy_search_by_name_undo)]
     )
-
     buy_search_by_name_prev_handler = CallbackQueryHandler(buy_search_by_name_prev,pattern=r"^s_prev")
     buy_search_by_name_next_handler = CallbackQueryHandler(buy_search_by_name_next,pattern=r"^s_next")
+
+    buy_search_by_course_handler = ConversationHandler(
+        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_course']}$"), buy_search_by_course)],
+        states = {
+            "DONE" : [MessageHandler(Filters.text, buy_search_by_course_done)]
+        },
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), buy_search_by_course_undo), CommandHandler('cancel',buy_search_by_course_undo)]
+    )
 
     buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), buy_last_added)
     
@@ -698,6 +766,7 @@ if __name__ == "__main__":
     dispatcher.add_handler(buy_search_by_name_handler)
     dispatcher.add_handler(buy_search_by_name_next_handler)
     dispatcher.add_handler(buy_search_by_name_prev_handler)
+    dispatcher.add_handler(buy_search_by_course_handler)
 
     # POLLING
     updater.start_polling()
