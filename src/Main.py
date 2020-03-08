@@ -238,6 +238,7 @@ def sell_done(update, context):
         parse_mode="Markdown")
 
     return ConversationHandler.END
+
 def sell_my_items(update, context):
     # Prendere solo il primo
     my_items = get_my_items(update.message.chat_id)
@@ -375,7 +376,7 @@ def buy_search_by_name_done(update, context):
         context.user_data['last_count'] = 0
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_done'],
+            text=statements['buy_search_by_name_done'].replace('$$',str(len(items))),
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         context.bot.send_photo(
