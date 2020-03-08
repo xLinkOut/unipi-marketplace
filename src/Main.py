@@ -78,7 +78,7 @@ def start(update, context):
 
 # SELL
 def sell(update, context):
-    # Maybe this format is better?
+    context.user_data['section'] = "sell"
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements["sell"],
@@ -344,6 +344,7 @@ def sell_instructions(update, context):
 
 # BUY
 def buy(update, context):
+    context.user_data['section'] = "buy"
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements['buy'],
@@ -481,6 +482,8 @@ def info(update, context):
 
 # BACK
 def back(update, context):
+    context.user_data['last_items'] = None
+    context.user_data['last_count'] = 0
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements['main_menu'],
