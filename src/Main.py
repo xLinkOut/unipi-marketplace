@@ -327,7 +327,6 @@ def sell_my_items_delete(update, context):
                 parse_mode="Markdown"),
             reply_markup=Keyboards.build_my_items_keyboard(items[0].item_id,navigation=bool(len(items)-1)))
     else:
-        # Maybe another method?
         context.bot.delete_message(
             chat_id=update.callback_query.message.chat_id,
             message_id=update.callback_query.message.message_id)
@@ -336,12 +335,6 @@ def sell_my_items_delete(update, context):
             text=statements['sell_deleted_last_item'],
             parse_mode="Markdown")
       
-def sell_instructions(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['instructions_sell'],
-        parse_mode="Markdown")
-
 # BUY
 def buy(update, context):
     context.user_data['section'] = "buy"
@@ -374,15 +367,12 @@ def buy_search_by_name_done(update, context):
             parse_mode="Markdown")
         return "DONE"
 
-    # EH 
-
     items = get_items_by_name(update.message.chat_id, update.message.text)
 
     if items:
         #context.user_data['last_query'] = update.message.text
         context.user_data['last_items'] = items
         context.user_data['last_count'] = 0
-        # Check len of items
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy_search_by_name_done'],
@@ -393,7 +383,6 @@ def buy_search_by_name_done(update, context):
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
             caption=build_item_caption(items[0]),
             reply_markup=Keyboards.SearchNavigation,
-            #Keyboards.build_items_keyboard(-1,0,1),
             parse_mode="Markdown")
     else:
         context.bot.send_message(
@@ -425,7 +414,6 @@ def buy_search_by_name_prev(update, context):
                 caption=build_item_caption(prev_item),
                 parse_mode="Markdown"),
             reply_markup=Keyboards.SearchNavigation)
-            #Keyboards.build_items_keyboard(last_count-2,last_count-1,last_count))
         context.user_data['last_count'] -= 1
 
 def buy_search_by_name_next(update, context):
@@ -447,7 +435,6 @@ def buy_search_by_name_next(update, context):
                 caption=build_item_caption(next_item),
                 parse_mode="Markdown"),
             reply_markup=Keyboards.SearchNavigation)
-            #Keyboards.build_items_keyboard(last_count,last_count+1,last_count+2))
         context.user_data['last_count'] += 1
 
 def buy_search_by_name_undo(update, context):
@@ -466,18 +453,25 @@ def buy_last_added(update, context):
             caption=build_item_caption(item),
             #reply_markup=Keyboards.build_my_items_keyboard(item.item_id),
             parse_mode="Markdown")
+   
+# INSTRUCTIONS
+def instructions(update, context):
+    if context.user_data['section'] == "sell":
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['sell_instructions'],
+            parse_mode="Markdown")
+    elif context.user_data['section'] == "buy":
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_instructions'],
+            parse_mode="Markdown")
 
-def buy_instructions(update, context):
+# INFORMATION
+def information(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['instructions_buy'],
-        parse_mode="Markdown")
-
-# INFO
-def info(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['instructions'],
+        text=statements['information'],
         parse_mode="Markdown")
 
 # BACK
@@ -631,9 +625,10 @@ if __name__ == "__main__":
 
     sell_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['sell']}$"), sell)
     buy_handler   = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['buy']}$"), buy)
-    info_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['info']}$"), info)
+    info_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['info']}$"), information)
     back_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['back']['back']}$"), back)
-    
+    instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), instructions)
+
     sell_conversation_handler = ConversationHandler(
         entry_points = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['new_item']}$"), sell_title)],
         states = {
@@ -651,7 +646,6 @@ if __name__ == "__main__":
     sell_my_items_prev_handler = CallbackQueryHandler(sell_my_items_prev,pattern=r"^prev_")
     sell_my_items_next_handler = CallbackQueryHandler(sell_my_items_next,pattern=r"^next_")
     sell_my_items_delete_handler = CallbackQueryHandler(sell_my_items_delete,pattern=r"^delete_")
-    sell_instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), sell_instructions)
 
     buy_search_by_name_handler = ConversationHandler(
         entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), buy_search_by_name)],
@@ -665,7 +659,6 @@ if __name__ == "__main__":
     buy_search_by_name_next_handler = CallbackQueryHandler(buy_search_by_name_next,pattern=r"^s_next")
 
     buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), buy_last_added)
-    buy_instructions_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['instructions']}$"), buy_instructions)
     
     def add_test(update, context):
         try:            
@@ -692,19 +685,18 @@ if __name__ == "__main__":
     dispatcher.add_handler(buy_handler)
     dispatcher.add_handler(info_handler)
     dispatcher.add_handler(back_handler)
+    dispatcher.add_handler(instruction_handler)
     dispatcher.add_handler(sell_conversation_handler)
     dispatcher.add_handler(sell_my_items_handler)
     dispatcher.add_handler(sell_my_items_prev_handler)
     dispatcher.add_handler(sell_my_items_next_handler)
     dispatcher.add_handler(sell_my_items_delete_handler)
-    dispatcher.add_handler(sell_instruction_handler)
     dispatcher.add_handler(feedback_handler)
     dispatcher.add_handler(add_test_handler)
     dispatcher.add_handler(buy_last_added_handler)
     dispatcher.add_handler(buy_search_by_name_handler)
     dispatcher.add_handler(buy_search_by_name_next_handler)
     dispatcher.add_handler(buy_search_by_name_prev_handler)
-    dispatcher.add_handler(buy_instructions_handler)
 
     # POLLING
     updater.start_polling()
