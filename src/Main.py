@@ -504,15 +504,25 @@ def buy_search_by_course_undo(update, context):
         parse_mode="Markdown")
 
 def buy_last_added(update, context):
-    items = get_last_added()
-    for item in items:
+    items = get_last_added(update.message.chat_id)
+    if items:
+        context.user_data['last_items'] = items
+        context.user_data['last_count'] = 0
+
         context.bot.send_photo(
             chat_id=update.message.chat_id,
-            photo=item.photo if not item.photo == '0' else IMG_NOT_AVAILABLE,
-            caption=build_item_caption(item),
-            #reply_markup=Keyboards.build_my_items_keyboard(item.item_id),
+            photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
+            caption=build_item_caption(items[0]),
+            reply_markup=Keyboards.SearchNavigation,
             parse_mode="Markdown")
-   
+    else:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_last_added_no_result'],
+            reply_markup=Keyboards.Buy,
+            parse_mode="Markdown")
+
+    
 # INSTRUCTIONS
 def instructions(update, context):
     if context.user_data['section'] == "sell":
@@ -621,8 +631,8 @@ def get_items_by_name(chat_id, query):
 def get_items_by_course(chat_id, course):
     return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.course == course).all()
 
-def get_last_added():
-    return session.query(Item).order_by(desc(Item.timestamp)).limit(3).all()
+def get_last_added(chat_id):
+    return session.query(Item).filter(Item.chat_id != chat_id).order_by(desc(Item.timestamp)).limit(3).all()
 
 if __name__ == "__main__":
 
