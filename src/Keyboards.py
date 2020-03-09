@@ -54,7 +54,12 @@ Price = ReplyKeyboardMarkup([
     [statements['abort']['abort']]
 ], resize_keyboard=True)
 
-# COURSES
+# CYCLE
+Cycle = ReplyKeyboardMarkup([
+    [statements['first_cycle'], statements['long_cycle']]
+])
+
+# FIRST CYCLE
 Buttons = list()
 for i_course,j_course in zip(statements['courses'][0::2], statements['courses'][1::2]):
     Buttons.append([i_course,j_course])

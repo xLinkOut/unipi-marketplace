@@ -449,9 +449,43 @@ def buy_search_by_course(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements['buy_search_by_course'],
-        reply_markup=Keyboards.Courses,
+        reply_markup=Keyboards.Cycle,
         parse_mode="Markdown")
-    return "DONE"
+    return "CYCLE"
+
+def buy_search_by_course_cycle(update, context):
+    if update.message.text == statements['keyboards']['abort']['abort']:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_undo'],
+            reply_markup=Keyboards.Buy,
+            parse_mode="markdown")
+        return ConversationHandler.END
+
+    if update.message.text == statements['keyboards']['first_cycle']:
+        context.user_data['section'] = "courses"
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_done'],
+            reply_markup=Keyboards.Courses, # change
+            parse_mode="markdown")
+        return "DONE"
+    elif update.message.text == statetements['keyboards']['long_cycle']:
+        context.user_data['section'] = "courses"
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_done'],
+            reply_markup=Keyboards.Courses, # change
+            parse_mode="markdown")
+        return "DONE"
+    else:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_wrong'],
+            reply_markup=Keyboards.Cycle,
+            parse_mode="markdown")
+        return "CYCLE"
+
 
 def buy_search_by_course_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
@@ -731,6 +765,7 @@ if __name__ == "__main__":
     buy_search_by_course_handler = ConversationHandler(
         entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_course']}$"), buy_search_by_course)],
         states = {
+            "CYCLE" : [MessageHandler(Filters.text, buy_search_by_course_cycle)],
             "DONE" : [MessageHandler(Filters.text, buy_search_by_course_done)]
         },
         fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), buy_search_by_course_undo), CommandHandler('cancel',buy_search_by_course_undo)]
