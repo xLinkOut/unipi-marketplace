@@ -41,9 +41,9 @@
     "buy_search_by_course_undo":"D'accordo, niente ricerca! 🧐",
     "buy_search_by_course_wrong":"Mh, non ho capito!",
     "buy_search_by_course_choose":"Scegli una facoltà",
-    "buy_search_by_course_done":"Bene, nella *tastiera* in basso trovi una lista di *corsi di laurea*, premi su quello che ti interessa e, se sono presenti annunci, te li farò vedere!",
+    "buy_search_by_course_done":"Bene, nella tastiera in basso trovi una lista di *corsi di laurea*, premi su quello che ti interessa e, se sono presenti annunci, te li farò vedere!",
     "buy_search_by_course_invalid_course":"Non conosco questo corso di laurea! 😥 Quelli disponibili sono elencati nella tastiera che trovi in basso ⬇️.\n\n_Se la tua facoltà non è presente segnalalo tramite il comando /feedback._",
-    "buy_search_by_course_no_result":"Mi spiace, non ci sono annunci per la facoltà di $$ 😔.",
+    "buy_search_by_course_no_result":"Mi spiace, non ci sono annunci per questa facoltà 😔.",
 
     "buy_last_added_no_result":"Oh no, *non ci sono annunci*! Vuoi essere il primo ad aggiungerne uno? Vai subito nel menù _💰 Vendi_ 😎.",
 
@@ -101,27 +101,31 @@
         "first_cycle":"1️⃣ Triennale",
         "long_cycle":"2️⃣ Magistrale",
 
-        "courses": [
-            "Agraria",
-            "Architettura",
-            "Beni Culturali",
-            "Biologia",
-            "Biotecnologie",
-            "Chimica",
-            "Design",
-            "Economia",
-            "Farmacia",
-            "Filosofia",
-            "Fisica",
-            "Giurisprudenza",
-            "Informatica",
-            "Ingegneria",
-            "Lettere",
-            "Matematica",
-            "Medicina",
-            "Psicologia",
-            "Veterinaria"
-        ],
+        "courses": {
+            "first_cycle": [
+                "Agraria",
+                "Architettura",
+                "Beni Culturali",
+                "Biologia",
+                "Biotecnologie",
+                "Chimica",
+                "Design",
+                "Economia",
+                "Farmacia",
+                "Filosofia",
+                "Fisica",
+                "Giurisprudenza",
+                "Informatica",
+                "Ingegneria"
+            ],
+            "long_cycle": [
+                "Lettere",
+                "Matematica",
+                "Medicina",
+                "Psicologia",
+                "Veterinaria"
+            ]
+        },
 
         "my_items": {
             "previous": "Precedente ⬅️",

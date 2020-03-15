@@ -462,20 +462,21 @@ def buy_search_by_course_cycle(update, context):
             parse_mode="markdown")
         return ConversationHandler.END
 
+    # TODO: merge this two if
     if update.message.text == statements['keyboards']['first_cycle']:
         context.user_data['section'] = "courses"
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy_search_by_course_done'],
-            reply_markup=Keyboards.Courses, # change
+            reply_markup=Keyboards.FirstCycle,
             parse_mode="markdown")
         return "DONE"
-    elif update.message.text == statetements['keyboards']['long_cycle']:
+    elif update.message.text == statements['keyboards']['long_cycle']:
         context.user_data['section'] = "courses"
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy_search_by_course_done'],
-            reply_markup=Keyboards.Courses, # change
+            reply_markup=Keyboards.LongCycle,
             parse_mode="markdown")
         return "DONE"
     else:
@@ -496,11 +497,11 @@ def buy_search_by_course_done(update, context):
             parse_mode="markdown")
         return ConversationHandler.END
 
-    if not update.message.text in statements['keyboards']['courses']:
+    if not update.message.text in statements['keyboards']['courses']['first_cycle'] and not update.message.text in statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy_search_by_course_invalid_course'],
-            reply_markup=Keyboards.Courses,
+            reply_markup=Keyboards.Cycle,
             parse_mode="markdown")
         return "DONE"
     
@@ -523,7 +524,7 @@ def buy_search_by_course_done(update, context):
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_no_result'].replace("$$",update.message.text),
+            text=statements['buy_search_by_course_no_result'],
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         #return "DONE"
@@ -579,14 +580,21 @@ def information(update, context):
 
 # BACK
 def back(update, context):
-    context.user_data['last_items'] = None
-    context.user_data['last_count'] = 0
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['main_menu'],
-        reply_markup=Keyboards.Start,
-        parse_mode="Markdown")
-
+    if context.user_data['section'] == "sell" or context.user_data['section'] == "buy":
+        context.user_data['last_items'] = None
+        context.user_data['last_count'] = 0
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['main_menu'],
+            reply_markup=Keyboards.Start,
+            parse_mode="Markdown")
+    elif context.user_data['section'] == "courses":
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course'],
+            reply_markup=Keyboards.Cycle,
+            parse_mode="Markdown")
+        return "CYCLE"
 # FEEDBACK
 def feedback(update, context):
     context.bot.send_message(

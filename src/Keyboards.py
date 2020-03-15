@@ -60,19 +60,27 @@ Cycle = ReplyKeyboardMarkup([
 ])
 
 # FIRST CYCLE
-Buttons = list()
-for i_course,j_course in zip(statements['courses'][0::2], statements['courses'][1::2]):
-    Buttons.append([i_course,j_course])
-Buttons.append([statements['abort']['abort']])
+FirstCycleButtons = list()
+for i_course,j_course in zip(statements['courses']['first_cycle'][0::2], statements['courses']['first_cycle'][1::2]):
+    FirstCycleButtons.append([i_course,j_course])
+FirstCycleButtons.append([statements['back']['back']])
+FirstCycleButtons.append([statements['abort']['abort']])
+FirstCycle = ReplyKeyboardMarkup(FirstCycleButtons, resize_keyboard=True)
 
-Courses = ReplyKeyboardMarkup(Buttons, resize_keyboard=True)
+# LONG CYCLE
+LongCycleButtons = list()
+for i_course,j_course in zip(statements['courses']['long_cycle'][0::2], statements['courses']['long_cycle'][1::2]):
+    LongCycleButtons.append([i_course,j_course])
+LongCycleButtons.append([statements['back']['back']])
+LongCycleButtons.append([statements['abort']['abort']])
+LongCycle = ReplyKeyboardMarkup(LongCycleButtons, resize_keyboard=True)
 
 # MY ITEMS
 def build_my_items_keyboard(item_id,navigation=True):
     if navigation:    
         return InlineKeyboardMarkup([
             [InlineKeyboardButton(statements['my_items']['previous'],callback_data=f"prev_{item_id}"),
-            InlineKeyboardButton(statements['my_items']['next'],callback_data=f"next_{item_id}")],
+             InlineKeyboardButton(statements['my_items']['next'],callback_data=f"next_{item_id}")],
             [InlineKeyboardButton(statements['my_items']['delete'],callback_data=f"delete_{item_id}")]
         ])
     else:
