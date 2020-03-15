@@ -462,21 +462,12 @@ def buy_search_by_course_cycle(update, context):
             parse_mode="markdown")
         return ConversationHandler.END
 
-    # TODO: merge this two if
-    if update.message.text == statements['keyboards']['first_cycle']:
+    if update.message.text == statements['keyboards']['first_cycle'] or update.message.text == statements['keyboards']['long_cycle']:
         context.user_data['section'] = "courses"
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy_search_by_course_done'],
-            reply_markup=Keyboards.FirstCycle,
-            parse_mode="markdown")
-        return "DONE"
-    elif update.message.text == statements['keyboards']['long_cycle']:
-        context.user_data['section'] = "courses"
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_done'],
-            reply_markup=Keyboards.LongCycle,
+            reply_markup=Keyboards.FirstCycle if update.message.text == statements['keyboards']['first_cycle'] else Keyboards.LongCycle,
             parse_mode="markdown")
         return "DONE"
     else:
@@ -503,7 +494,7 @@ def buy_search_by_course_done(update, context):
             text=statements['buy_search_by_course_invalid_course'],
             reply_markup=Keyboards.Cycle,
             parse_mode="markdown")
-        return "DONE"
+        return "CYCLE"
     
     items = get_items_by_course(update.message.chat_id, update.message.text)
 
