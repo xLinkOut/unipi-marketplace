@@ -462,8 +462,8 @@ def buy_search_by_course_cycle(update, context):
             parse_mode="markdown")
         return ConversationHandler.END
 
-    if update.message.text == statements['keyboards']['first_cycle'] or update.message.text == statements['keyboards']['long_cycle']:
-        context.user_data['section'] = "courses"
+    if update.message.text == statements['keyboards']['first_cycle'] \
+        or update.message.text == statements['keyboards']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy_search_by_course_done'],
@@ -488,7 +488,23 @@ def buy_search_by_course_done(update, context):
             parse_mode="markdown")
         return ConversationHandler.END
 
-    if not update.message.text in statements['keyboards']['courses']['first_cycle'] and not update.message.text in statements['keyboards']['courses']['long_cycle']:
+    if update.message.text == statements['keyboards']['first_cycle']:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_first'],
+            reply_markup=Keyboards.FirstCycle,
+            parse_mode="markdown")
+        return "DONE"
+    elif update.message.text == statements['keyboards']['long_cycle']:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['buy_search_by_course_long'],
+            reply_markup=Keyboards.LongCycle,
+            parse_mode="markdown")
+        return "DONE"
+
+    if not update.message.text in statements['keyboards']['courses']['first_cycle'] \
+        and not update.message.text in statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy_search_by_course_invalid_course'],
@@ -571,7 +587,8 @@ def information(update, context):
 
 # BACK
 def back(update, context):
-    if context.user_data['section'] == "sell" or context.user_data['section'] == "buy":
+    if context.user_data['section'] == "sell" \
+        or context.user_data['section'] == "buy":
         context.user_data['last_items'] = None
         context.user_data['last_count'] = 0
         context.bot.send_message(
@@ -579,13 +596,7 @@ def back(update, context):
             text=statements['main_menu'],
             reply_markup=Keyboards.Start,
             parse_mode="Markdown")
-    elif context.user_data['section'] == "courses":
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course'],
-            reply_markup=Keyboards.Cycle,
-            parse_mode="Markdown")
-        return "CYCLE"
+
 # FEEDBACK
 def feedback(update, context):
     context.bot.send_message(

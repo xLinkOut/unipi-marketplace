@@ -63,7 +63,7 @@ Cycle = ReplyKeyboardMarkup([
 FirstCycleButtons = list()
 for i_course,j_course in zip(statements['courses']['first_cycle'][0::2], statements['courses']['first_cycle'][1::2]):
     FirstCycleButtons.append([i_course,j_course])
-FirstCycleButtons.append([statements['back']['back']])
+FirstCycleButtons.append([statements['long_cycle']])
 FirstCycleButtons.append([statements['abort']['abort']])
 FirstCycle = ReplyKeyboardMarkup(FirstCycleButtons, resize_keyboard=True)
 
@@ -71,7 +71,7 @@ FirstCycle = ReplyKeyboardMarkup(FirstCycleButtons, resize_keyboard=True)
 LongCycleButtons = list()
 for i_course,j_course in zip(statements['courses']['long_cycle'][0::2], statements['courses']['long_cycle'][1::2]):
     LongCycleButtons.append([i_course,j_course])
-LongCycleButtons.append([statements['back']['back']])
+LongCycleButtons.append([statements['first_cycle']])
 LongCycleButtons.append([statements['abort']['abort']])
 LongCycle = ReplyKeyboardMarkup(LongCycleButtons, resize_keyboard=True)
 
