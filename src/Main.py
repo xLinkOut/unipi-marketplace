@@ -125,8 +125,19 @@ def sell_photo(update, context):
         return ConversationHandler.END
 
     if search(r"^[0-9]{1,3}(\,|.|$)[0-9]{0,2}(€){0,1}$", update.message.text):
+        
+        # Replace euro symbol, then replace comma with period
+        price = update.message.text.replace('€','').replace(',','.')
+        
+        # No decimal digit, no (.), optional (€) (eg. 7€, 8, 123€, 23)
+        if search(r"^[0-9]{1,3}(€){0,1}$", price):
+            price = f"{price}.00"
+        # Only one decimal digit imply 0 as second decimal digit
+        elif search(r"^[0-9]{1,3}\.[0-9]{1}(€){0,1}$", price):
+            price = f"{price}0"
+
         # Save price
-        context.user_data['price'] = update.message.text.replace('€','').replace(',','.')
+        context.user_data['price'] = price
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements["sell_photo"],
