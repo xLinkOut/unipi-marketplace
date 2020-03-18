@@ -360,6 +360,7 @@ def buy_search_by_name(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements['buy_search_by_name'],
+        reply_markup=Keyboards.Undo,
         parse_mode="Markdown")
     return "DONE"
 
