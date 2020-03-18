@@ -56,7 +56,8 @@ Price = ReplyKeyboardMarkup([
 
 # CYCLE
 Cycle = ReplyKeyboardMarkup([
-    [statements['first_cycle'], statements['long_cycle']]
+    [statements['first_cycle'], statements['long_cycle']],
+    [statements['abort']['abort']]
 ], resize_keyboard=True)
 
 # FIRST CYCLE

@@ -85,7 +85,7 @@ def sell(update, context):
         reply_markup=Keyboards.Sell,
         parse_mode="markdown")
 
-def sell_title(update, context):
+def sell_new_item(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements["sell_title"],
@@ -94,17 +94,16 @@ def sell_title(update, context):
     context.user_data['item_id'] = uuid1().hex
     return "TITLE"
 
-def sell_price(update, context):
+def sell_title(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data.clear()
+        context.user_data['item_id'] = None
         return ConversationHandler.END
 
-    # Save title
     # Check for SQL Injection 
     context.user_data['title'] = update.message.text
     context.bot.send_message(
@@ -114,14 +113,15 @@ def sell_price(update, context):
         parse_mode="markdown")
     return "PRICE"
 
-def sell_photo(update, context):
+def sell_price(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data.clear()
+        context.user_data['item_id'] = None
+        context.user_data['title'] = None
         return ConversationHandler.END
 
     if search(r"^[0-9]{1,3}(\,|.|$)[0-9]{0,2}(€){0,1}$", update.message.text):
@@ -143,7 +143,7 @@ def sell_photo(update, context):
             text=statements["sell_photo"],
             reply_markup=Keyboards.Skip,
             parse_mode="markdown")
-        return "COURSE"
+        return "PHOTO"
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -151,74 +151,111 @@ def sell_photo(update, context):
             parse_mode="markdown")
         return "PRICE"
 
-def sell_skip_photo(update, context):
+def sell_photo(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data.clear()
+        context.user_data['item_id'] = None
+        context.user_data['title'] = None
+        context.user_data['price'] = None
         return ConversationHandler.END
 
-    context.user_data['photo'] = '0'
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements["sell_skip_photo"],
-        parse_mode="markdown")
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements["sell_courses"],
-        reply_markup=Keyboards.Courses,
-        parse_mode="markdown")
-    return "DONE"
+    if update.message.text and update.message.text == statements['keyboards']['skip']['skip']:
+        context.user_data['photo'] = '0'
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_skip_photo"],
+            parse_mode="markdown")
+    elif update.message.photo:
+        context.user_data["photo"] = update.message.photo[len(update.message.photo)-1].file_id
+    else: # No "Skip", no photo
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements["sell_wrong_media"],
+            parse_mode="markdown")
+        return "PHOTO"
 
-def sell_courses(update, context):
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_cycle"],
+        reply_markup=Keyboards.Cycle,
+        parse_mode="markdown")
+    return "CYCLE"
+
+def sell_cycle(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data.clear()
+        context.user_data['item_id'] = None
+        context.user_data['title'] = None
+        context.user_data['price'] = None
+        context.user_data['photo'] = None
         return ConversationHandler.END
 
-    context.user_data["photo"] = update.message.photo[len(update.message.photo)-1].file_id
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements["sell_courses"],
-        reply_markup=Keyboards.Courses,
-        parse_mode="markdown")
-    return "DONE"
+    if update.message.text == statements['keyboards']['first_cycle'] \
+        or update.message.text == statements['keyboards']['long_cycle']:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['sell_courses'],
+            reply_markup=Keyboards.FirstCycle if update.message.text == statements['keyboards']['first_cycle'] else Keyboards.LongCycle,
+            parse_mode="markdown")
+        return "COURSE"
+    else:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['sell_wrong_cycle'],
+            reply_markup=Keyboards.Cycle,
+            parse_mode="markdown")
+        return "CYCLE"   
 
-def sell_undo(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements["sell_undo"],
-        reply_markup=Keyboards.Sell,
-        parse_mode="markdown")
-    context.user_data.clear()
-    return ConversationHandler.END
-
-def sell_done(update, context):
+@typing_action
+def sell_course(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data.clear()
+        context.user_data['item_id'] = None
+        context.user_data['title'] = None
+        context.user_data['price'] = None
+        context.user_data['photo'] = None
         return ConversationHandler.END
 
-    if not update.message.text in statements['keyboards']['courses']:
+    if update.message.text == statements['keyboards']['first_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_wrong_course"],
-            parse_mode="Markdown")
-        return "DONE"
-        
-    context.user_data['course'] = update.message.text
+            text=statements['sell_courses'],
+            reply_markup=Keyboards.FirstCycle,
+            parse_mode="markdown")
+        return "COURSE"
     
+    elif update.message.text == statements['keyboards']['long_cycle']:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['sell_courses'],
+            reply_markup=Keyboards.LongCycle,
+            parse_mode="markdown")
+        return "COURSE"
+
+    if not update.message.text in statements['keyboards']['courses']['first_cycle'] \
+        and not update.message.text in statements['keyboards']['courses']['long_cycle']:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['sell_wrong_course'],
+            parse_mode="markdown")
+        return "COURSE"
+
+    # Check SQLi 
+    context.user_data['course'] = update.message.text
+
+    # Done
     # Check for SQL Injection 
     session.add(
         Item(
@@ -248,6 +285,19 @@ def sell_done(update, context):
         #reply_markup=Keyboards.build_my_items_keyboard(item.item_id),
         parse_mode="Markdown")
 
+    return ConversationHandler.END
+
+def sell_undo(update, context):
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements["sell_undo"],
+        reply_markup=Keyboards.Sell,
+        parse_mode="markdown")
+    context.user_data['item_id'] = None
+    context.user_data['title'] = None
+    context.user_data['price'] = None
+    context.user_data['photo'] = None
+    context.user_data['course'] = None
     return ConversationHandler.END
 
 def sell_my_items(update, context):
@@ -756,14 +806,14 @@ if __name__ == "__main__":
     instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), instructions)
 
     sell_conversation_handler = ConversationHandler(
-        entry_points = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['new_item']}$"), sell_title)],
+        entry_points = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['new_item']}$"), sell_new_item)],
         states = {
-            # Si potrebbe aggiungere un handler per Annulla direttamente qui
-            "TITLE":  [MessageHandler(Filters.text, sell_price)],
-            "PRICE":  [MessageHandler(Filters.text, sell_photo)],
-            "COURSE": [MessageHandler(Filters.regex(rf"^{statements['keyboards']['skip']['skip']}$"), sell_skip_photo),
-                        MessageHandler(Filters.photo, sell_courses)],
-            "DONE":   [MessageHandler(Filters.text, sell_done)],
+            "TITLE":  [MessageHandler(Filters.text, sell_title)],
+            "PRICE":  [MessageHandler(Filters.text, sell_price)],
+            "PHOTO":  [MessageHandler(Filters.photo, sell_photo),
+                       MessageHandler(Filters.regex(rf"^{statements['keyboards']['skip']['skip']}$"), sell_photo)],
+            "CYCLE":  [MessageHandler(Filters.text, sell_cycle)],
+            "COURSE": [MessageHandler(Filters.text, sell_course)]
         },
         fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), sell_undo), CommandHandler('cancel', sell_undo)]
     )
