@@ -174,7 +174,7 @@ def sell_photo(update, context):
     else: # No "Skip", no photo
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_wrong_media"],
+            text=statements["sell_photo_wrong"],
             parse_mode="markdown")
         return "PHOTO"
 
@@ -202,14 +202,14 @@ def sell_cycle(update, context):
         or update.message.text == statements['keyboards']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_courses'],
+            text=statements['sell_course'],
             reply_markup=Keyboards.FirstCycle if update.message.text == statements['keyboards']['first_cycle'] else Keyboards.LongCycle,
             parse_mode="markdown")
         return "COURSE"
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_wrong_cycle'],
+            text=statements['sell_cycle_wrong'],
             reply_markup=Keyboards.Cycle,
             parse_mode="markdown")
         return "CYCLE"   
@@ -231,7 +231,7 @@ def sell_course(update, context):
     if update.message.text == statements['keyboards']['first_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_courses'],
+            text=statements['sell_course'],
             reply_markup=Keyboards.FirstCycle,
             parse_mode="markdown")
         return "COURSE"
@@ -239,7 +239,7 @@ def sell_course(update, context):
     elif update.message.text == statements['keyboards']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_courses'],
+            text=statements['sell_course'],
             reply_markup=Keyboards.LongCycle,
             parse_mode="markdown")
         return "COURSE"
@@ -248,7 +248,7 @@ def sell_course(update, context):
         and not update.message.text in statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_wrong_course'],
+            text=statements['sell_course_wrong'],
             parse_mode="markdown")
         return "COURSE"
 
