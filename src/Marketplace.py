@@ -282,7 +282,7 @@ def sell_course(update, context):
         chat_id=update.message.chat_id,
         photo=item.photo if not item.photo == '0' else IMG_NOT_AVAILABLE,
         caption=build_item_caption(item),
-        #reply_markup=Keyboards.build_my_items_keyboard(item.item_id),
+        reply_markup=Keyboards.OnlyDelete,
         parse_mode="Markdown")
 
     return ConversationHandler.END
@@ -371,7 +371,7 @@ def buy_search_by_name_done(update, context):
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
             caption=build_item_caption(items[0]),
-            reply_markup=Keyboards.SearchNavigation,
+            reply_markup=Keyboards.NavigationChat if len(items) > 1 else Keyboards.OnlyChat,
             parse_mode="Markdown")
     else:
         context.bot.send_message(
@@ -382,49 +382,6 @@ def buy_search_by_name_done(update, context):
         #return "DONE"
 
     return ConversationHandler.END
-
-def buy_search_by_name_prev(update, context):
-    if context.user_data['last_count'] == 0:
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['no_prev_items'],cache_time=5)
-    else:
-        last_count = context.user_data['last_count']
-        prev_item = context.user_data['last_items'][last_count-1]
-        
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['callback_answers']['previous'])
-        context.bot.edit_message_media(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id,
-            media=InputMediaPhoto(
-                media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(prev_item),
-                parse_mode="Markdown"),
-            reply_markup=Keyboards.SearchNavigation)
-        context.user_data['last_count'] -= 1
-
-def buy_search_by_name_next(update, context):
-    if context.user_data['last_count'] == len(context.user_data['last_items'])-1:
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['no_next_items'],cache_time=5)
-    else:
-        last_count = context.user_data['last_count']
-        next_item = context.user_data['last_items'][last_count+1]
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['callback_answers']['next'])
-        context.bot.edit_message_media(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id,
-            media=InputMediaPhoto(
-                media=next_item.photo if not next_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(next_item),
-                parse_mode="Markdown"),
-            reply_markup=Keyboards.SearchNavigation)
-        context.user_data['last_count'] += 1
 
 def buy_search_by_name_undo(update, context):
     context.bot.send_message(
@@ -513,7 +470,7 @@ def buy_search_by_course_done(update, context):
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
             caption=build_item_caption(items[0]),
-            reply_markup=Keyboards.SearchNavigation,
+            reply_markup=Keyboards.NavigationChat if len(items) > 1 else Keyboards.OnlyChat,
             parse_mode="Markdown")
     else:
         context.bot.send_message(
@@ -542,7 +499,7 @@ def buy_last_added(update, context):
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
             caption=build_item_caption(items[0]),
-            reply_markup=Keyboards.SearchNavigation,
+            reply_markup=Keyboards.Navigation,
             parse_mode="Markdown")
     else:
         context.bot.send_message(
@@ -826,9 +783,7 @@ if __name__ == "__main__":
         },
         fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"),buy_search_by_name_undo), CommandHandler('cancel',buy_search_by_name_undo)]
     )
-    buy_search_by_name_prev_handler = CallbackQueryHandler(buy_search_by_name_prev,pattern=r"^s_prev")
-    buy_search_by_name_next_handler = CallbackQueryHandler(buy_search_by_name_next,pattern=r"^s_next")
-
+    
     buy_search_by_course_handler = ConversationHandler(
         entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_course']}$"), buy_search_by_course)],
         states = {
@@ -879,8 +834,6 @@ if __name__ == "__main__":
     dispatcher.add_handler(set_section_handler)
     dispatcher.add_handler(buy_last_added_handler)
     dispatcher.add_handler(buy_search_by_name_handler)
-    dispatcher.add_handler(buy_search_by_name_next_handler)
-    dispatcher.add_handler(buy_search_by_name_prev_handler)
     dispatcher.add_handler(buy_search_by_course_handler)
     dispatcher.add_handler(navigation_prev_handler)
     dispatcher.add_handler(navigation_next_handler)
