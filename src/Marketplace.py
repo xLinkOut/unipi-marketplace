@@ -300,8 +300,8 @@ def sell_undo(update, context):
     context.user_data['course'] = None
     return ConversationHandler.END
 
+@typing_action
 def sell_my_items(update, context):
-    # Prendere solo il primo
     my_items = get_my_items(update.message.chat_id)
     if not my_items:
         context.bot.send_message(
@@ -309,94 +309,20 @@ def sell_my_items(update, context):
             text=statements['sell_empty_my_items'],
             parse_mode="Markdown")
     else:
-        context.bot.send_chat_action(
-            chat_id=update.message.chat_id,
-            action=ChatAction.UPLOAD_PHOTO)
-        
+        context.user_data['last_items'] = my_items
+        context.user_data['last_count'] = 0
         my_items_count = len(my_items)
-
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell_count_my_items_many'].replace('$$',str(my_items_count)) if my_items_count > 1 else statements['sell_count_my_items_one'],
             parse_mode="Markdown")
-        
         context.bot.send_photo(
             chat_id=update.message.chat_id,
             photo=my_items[0].photo if not my_items[0].photo == '0' else IMG_NOT_AVAILABLE,
             caption=build_item_caption(my_items[0]),
-            reply_markup=Keyboards.build_my_items_keyboard(my_items[0].item_id,navigation=bool(my_items_count-1)),
+            reply_markup=Keyboards.NavigationDelete if my_items_count > 1 else Keyboards.OnlyDelete,
             parse_mode="Markdown")
 
-def sell_my_items_prev(update, context):
-    prev_item = get_my_items_prev(update.callback_query.data[5:],update.callback_query.message.chat_id)
-    if prev_item:
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['callback_answers']['previous'])
-        context.bot.edit_message_media(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id,
-            media=InputMediaPhoto(
-                media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(prev_item),
-                parse_mode="Markdown"),
-            reply_markup=Keyboards.build_my_items_keyboard(prev_item.item_id))
-    else:
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['no_prev_items'],cache_time=5)
-
-def sell_my_items_next(update, context):
-    next_item = get_my_items_next(update.callback_query.data[5:],update.callback_query.message.chat_id)
-    if next_item:
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['callback_answers']['next'])    
-        context.bot.edit_message_media(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id,
-            media=InputMediaPhoto(
-                media=next_item.photo if not next_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(next_item),
-                parse_mode="Markdown"),
-            reply_markup=Keyboards.build_my_items_keyboard(next_item.item_id))
-    else:
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['no_next_items'],cache_time=5)
-
-def sell_my_items_delete(update, context):
-    context.bot.send_chat_action(
-        chat_id=update.callback_query.message.chat_id,
-        action=ChatAction.TYPING)
-    item = get_item_by_id(update.callback_query.data[7:])
-    #title = item.title
-    session.delete(item)
-    session.commit()
-    context.bot.answer_callback_query(
-        update.callback_query.id,
-        text=f"{item.title}  🚮",
-        cache_time=10)
-
-    items = get_my_items(update.callback_query.message.chat_id)
-    if items:
-        context.bot.edit_message_media(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id,
-            media=InputMediaPhoto(
-                media=items[0].photo if not items[0].photo== '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(items[0]),
-                parse_mode="Markdown"),
-            reply_markup=Keyboards.build_my_items_keyboard(items[0].item_id,navigation=bool(len(items)-1)))
-    else:
-        context.bot.delete_message(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id)
-        context.bot.send_message(
-            chat_id=update.callback_query.message.chat_id,
-            text=statements['sell_deleted_last_item'],
-            parse_mode="Markdown")
-      
 # BUY
 def buy(update, context):
     context.user_data['section'] = "buy"
@@ -540,7 +466,6 @@ def buy_search_by_course_cycle(update, context):
             parse_mode="markdown")
         return "CYCLE"
 
-
 def buy_search_by_course_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
@@ -625,7 +550,6 @@ def buy_last_added(update, context):
             text=statements['buy_last_added_no_result'],
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
-
     
 # INSTRUCTIONS
 def instructions(update, context):
@@ -714,12 +638,6 @@ def count_my_items(chat_id):
 def get_my_items(chat_id):
     return session.query(Item).filter_by(chat_id=chat_id).order_by(desc(Item.timestamp)).all()
 
-def get_my_items_prev(item_id,chat_id):
-    return session.query(Item).filter_by(chat_id=chat_id).filter(Item.item_id < item_id).order_by(desc(Item.timestamp)).first()
-
-def get_my_items_next(item_id,chat_id):
-    return session.query(Item).filter_by(chat_id=chat_id).filter(Item.item_id > item_id).order_by(asc(Item.timestamp)).first()
-
 def build_item_caption(item):
     fromts = datetime.fromtimestamp(item.timestamp)
     date = "{0}/{1}/{2}".format('%02d' % fromts.day, '%02d' % fromts.month, fromts.year)
@@ -735,10 +653,90 @@ def get_items_by_name(chat_id, query):
     return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.title.like(f"%{query}%")).all()
 
 def get_items_by_course(chat_id, course):
-    return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.course == course).all()
+    return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.course == course).order_by(desc(Item.timestamp)).all()
 
 def get_last_added(chat_id):
     return session.query(Item).filter(Item.chat_id != chat_id).order_by(desc(Item.timestamp)).limit(3).all()
+
+def navigation_prev(update, context):
+    if context.user_data['last_count'] == 0:
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['no_prev_items'],cache_time=5)
+    else:
+        last_count = context.user_data['last_count']
+        prev_item  = context.user_data['last_items'][last_count-1]
+        
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['callback_answers']['previous'])
+        context.bot.edit_message_media(
+            chat_id=update.callback_query.message.chat_id,
+            message_id=update.callback_query.message.message_id,
+            media=InputMediaPhoto(
+                media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
+                caption=build_item_caption(prev_item),
+                parse_mode="Markdown"),
+            reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.Navigation)
+        context.user_data['last_count'] -= 1
+
+def navigation_next(update, context):
+    if context.user_data['last_count'] == len(context.user_data['last_items'])-1:
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['no_next_items'],cache_time=5)
+    else:
+        last_count = context.user_data['last_count']
+        next_item = context.user_data['last_items'][last_count+1]
+        context.bot.answer_callback_query(
+            update.callback_query.id,
+            text=statements['callback_answers']['next'])
+        context.bot.edit_message_media(
+            chat_id=update.callback_query.message.chat_id,
+            message_id=update.callback_query.message.message_id,
+            media=InputMediaPhoto(
+                media=next_item.photo if not next_item.photo == '0' else IMG_NOT_AVAILABLE,
+                caption=build_item_caption(next_item),
+                parse_mode="Markdown"),
+            reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.Navigation)
+
+        context.user_data['last_count'] += 1
+
+def navigation_delete(update, context):
+    item = context.user_data['last_items'][context.user_data['last_count']]
+    db_item = get_item_by_id(item.item_id)
+    session.delete(item)
+    session.commit()
+    context.user_data['last_items'].remove(item)
+    context.bot.answer_callback_query(
+        update.callback_query.id,
+        text=f"{item.title}  🚮",
+        cache_time=10)
+
+    if len(context.user_data['last_items']) == 0:
+        context.user_data['last_items'] = None
+        context.user_data['last_count'] = None
+        context.bot.delete_message(
+            chat_id=update.callback_query.message.chat_id,
+            message_id=update.callback_query.message.message_id)
+        context.bot.send_message(
+            chat_id=update.callback_query.message.chat_id,
+            text=statements['sell_deleted_last_item'],
+            parse_mode="Markdown")
+    else:
+        last_count = context.user_data['last_count']
+        prev_item  = context.user_data['last_items'][last_count-1]
+    
+        context.bot.edit_message_media(
+            chat_id=update.callback_query.message.chat_id,
+            message_id=update.callback_query.message.message_id,
+            media=InputMediaPhoto(
+                media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
+                caption=build_item_caption(prev_item),
+                parse_mode="Markdown"),
+            reply_markup=Keyboards.NavigationDelete if len(context.user_data['last_items']) > 1 else Keyboards.OnlyDelete)
+
+        context.user_data['last_count'] -= 1
 
 if __name__ == "__main__":
 
@@ -806,7 +804,7 @@ if __name__ == "__main__":
     back_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['back']['back']}$"), back)
     instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), instructions)
 
-    sell_conversation_handler = ConversationHandler(
+    sell_new_item_handler = ConversationHandler(
         entry_points = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['new_item']}$"), sell_new_item)],
         states = {
             "TITLE":  [MessageHandler(Filters.text, sell_title)],
@@ -820,10 +818,7 @@ if __name__ == "__main__":
     )
 
     sell_my_items_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['my_items']}$"), sell_my_items)
-    sell_my_items_prev_handler = CallbackQueryHandler(sell_my_items_prev,pattern=r"^prev_")
-    sell_my_items_next_handler = CallbackQueryHandler(sell_my_items_next,pattern=r"^next_")
-    sell_my_items_delete_handler = CallbackQueryHandler(sell_my_items_delete,pattern=r"^delete_")
-
+    
     buy_search_by_name_handler = ConversationHandler(
         entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), buy_search_by_name)],
         states = {
@@ -844,7 +839,12 @@ if __name__ == "__main__":
     )
 
     buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), buy_last_added)
-    
+
+    # Navigation    
+    navigation_prev_handler = CallbackQueryHandler(navigation_prev,pattern=r"^prev$")
+    navigation_next_handler = CallbackQueryHandler(navigation_next,pattern=r"^next$")
+    navigation_delete_handler = CallbackQueryHandler(navigation_delete,pattern=r"^delete$")
+
     def add_test(update, context):
         try:            
             session.query(Item).delete()
@@ -861,9 +861,10 @@ if __name__ == "__main__":
             context.bot.send_message(chat_id=update.message.chat_id,text="Ho aggiunti gli item al db!")
         except Exception as e:
             context.bot.send_message(chat_id=update.message.chat_id,text=f"Errore: {e}")
-
+    def set_section(update, context):
+        context.user_data['section'] = "sell"
     add_test_handler = CommandHandler('add', add_test)
-
+    set_section_handler = CommandHandler('section', set_section)
     # DISPATCHER
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(sell_handler)
@@ -871,18 +872,19 @@ if __name__ == "__main__":
     dispatcher.add_handler(info_handler)
     dispatcher.add_handler(back_handler)
     dispatcher.add_handler(instruction_handler)
-    dispatcher.add_handler(sell_conversation_handler)
+    dispatcher.add_handler(sell_new_item_handler)
     dispatcher.add_handler(sell_my_items_handler)
-    dispatcher.add_handler(sell_my_items_prev_handler)
-    dispatcher.add_handler(sell_my_items_next_handler)
-    dispatcher.add_handler(sell_my_items_delete_handler)
     dispatcher.add_handler(feedback_handler)
     dispatcher.add_handler(add_test_handler)
+    dispatcher.add_handler(set_section_handler)
     dispatcher.add_handler(buy_last_added_handler)
     dispatcher.add_handler(buy_search_by_name_handler)
     dispatcher.add_handler(buy_search_by_name_next_handler)
     dispatcher.add_handler(buy_search_by_name_prev_handler)
     dispatcher.add_handler(buy_search_by_course_handler)
+    dispatcher.add_handler(navigation_prev_handler)
+    dispatcher.add_handler(navigation_next_handler)
+    dispatcher.add_handler(navigation_delete_handler)
 
     # POLLING
     updater.start_polling()

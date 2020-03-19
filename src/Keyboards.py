@@ -76,7 +76,17 @@ LongCycleButtons.append([statements['first_cycle']])
 LongCycleButtons.append([statements['abort']['abort']])
 LongCycle = ReplyKeyboardMarkup(LongCycleButtons, resize_keyboard=True)
 
-# MY ITEMS
+# NAVIGATION
+
+PrevButton   = InlineKeyboardButton(statements['navigation']['previous'],callback_data=f"prev")
+NextButton   = InlineKeyboardButton(statements['navigation']['next'],callback_data=f"next")
+DeleteButton = InlineKeyboardButton(statements['navigation']['delete'],callback_data=f"delete")
+ChatButton   = InlineKeyboardButton(statements['navigation']['chat'],callback_data=f"chat")
+
+Navigation = InlineKeyboardMarkup([[PrevButton,NextButton]])
+NavigationDelete = InlineKeyboardMarkup([[PrevButton,NextButton],[DeleteButton]])
+NavigationChat = InlineKeyboardMarkup([[PrevButton,NextButton],[ChatButton]])
+OnlyDelete = InlineKeyboardMarkup([[DeleteButton]])
 def build_my_items_keyboard(item_id,navigation=True):
     if navigation:    
         return InlineKeyboardMarkup([
@@ -89,20 +99,7 @@ def build_my_items_keyboard(item_id,navigation=True):
             [InlineKeyboardButton(statements['my_items']['delete'],callback_data=f"delete_{item_id}")]
         ]) 
 
-# ITEM IN DB
-
 SearchNavigation = InlineKeyboardMarkup([
-    [InlineKeyboardButton(statements['search_items']['previous'],callback_data=f"s_prev"),
-     InlineKeyboardButton(statements['search_items']['next'],callback_data=f"s_next")]
+    [InlineKeyboardButton(statements['navigation']['previous'],callback_data=f"s_prev"),
+     InlineKeyboardButton(statements['navigation']['next'],callback_data=f"s_next")]
 ])
-
-"""
-def build_items_keyboard(prev_id,item_id,next_id): # Maybe useless prev/next? 
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton(statements['search_items']['previous'],callback_data=f"s_prev_{item_id}"),
-         InlineKeyboardButton(statements['search_items']['next'],callback_data=f"s_next_{item_id}")]
-    ])
-"""
-
-# LAST ADDED
-# TODO

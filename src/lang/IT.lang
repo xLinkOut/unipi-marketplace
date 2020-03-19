@@ -101,6 +101,13 @@
             "skip": "⏩ Salta"
         },
 
+        "navigation": {
+            "previous": "Precedente ⬅️",
+            "next": "➡️ Successivo",
+            "delete": "🗑 Elimina",
+            "chat": "💬 Contatta"
+        },
+
         "first_cycle":"1️⃣ Triennale",
         "long_cycle":"2️⃣ Magistrale",
 
@@ -230,17 +237,6 @@
                 "Strategia, management e controllo",
                 "Studi internazionali"
             ]
-        },
-
-        "my_items": {
-            "previous": "Precedente ⬅️",
-            "next": "➡️ Successivo",
-            "delete": "🗑 Elimina"
-        },
-
-        "search_items": {
-            "previous": "Precedente ⬅️",
-            "next": "➡️ Successivo"
         }
     }
 }
