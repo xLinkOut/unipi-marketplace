@@ -634,7 +634,7 @@ def navigation_prev(update, context):
                 media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
                 caption=build_item_caption(prev_item),
                 parse_mode="Markdown"),
-            reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.Navigation)
+            reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.NavigationChat)
         context.user_data['last_count'] -= 1
 
 def navigation_next(update, context):
@@ -655,7 +655,7 @@ def navigation_next(update, context):
                 media=next_item.photo if not next_item.photo == '0' else IMG_NOT_AVAILABLE,
                 caption=build_item_caption(next_item),
                 parse_mode="Markdown"),
-            reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.Navigation)
+            reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.NavigationChat)
 
         context.user_data['last_count'] += 1
 
