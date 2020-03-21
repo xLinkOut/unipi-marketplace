@@ -520,7 +520,7 @@ def buy_chat(update, context):
     )
     context.bot.answer_callback_query(
         update.callback_query.id,
-        text="username visualizzato",
+        text=statements['buy_username_chat'],
         cache_time=5
     )
 
