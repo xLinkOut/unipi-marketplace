@@ -507,7 +507,23 @@ def buy_last_added(update, context):
             text=statements['buy_last_added_no_result'],
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
-    
+
+def buy_chat(update, context):
+    seller_chat_id = context.user_data['last_items'][context.user_data['last_count']].chat_id
+    seller_username = f"@{get_username_by_chatid(seller_chat_id)[0]}"
+    context.bot.edit_message_caption(
+        chat_id=update.callback_query.message.chat_id,
+        message_id=update.callback_query.message.message_id,
+        caption=f"{update.callback_query.message.caption}\n👤 {seller_username}",
+        reply_markup=Keyboards.Navigation,
+        parse_mode="markdown"
+    )
+    context.bot.answer_callback_query(
+        update.callback_query.id,
+        text="username visualizzato",
+        cache_time=5
+    )
+
 # INSTRUCTIONS
 def instructions(update, context):
     if context.user_data['section'] == "sell":
@@ -614,6 +630,9 @@ def get_items_by_course(chat_id, course):
 
 def get_last_added(chat_id):
     return session.query(Item).filter(Item.chat_id != chat_id).order_by(desc(Item.timestamp)).limit(3).all()
+
+def get_username_by_chatid(chat_id):
+    return session.query(User.username).filter(User.chat_id == chat_id).first()
 
 def navigation_prev(update, context):
     if context.user_data['last_count'] == 0:
@@ -795,6 +814,8 @@ if __name__ == "__main__":
 
     buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), buy_last_added)
 
+    buy_chat_handler = CallbackQueryHandler(buy_chat,pattern=r"^chat$")
+
     # Navigation    
     navigation_prev_handler = CallbackQueryHandler(navigation_prev,pattern=r"^prev$")
     navigation_next_handler = CallbackQueryHandler(navigation_next,pattern=r"^next$")
@@ -820,6 +841,7 @@ if __name__ == "__main__":
         context.user_data['section'] = "sell"
     add_test_handler = CommandHandler('add', add_test)
     set_section_handler = CommandHandler('section', set_section)
+    
     # DISPATCHER
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(sell_handler)
@@ -835,6 +857,7 @@ if __name__ == "__main__":
     dispatcher.add_handler(buy_last_added_handler)
     dispatcher.add_handler(buy_search_by_name_handler)
     dispatcher.add_handler(buy_search_by_course_handler)
+    dispatcher.add_handler(buy_chat_handler)
     dispatcher.add_handler(navigation_prev_handler)
     dispatcher.add_handler(navigation_next_handler)
     dispatcher.add_handler(navigation_delete_handler)
