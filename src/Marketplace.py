@@ -10,6 +10,7 @@ from re import search
 from time import time
 from time import sleep
 from uuid import uuid1
+from random import choice
 from functools import wraps
 from datetime import datetime
 from dotenv import load_dotenv
@@ -574,13 +575,14 @@ def feedback_done(update, context):
             parse_mode="markdown")
         return ConversationHandler.END
 
+    username = update.message.chat.username if update.message.chat.username else choice(["🤷‍♀️","🤷‍♂️"])
     context.bot.send_message(
         chat_id=ADMIN_CHAT_ID,
         text=statements['feedback_received'] \
             .replace('$$',str(update.message.chat_id),1) \
-            .replace('$$',update.message.chat.username, 1) \
+            .replace('$$',username, 1) \
             .replace('$$',update.message.chat.first_name, 1),
-        parse_mode="Markdown"
+        parse_mode="markdown"
     )
 
     context.bot.forward_message(
