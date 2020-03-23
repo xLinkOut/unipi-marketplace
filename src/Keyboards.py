@@ -77,20 +77,16 @@ LongCycleButtons.append([statements['abort']['abort']])
 LongCycle = ReplyKeyboardMarkup(LongCycleButtons, resize_keyboard=True)
 
 # NAVIGATION
-PrevButton   = InlineKeyboardButton(statements['navigation']['previous'],callback_data=f"prev")
-NextButton   = InlineKeyboardButton(statements['navigation']['next'],callback_data=f"next")
-DeleteButton = InlineKeyboardButton(statements['navigation']['delete'],callback_data=f"delete")
-ChatButton   = InlineKeyboardButton(statements['navigation']['chat'],callback_data=f"chat")
-YesButton    = InlineKeyboardButton(statements['navigation']['yes'],callback_data="yes")
-NoButton     = InlineKeyboardButton(statements['navigation']['no'],callback_data="no")
+PrevButton   = InlineKeyboardButton(statements['navigation']['previous'], callback_data="prev")
+NextButton   = InlineKeyboardButton(statements['navigation']['next'], callback_data="next")
+DeleteButton = InlineKeyboardButton(statements['navigation']['delete'], callback_data="delete")
+ChatButton   = InlineKeyboardButton(statements['navigation']['chat'], callback_data="chat")
+YesButton    = InlineKeyboardButton(statements['navigation']['yes'], callback_data="yes")
+NoButton     = InlineKeyboardButton(statements['navigation']['no'], callback_data="no")
 
 Navigation = InlineKeyboardMarkup([[PrevButton,NextButton]])
 NavigationDelete = InlineKeyboardMarkup([[PrevButton,NextButton],[DeleteButton]])
 NavigationChat = InlineKeyboardMarkup([[PrevButton,NextButton],[ChatButton]])
 OnlyDelete = InlineKeyboardMarkup([[DeleteButton]])
 OnlyChat = InlineKeyboardMarkup([[ChatButton]])
-
-# CONFIRM
-Confirm = InlineKeyboardMarkup([
-    [YesButton, NoButton]
-])
+Confirm = InlineKeyboardMarkup([[YesButton, NoButton]])
