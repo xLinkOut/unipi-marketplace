@@ -681,6 +681,13 @@ def navigation_next(update, context):
         context.user_data['last_count'] += 1
 
 def navigation_delete(update, context):
+    context.bot.edit_message_reply_markup(
+        chat_id=update.callback_query.message.chat_id,
+        message_id=update.callback_query.message.message_id,
+        reply_markup=Keyboards.Confirm
+    )
+
+def navigation_yes(update, context):
     item = context.user_data['last_items'][context.user_data['last_count']]
     db_item = get_item_by_id(item.item_id)
     session.delete(item)
@@ -689,7 +696,7 @@ def navigation_delete(update, context):
     context.bot.answer_callback_query(
         update.callback_query.id,
         text=f"{item.title}  🚮",
-        cache_time=10)
+        cache_time=2)
 
     if len(context.user_data['last_items']) == 0:
         context.user_data['last_items'] = None
@@ -715,6 +722,13 @@ def navigation_delete(update, context):
             reply_markup=Keyboards.NavigationDelete if len(context.user_data['last_items']) > 1 else Keyboards.OnlyDelete)
 
         context.user_data['last_count'] -= 1
+
+def navigation_no(update, context):
+    context.bot.edit_message_reply_markup(
+        chat_id=update.callback_query.message.chat_id,
+        message_id=update.callback_query.message.message_id,
+        reply_markup=Keyboards.NavigationDelete if len(context.user_data['last_items']) > 1 else Keyboards.OnlyDelete
+    )
 
 if __name__ == "__main__":
 
@@ -822,6 +836,8 @@ if __name__ == "__main__":
     navigation_prev_handler = CallbackQueryHandler(navigation_prev,pattern=r"^prev$")
     navigation_next_handler = CallbackQueryHandler(navigation_next,pattern=r"^next$")
     navigation_delete_handler = CallbackQueryHandler(navigation_delete,pattern=r"^delete$")
+    navigation_yes_handler = CallbackQueryHandler(navigation_yes,pattern=r"yes")
+    navigation_no_handler  = CallbackQueryHandler(navigation_no,pattern=r"no")
 
     def add_test(update, context):
         try:            
@@ -863,6 +879,8 @@ if __name__ == "__main__":
     dispatcher.add_handler(navigation_prev_handler)
     dispatcher.add_handler(navigation_next_handler)
     dispatcher.add_handler(navigation_delete_handler)
+    dispatcher.add_handler(navigation_yes_handler)
+    dispatcher.add_handler(navigation_no_handler)
 
     # POLLING
     updater.start_polling()

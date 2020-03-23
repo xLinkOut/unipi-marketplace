@@ -107,8 +107,12 @@
             "previous": "Precedente ⬅️",
             "next": "➡️ Successivo",
             "delete": "🗑 Elimina",
-            "chat": "💬 Contatta"
+            "chat": "💬 Contatta",
+            "yes":"Si ✅",
+            "no":"No ❌"
         },
+
+        
 
         "first_cycle":"1️⃣ Triennale",
         "long_cycle":"2️⃣ Magistrale",

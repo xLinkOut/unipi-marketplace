@@ -81,9 +81,16 @@ PrevButton   = InlineKeyboardButton(statements['navigation']['previous'],callbac
 NextButton   = InlineKeyboardButton(statements['navigation']['next'],callback_data=f"next")
 DeleteButton = InlineKeyboardButton(statements['navigation']['delete'],callback_data=f"delete")
 ChatButton   = InlineKeyboardButton(statements['navigation']['chat'],callback_data=f"chat")
+YesButton    = InlineKeyboardButton(statements['navigation']['yes'],callback_data="yes")
+NoButton     = InlineKeyboardButton(statements['navigation']['no'],callback_data="no")
 
 Navigation = InlineKeyboardMarkup([[PrevButton,NextButton]])
 NavigationDelete = InlineKeyboardMarkup([[PrevButton,NextButton],[DeleteButton]])
 NavigationChat = InlineKeyboardMarkup([[PrevButton,NextButton],[ChatButton]])
 OnlyDelete = InlineKeyboardMarkup([[DeleteButton]])
 OnlyChat = InlineKeyboardMarkup([[ChatButton]])
+
+# CONFIRM
+Confirm = InlineKeyboardMarkup([
+    [YesButton, NoButton]
+])
