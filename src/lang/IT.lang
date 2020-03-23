@@ -58,10 +58,10 @@
     "no_next_items":"🚫 Non ci sono annunci successivi.",
     
     "caption": {
-        "title":"Titolo",
-        "price":"Prezzo",
-        "course":"Facoltà",
-        "posted":"Pubblicato"
+        "title":"📌 Titolo",
+        "price":"💵 Prezzo",
+        "course":"🎓 Facoltà",
+        "posted":"🗓 Pubblicato"
     },
 
     "callback_answers": {

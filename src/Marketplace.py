@@ -616,10 +616,10 @@ def get_my_items(chat_id):
 def build_item_caption(item):
     fromts = datetime.fromtimestamp(item.timestamp)
     date = "{0}/{1}/{2}".format('%02d' % fromts.day, '%02d' % fromts.month, fromts.year)
-    return f"*📌 {statements['caption']['title']}:* {item.title}\n" \
-        f"*💵 {statements['caption']['price']}:* {item.price}€\n" \
-        f"*🎓 {statements['caption']['course']}:* {item.course}\n" \
-        f"*🗓 {statements['caption']['posted']}:* {date}"
+    return f"*{statements['caption']['title']}:* {item.title}\n" \
+        f"*{statements['caption']['price']}:* {item.price}€\n" \
+        f"*{statements['caption']['course']}:* {item.course}\n" \
+        f"*{statements['caption']['posted']}:* {date}"
 
 def get_item_by_id(item_id):
     return session.query(Item).filter_by(item_id=item_id).first()
