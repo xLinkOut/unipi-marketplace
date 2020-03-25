@@ -511,7 +511,9 @@ def buy_last_added(update, context):
 
 def buy_chat(update, context):
     seller_chat_id = context.user_data['last_items'][context.user_data['last_count']].chat_id
-    seller_username = f"@{get_username_by_chat_id(seller_chat_id)[0]}"
+    user = get_user_by_chat_id(seller_chat_id)
+    seller_username = f"@{user.username}" if user.username else f"[{user.first_name}](tg://user?id={seller_chat_id})"
+
     context.bot.edit_message_caption(
         chat_id=update.callback_query.message.chat_id,
         message_id=update.callback_query.message.message_id,
@@ -633,8 +635,8 @@ def get_items_by_course(chat_id, course):
 def get_last_added(chat_id):
     return session.query(Item).filter(Item.chat_id != chat_id).order_by(desc(Item.timestamp)).limit(3).all()
 
-def get_username_by_chat_id(chat_id):
-    return session.query(User.username).filter(User.chat_id == chat_id).first()
+def get_user_by_chat_id(chat_id):
+    return session.query(User).filter(User.chat_id == chat_id).first()
 
 def navigation_prev(update, context):
     if context.user_data['last_count'] == 0:
