@@ -688,6 +688,10 @@ def navigation_delete(update, context):
         message_id=update.callback_query.message.message_id,
         reply_markup=Keyboards.Confirm
     )
+    context.bot.answer_callback_query(
+        update.callback_query.id,
+        text=statements['callback_answers']['are_you_sure'],
+        cache_time=5)
 
 def navigation_yes(update, context):
     item = context.user_data['last_items'][context.user_data['last_count']]
@@ -731,6 +735,10 @@ def navigation_no(update, context):
         message_id=update.callback_query.message.message_id,
         reply_markup=Keyboards.NavigationDelete if len(context.user_data['last_items']) > 1 else Keyboards.OnlyDelete
     )
+    context.bot.answer_callback_query(
+        update.callback_query.id,
+        text=statements['callback_answers']['as_you_want'],
+        cache_time=5)
 
 if __name__ == "__main__":
 

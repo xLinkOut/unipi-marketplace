@@ -66,7 +66,9 @@
 
     "callback_answers": {
         "previous":"⬅️ Precedente",
-        "next":"Successivo ➡️"
+        "next":"Successivo ➡️",
+        "are_you_sure":"⚠️ Sei sicuro?",
+        "as_you_want":"Come preferisci! 🤓"
     },
 
     "keyboards": {
