@@ -509,7 +509,7 @@ def buy_last_added(update, context):
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
             caption=build_item_caption(items[0]),
-            reply_markup=Keyboards.NavigationChat,
+            reply_markup=Keyboards.NavigationChat if len(items) > 1 else Keyboards.OnlyChat,
             parse_mode="Markdown")
     else:
         context.bot.send_message(
