@@ -527,7 +527,7 @@ def buy_chat(update, context):
         chat_id=update.callback_query.message.chat_id,
         message_id=update.callback_query.message.message_id,
         caption=f"{update.callback_query.message.caption}\n👤 {seller_username}",
-        reply_markup=Keyboards.Navigation,
+        reply_markup=Keyboards.Navigation if len(context.user_data['last_items']) > 1 else None,
         parse_mode="markdown"
     )
     context.bot.answer_callback_query(
