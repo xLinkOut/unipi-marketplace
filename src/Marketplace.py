@@ -39,6 +39,7 @@ DB_FILE = getenv("DB_FILE")
 LANG_FILE = getenv("LANG_FILE") # [IT, EN, ES, DE]
 IMG_NOT_AVAILABLE = getenv("IMG_NOT_AVAILABLE")
 ADMIN_CHAT_ID = int(getenv("ADMIN_CHAT_ID"))
+DEBUG = True if getenv("DEBUG") == "True" else False
 
 # CHAT ACTION
 def typing_action(func):
@@ -833,9 +834,9 @@ if __name__ == "__main__":
     updater = Updater(token=API_TOKEN, use_context=True)
     dispatcher = updater.dispatcher
     logging.basicConfig(
-        level=logging.DEBUG, # DEBUG
+        level=logging.DEBUG if DEBUG else logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-    
+
     with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
         statements = json.load(lang_f)
 
