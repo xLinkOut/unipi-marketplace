@@ -38,7 +38,7 @@ API_TOKEN = getenv("API_TOKEN")
 DB_FILE = getenv("DB_FILE")
 LANG_FILE = getenv("LANG_FILE") # [IT, EN, ES, DE]
 IMG_NOT_AVAILABLE = getenv("IMG_NOT_AVAILABLE")
-ADMIN_CHAT_ID = getenv("ADMIN_CHAT_ID")
+ADMIN_CHAT_ID = int(getenv("ADMIN_CHAT_ID"))
 
 # CHAT ACTION
 def typing_action(func):
@@ -569,12 +569,35 @@ def back(update, context):
 
 # FEEDBACK
 def feedback(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['feedback'],
-        reply_markup=Keyboards.Undo,
-        parse_mode="Markdown")
-    return "DONE"
+    if int(update.message.chat_id) == ADMIN_CHAT_ID:
+        # Answer
+        user_chatid = update.message.text[10:]
+        if not user_chatid:
+            context.bot.send_message(
+                chat_id=ADMIN_CHAT_ID,
+                text=statements['feedback_wrong_id'],
+                parse_mode='markdown')
+            return ConversationHandler.END
+        elif not get_user_by_chat_id(user_chatid):
+            context.bot.send_message(
+                chat_id=ADMIN_CHAT_ID,
+                text=statements['feedback_missing_user'],
+                parse_mode='markdown')
+            return ConversationHandler.END
+        else:
+            context.bot.send_message(
+                chat_id=ADMIN_CHAT_ID,
+                text=statements['feedback_send_response'],
+                parse_mode='markdown')
+            context.user_data['feedback_id'] = int(user_chatid)
+            return "ANSWER"
+    else:
+        context.bot.send_message(
+            chat_id=update.message.chat_id,
+            text=statements['feedback'],
+            reply_markup=Keyboards.Undo,
+            parse_mode="Markdown")
+        return "DONE"
 
 def feedback_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
@@ -607,6 +630,24 @@ def feedback_done(update, context):
         reply_markup=Keyboards.Start,
         parse_mode="Markdown")
     return ConversationHandler.END
+
+# Replace this mechanism when (and if) python-telegram-bot accepts my "reply-pattern" pr
+def feedback_answer(update, context):
+    if int(update.message.chat_id) == ADMIN_CHAT_ID:
+        context.bot.send_message(
+            chat_id=context.user_data['feedback_id'],
+            text=statements['feedback_response']\
+                .replace('$$',get_user_by_chat_id(context.user_data['feedback_id']).first_name,1)\
+                .replace('$$',update.message.text,1),
+            parse_mode='markdown')
+        
+        context.bot.send_message(
+            chat_id=ADMIN_CHAT_ID,
+            text=statements['feedback_response_sent'],
+            parse_mode='markdown')
+
+        context.user_data['feedback_id'] = None
+        return ConversationHandler.END
 
 def feedback_undo(update, context):
     context.bot.send_message(
@@ -803,10 +844,12 @@ if __name__ == "__main__":
     feedback_handler = ConversationHandler(
         entry_points = [CommandHandler('feedback', feedback)],
         states = {
-            "DONE": [MessageHandler(Filters.text, feedback_done)]
+            "DONE": [MessageHandler(Filters.text, feedback_done)],
+            "ANSWER": [MessageHandler(Filters.text, feedback_answer)]
         },
         fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), feedback_undo)]
     )
+    feedback_answer_handler = CommandHandler
 
     sell_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['sell']}$"), sell)
     buy_handler   = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['buy']}$"), buy)
