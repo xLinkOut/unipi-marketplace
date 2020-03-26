@@ -279,12 +279,20 @@ def sell_course(update, context):
     
     # Preview
     item = get_item_by_id(context.user_data['item_id'])
+    context.user_data['last_items'] = [item]
+    context.user_data['last_count'] = 0
     context.bot.send_photo(
         chat_id=update.message.chat_id,
         photo=item.photo if not item.photo == '0' else IMG_NOT_AVAILABLE,
         caption=build_item_caption(item),
         reply_markup=Keyboards.OnlyDelete,
         parse_mode="Markdown")
+
+    context.user_data['item_id'] = None
+    context.user_data['title']   = None
+    context.user_data['photo']   = None
+    context.user_data['price']   = None
+    context.user_data['course']  = None    
 
     return ConversationHandler.END
 
@@ -691,7 +699,7 @@ def navigation_delete(update, context):
     context.bot.answer_callback_query(
         update.callback_query.id,
         text=statements['callback_answers']['are_you_sure'],
-        cache_time=5)
+        cache_time=0)
 
 def navigation_yes(update, context):
     item = context.user_data['last_items'][context.user_data['last_count']]
@@ -702,7 +710,7 @@ def navigation_yes(update, context):
     context.bot.answer_callback_query(
         update.callback_query.id,
         text=f"{item.title}  🚮",
-        cache_time=0)
+        cache_time=5)
 
     if len(context.user_data['last_items']) == 0:
         context.user_data['last_items'] = None
@@ -738,7 +746,7 @@ def navigation_no(update, context):
     context.bot.answer_callback_query(
         update.callback_query.id,
         text=statements['callback_answers']['as_you_want'],
-        cache_time=5)
+        cache_time=0)
 
 if __name__ == "__main__":
 
