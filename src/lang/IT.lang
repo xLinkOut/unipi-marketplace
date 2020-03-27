@@ -7,7 +7,7 @@
     "feedback":"Se hai riscontrato un problema o un malfunzionamento, o vuoi suggerire una modifica al bot, puoi inviare un feedback tramite questa funzione. Scrivi qui il tuo messaggio, sarà mio dovere inviarlo in maniera *anonima* al mio sviluppatore. Se sarà necessario risponderti, io farò da tramite.\n\nGrazie per il supporto! ❤️",
     "feedback_done":"Perfetto! Grazie del feedback! ⭐️",
     "feedback_undo":"Nessun problema, ti riporto al menu principale.\nSe dovessi cambiare idea, usa il comando /feedback",
-    "feedback_received":"🔔 Feedback ricevuto!\n\n*Chat ID:* $$\n*Username:* @$$\n*First name:* $$\n\n*Messaggio:* ⬇️",
+    "feedback_received":"🔔 Feedback ricevuto!\n\n*Chat ID:* $$\n*Username:* $$\n*First name:* $$\n\n*Messaggio:* ⬇️",
     "feedback_wrong_id":"*Manca l'ID*, non posso inviare una risposta senza.",
     "feedback_missing_user":"Questo utente non è nel nostro database, non posso recapitare il messaggio.",
     "feedback_send_response":"Bene, scrivi qui la risposta...",

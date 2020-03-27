@@ -609,7 +609,7 @@ def feedback_done(update, context):
             parse_mode="markdown")
         return ConversationHandler.END
 
-    username = update.message.chat.username if update.message.chat.username else choice(["🤷‍♀️","🤷‍♂️"])
+    username = f"@{update.message.chat.username}" if update.message.chat.username else choice(["🤷‍♀️","🤷‍♂️"])
     context.bot.send_message(
         chat_id=ADMIN_CHAT_ID,
         text=statements['feedback_received'] \
