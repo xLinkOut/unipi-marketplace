@@ -1,6 +1,6 @@
 # Files
-src/.env
 .DS_Store
+src/.env
 src/Database.db
 
 # Directories
