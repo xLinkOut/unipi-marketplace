@@ -9,7 +9,6 @@ from os import getenv
 from re import search
 from time import time
 from time import sleep
-from uuid import uuid1
 from random import choice
 from functools import wraps
 from datetime import datetime
@@ -93,7 +92,6 @@ def sell_new_item(update, context):
         text=statements["sell_title"],
         reply_markup=Keyboards.Undo,
         parse_mode="markdown")
-    context.user_data['item_id'] = uuid1().hex
     return "TITLE"
 
 def sell_title(update, context):
@@ -103,7 +101,6 @@ def sell_title(update, context):
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data['item_id'] = None
         return ConversationHandler.END
 
     # Check for SQL Injection 
@@ -122,7 +119,6 @@ def sell_price(update, context):
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data['item_id'] = None
         context.user_data['title'] = None
         return ConversationHandler.END
 
@@ -160,7 +156,6 @@ def sell_photo(update, context):
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data['item_id'] = None
         context.user_data['title'] = None
         context.user_data['price'] = None
         return ConversationHandler.END
@@ -194,7 +189,6 @@ def sell_cycle(update, context):
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data['item_id'] = None
         context.user_data['title'] = None
         context.user_data['price'] = None
         context.user_data['photo'] = None
@@ -224,7 +218,6 @@ def sell_course(update, context):
             text=statements["sell_undo"],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
-        context.user_data['item_id'] = None
         context.user_data['title'] = None
         context.user_data['price'] = None
         context.user_data['photo'] = None
@@ -258,10 +251,8 @@ def sell_course(update, context):
     context.user_data['course'] = update.message.text
 
     # Done
-    # Check for SQL Injection 
-    session.add(
-        Item(
-            item_id   = context.user_data['item_id'],
+    # Check for SQL Injection
+    new_item = Item(
             chat_id   = update.message.chat_id,
             title     = context.user_data['title'],
             photo     = context.user_data['photo'],
@@ -269,8 +260,8 @@ def sell_course(update, context):
             course    = context.user_data['course'],
             timestamp = int(time()),
             visible = True
-        )
-    )
+        ) 
+    session.add(new_item)
     session.commit()
     context.bot.send_message(
         chat_id=update.message.chat_id,
@@ -279,7 +270,7 @@ def sell_course(update, context):
         parse_mode="Markdown")
     
     # Preview
-    item = get_item_by_id(context.user_data['item_id'])
+    item = get_item_by_id(new_item.item_id)
     context.user_data['last_items'] = [item]
     context.user_data['last_count'] = 0
     context.bot.send_photo(
@@ -289,7 +280,6 @@ def sell_course(update, context):
         reply_markup=Keyboards.OnlyDelete,
         parse_mode="Markdown")
 
-    context.user_data['item_id'] = None
     context.user_data['title']   = None
     context.user_data['photo']   = None
     context.user_data['price']   = None
@@ -303,7 +293,6 @@ def sell_undo(update, context):
         text=statements["sell_undo"],
         reply_markup=Keyboards.Sell,
         parse_mode="markdown")
-    context.user_data['item_id'] = None
     context.user_data['title'] = None
     context.user_data['price'] = None
     context.user_data['photo'] = None
@@ -754,6 +743,7 @@ def navigation_delete(update, context):
         cache_time=0)
 
 def navigation_yes(update, context):
+    # BUG: last_count index error when deleting last item of my items menu
     item = context.user_data['last_items'][context.user_data['last_count']]
     db_item = get_item_by_id(item.item_id)
     session.delete(item)
@@ -823,7 +813,7 @@ if __name__ == "__main__":
     class Item(Base):
         __tablename__ = "Items"
 
-        item_id   = Column(String(32), primary_key=True)
+        item_id   = Column(Integer, primary_key=True)
         chat_id   = Column(Integer)
         title     = Column(String)
         photo     = Column(String(128), default='0')
@@ -912,16 +902,16 @@ if __name__ == "__main__":
 
     def add_test(update, context):
         try:            
-            session.query(Item).delete()
-            session.add(Item(item_id="13ead83ce55811e984af48452083e01e",chat_id=123456781,title="Primo libro",photo='0',price='5.00',course="Agraria",timestamp=int(time()),visible=True))
+            #session.query(Item).delete()
+            session.add(Item(chat_id=123456781,title="Primo libro",photo='0',price='5.00',course="Agraria",timestamp=int(time()),visible=True))
             sleep(1)
-            session.add(Item(item_id="1beadae6e55811e984af48452083e01e",chat_id=123456782,title="Secondo libro",photo='0',price='8.00',course="Biologia",timestamp=int(time()),visible=True))
+            session.add(Item(chat_id=123456782,title="Secondo libro",photo='0',price='8.00',course="Biologia",timestamp=int(time()),visible=True))
             sleep(1)
-            session.add(Item(item_id="2e497d96e55811e984af48452083e01e",chat_id=123456783,title="Terza dispensa",photo='0',price='10.00',course="Farmacia",timestamp=int(time()),visible=True))
+            session.add(Item(chat_id=123456783,title="Terza dispensa",photo='0',price='10.00',course="Farmacia",timestamp=int(time()),visible=True))
             sleep(1)
-            session.add(Item(item_id="357bb0ace55811e984af48452083e01e",chat_id=ADMIN_CHAT_ID,title="Quarto libro",photo='0',price='12.00',course="Matematica",timestamp=int(time()),visible=True))
+            session.add(Item(chat_id=ADMIN_CHAT_ID,title="Quarto libro",photo='0',price='12.00',course="Matematica",timestamp=int(time()),visible=True))
             sleep(1)
-            session.add(Item(item_id="469c5d00e55811e984af48452083e01e",chat_id=123456785,title="Quinta dispensa",photo='0',price='15.00',course="Psicologia",timestamp=int(time()),visible=True))
+            session.add(Item(chat_id=123456785,title="Quinta dispensa",photo='0',price='15.00',course="Psicologia",timestamp=int(time()),visible=True))
             session.commit()
             context.bot.send_message(chat_id=update.message.chat_id,text="Ho aggiunti gli item al db!")
         except Exception as e:
