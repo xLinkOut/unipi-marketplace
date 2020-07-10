@@ -23,9 +23,9 @@ python Marketplace.py
 
 ## Future
 - [x] Show page number in every section (my items, search...), like '3/7'
+- [x] Remove complex uuid key with an integer auto-increment
 - [ ] Think of a better feedback mechanism, based on 'reply to message'
 - [ ] Less monolithic, more modules
 - [ ] Translate statements to other languages
 - [ ] Add screenshots
-- [ ] Remove complex uuid key with an integer auto-increment
 - [ ] ??
