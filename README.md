@@ -22,7 +22,7 @@ python Marketplace.py
 * **DEBUG**: set this to True to activate verbose mode, False otherwise
 
 ## Future
-- [ ] Show pages in 'my items' and in search features, like '3/7 item'
+- [x] Show page number in every section (my items, search...), like '3/7'
 - [ ] Think of a better feedback mechanism, based on 'reply to message'
 - [ ] Less monolithic, more modules
 - [ ] Translate statements to other languages
