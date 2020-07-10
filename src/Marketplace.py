@@ -320,17 +320,18 @@ def sell_my_items(update, context):
             parse_mode="Markdown")
     else:
         context.user_data['last_items'] = my_items
+        context.user_data['items_count'] = len(my_items)
         context.user_data['last_count'] = 0
-        my_items_count = len(my_items)
+
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_count_my_items_many'].replace('$$',str(my_items_count)) if my_items_count > 1 else statements['sell_count_my_items_one'],
+            text=statements['sell_count_my_items_many'].replace('$$',str(context.user_data['items_count'])) if context.user_data['items_count'] > 1 else statements['sell_count_my_items_one'],
             parse_mode="Markdown")
         context.bot.send_photo(
             chat_id=update.message.chat_id,
             photo=my_items[0].photo if not my_items[0].photo == '0' else IMG_NOT_AVAILABLE,
-            caption=build_item_caption(my_items[0]),
-            reply_markup=Keyboards.NavigationDelete if my_items_count > 1 else Keyboards.OnlyDelete,
+            caption=build_item_caption(my_items[0],[1,context.user_data['items_count']] if context.user_data['items_count'] > 1 else []),
+            reply_markup=Keyboards.NavigationDelete if context.user_data['items_count'] > 1 else Keyboards.OnlyDelete,
             parse_mode="Markdown")
 
 # BUY
@@ -371,17 +372,19 @@ def buy_search_by_name_done(update, context):
     if items:
         #context.user_data['last_query'] = update.message.text
         context.user_data['last_items'] = items
+        context.user_data['items_count'] = len(items)
         context.user_data['last_count'] = 0
+
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_done'].replace('$$',str(len(items))),
+            text=statements['buy_search_by_name_done'].replace('$$',str(context.user_data['items_count'])),
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         context.bot.send_photo(
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
-            caption=build_item_caption(items[0]),
-            reply_markup=Keyboards.NavigationChat if len(items) > 1 else Keyboards.OnlyChat,
+            caption=build_item_caption(items[0], [1,context.user_data['items_count']] if context.user_data['items_count'] > 1 else []),
+            reply_markup=Keyboards.NavigationChat if context.user_data['items_count'] > 1 else Keyboards.OnlyChat,
             parse_mode="Markdown")
     else:
         context.bot.send_message(
@@ -470,17 +473,19 @@ def buy_search_by_course_done(update, context):
 
     if items:
         context.user_data['last_items'] = items
+        context.user_data['items_count'] = len(items)
         context.user_data['last_count'] = 0
+
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_done'].replace('$$',str(len(items))),
+            text=statements['buy_search_by_name_done'].replace('$$',str(context.user_data['items_count'])),
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         context.bot.send_photo(
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
-            caption=build_item_caption(items[0]),
-            reply_markup=Keyboards.NavigationChat if len(items) > 1 else Keyboards.OnlyChat,
+            caption=build_item_caption(items[0], [1,context.user_data['items_count']] if context.user_data['items_count'] > 1 else []),
+            reply_markup=Keyboards.NavigationChat if context.user_data['items_count'] > 1 else Keyboards.OnlyChat,
             parse_mode="Markdown")
     else:
         context.bot.send_message(
@@ -503,13 +508,14 @@ def buy_last_added(update, context):
     items = get_last_added(update.message.chat_id)
     if items:
         context.user_data['last_items'] = items
+        context.user_data['items_count'] = len(items)
         context.user_data['last_count'] = 0
 
         context.bot.send_photo(
             chat_id=update.message.chat_id,
             photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
-            caption=build_item_caption(items[0]),
-            reply_markup=Keyboards.NavigationChat if len(items) > 1 else Keyboards.OnlyChat,
+            caption=build_item_caption(items[0], [1,context.user_data['items_count']] if context.user_data['items_count'] > 1 else []),
+            reply_markup=Keyboards.NavigationChat if context.user_data['items_count'] > 1 else Keyboards.OnlyChat,
             parse_mode="Markdown")
     else:
         context.bot.send_message(
@@ -561,6 +567,7 @@ def back(update, context):
     if context.user_data['section'] == "sell" \
         or context.user_data['section'] == "buy":
         context.user_data['last_items'] = None
+        context.user_data['items_count'] = 0
         context.user_data['last_count'] = 0
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -665,13 +672,17 @@ def count_my_items(chat_id):
 def get_my_items(chat_id):
     return session.query(Item).filter_by(chat_id=chat_id).order_by(desc(Item.timestamp)).all()
 
-def build_item_caption(item):
+def build_item_caption(item,page=[]):
     fromts = datetime.fromtimestamp(item.timestamp)
     date = "{0}/{1}/{2}".format('%02d' % fromts.day, '%02d' % fromts.month, fromts.year)
-    return f"*{statements['caption']['title']}:* {item.title}\n" \
-        f"*{statements['caption']['price']}:* {item.price}€\n" \
-        f"*{statements['caption']['course']}:* {item.course}\n" \
-        f"*{statements['caption']['posted']}:* {date}"
+    caption = f"*{statements['caption']['title']}:* {item.title}\n" \
+            f"*{statements['caption']['price']}:* {item.price}€\n" \
+            f"*{statements['caption']['course']}:* {item.course}\n" \
+            f"*{statements['caption']['posted']}:* {date}"
+    if page:
+        return f"*{statements['caption']['page']}:* {page[0]}/{page[1]}\n{caption}"
+    else: 
+        return caption
 
 def get_item_by_id(item_id):
     return session.query(Item).filter_by(item_id=item_id).first()
@@ -694,9 +705,9 @@ def navigation_prev(update, context):
             update.callback_query.id,
             text=statements['no_prev_items'],cache_time=5)
     else:
-        last_count = context.user_data['last_count']
-        prev_item  = context.user_data['last_items'][last_count-1]
-        
+        context.user_data['last_count'] -= 1
+        prev_item  = context.user_data['last_items'][context.user_data['last_count']]
+
         context.bot.answer_callback_query(
             update.callback_query.id,
             text=statements['callback_answers']['previous'])
@@ -705,19 +716,19 @@ def navigation_prev(update, context):
             message_id=update.callback_query.message.message_id,
             media=InputMediaPhoto(
                 media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(prev_item),
+                caption=build_item_caption(prev_item,[context.user_data['last_count']+1, context.user_data['items_count']]),
                 parse_mode="Markdown"),
             reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.NavigationChat)
-        context.user_data['last_count'] -= 1
 
 def navigation_next(update, context):
-    if context.user_data['last_count'] == len(context.user_data['last_items'])-1:
+    if context.user_data['last_count'] == context.user_data['items_count']-1:
         context.bot.answer_callback_query(
             update.callback_query.id,
             text=statements['no_next_items'],cache_time=5)
     else:
-        last_count = context.user_data['last_count']
-        next_item = context.user_data['last_items'][last_count+1]
+        context.user_data['last_count'] += 1
+        next_item = context.user_data['last_items'][context.user_data['last_count']]
+
         context.bot.answer_callback_query(
             update.callback_query.id,
             text=statements['callback_answers']['next'])
@@ -726,11 +737,10 @@ def navigation_next(update, context):
             message_id=update.callback_query.message.message_id,
             media=InputMediaPhoto(
                 media=next_item.photo if not next_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(next_item),
+                caption=build_item_caption(next_item,[context.user_data['last_count']+1,context.user_data['items_count']]),
                 parse_mode="Markdown"),
             reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.NavigationChat)
 
-        context.user_data['last_count'] += 1
 
 def navigation_delete(update, context):
     context.bot.edit_message_reply_markup(
@@ -754,7 +764,7 @@ def navigation_yes(update, context):
         text=f"{item.title}  🚮",
         cache_time=5)
 
-    if len(context.user_data['last_items']) == 0:
+    if context.user_data['items_count'] == 0:
         context.user_data['last_items'] = None
         context.user_data['last_count'] = None
         context.bot.delete_message(
@@ -765,8 +775,8 @@ def navigation_yes(update, context):
             text=statements['sell_deleted_last_item'],
             parse_mode="Markdown")
     else:
-        last_count = context.user_data['last_count']
-        prev_item  = context.user_data['last_items'][last_count-1]
+        context.user_data['last_count'] -= 1
+        prev_item  = context.user_data['last_items'][context.user_data['last_count']]
     
         context.bot.edit_message_media(
             chat_id=update.callback_query.message.chat_id,
@@ -775,15 +785,14 @@ def navigation_yes(update, context):
                 media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
                 caption=build_item_caption(prev_item),
                 parse_mode="Markdown"),
-            reply_markup=Keyboards.NavigationDelete if len(context.user_data['last_items']) > 1 else Keyboards.OnlyDelete)
+            reply_markup=Keyboards.NavigationDelete if context.user_data['items_count'] > 1 else Keyboards.OnlyDelete)
 
-        context.user_data['last_count'] -= 1
 
 def navigation_no(update, context):
     context.bot.edit_message_reply_markup(
         chat_id=update.callback_query.message.chat_id,
         message_id=update.callback_query.message.message_id,
-        reply_markup=Keyboards.NavigationDelete if len(context.user_data['last_items']) > 1 else Keyboards.OnlyDelete
+        reply_markup=Keyboards.NavigationDelete if context.user_data['items_count'] > 1 else Keyboards.OnlyDelete
     )
     context.bot.answer_callback_query(
         update.callback_query.id,

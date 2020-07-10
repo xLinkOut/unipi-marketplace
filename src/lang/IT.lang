@@ -63,6 +63,7 @@
     "no_next_items":"🚫 Non ci sono annunci successivi.",
     
     "caption": {
+        "page": "#️⃣ Pagina",
         "title":"📌 Titolo",
         "price":"💵 Prezzo",
         "course":"🎓 Facoltà",
