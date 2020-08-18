@@ -13,6 +13,7 @@ from random import choice
 from functools import wraps
 from datetime import datetime
 from dotenv import load_dotenv
+from Database import session, User, Item
 from os.path import isfile as file_exists
 
 # SQLAlchemy
@@ -795,40 +796,6 @@ if __name__ == "__main__":
     if not API_TOKEN: exit("Invalid token!")
     if not DB_FILE: DB_FILE = "Database.db"
     
-    # DATABASE
-    engine = create_engine(f"sqlite:///{DB_FILE}")
-    Base = declarative_base()
-
-    class User(Base):
-        __tablename__ = "Users"
-        
-        chat_id    = Column(Integer, primary_key=True)
-        username   = Column(String)
-        first_name = Column(String)
-
-        def __repr__(self):
-            return "<User(chat_id='%s', username='%s', first_name='%s')>" % \
-                    (self.chat_id, self.username, self.first_name)
-
-    class Item(Base):
-        __tablename__ = "Items"
-
-        item_id   = Column(Integer, primary_key=True)
-        chat_id   = Column(Integer)
-        title     = Column(String)
-        photo     = Column(String(128), default='0')
-        price     = Column(String(8))
-        course    = Column(String(128))
-        timestamp = Column(Integer)
-        visible   = Column(Boolean, default=True)
-
-        def __repr__(self):
-            return "<Item(item_id='%s', chat_id='%s',title='%s',photo='%s',price='%s',course='%s',visible='%s')" % \
-                (self.item_id, self.chat_id, self.title, self.photo, self.price, self.course, self.visible)
-
-    if not file_exists(DB_FILE): Base.metadata.create_all(engine)
-    session = sessionmaker(bind=engine)()
-
     # UPDATER, DISPATCHER, LOGGING AND LANGUAGE
     updater = Updater(token=API_TOKEN, use_context=True)
     dispatcher = updater.dispatcher
