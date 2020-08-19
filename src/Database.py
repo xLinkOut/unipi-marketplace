@@ -49,3 +49,12 @@ class Item(Base):
 
 if not file_exists(DB_FILE): Base.metadata.create_all(engine)
 session = sessionmaker(bind=engine)()
+
+def count_my_items(chat_id):
+    return len(get_my_items(chat_id))
+
+def get_my_items(chat_id):
+    return session.query(Item).filter_by(chat_id=chat_id).order_by(desc(Item.timestamp)).all()
+
+def get_item_by_id(item_id):
+    return session.query(Item).filter_by(item_id=item_id).first()
