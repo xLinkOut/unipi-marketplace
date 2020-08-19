@@ -4,6 +4,7 @@ import json
 import logging
 import Keyboards
 import Sell
+import Buy
 
 from sys import exit
 from os import getenv
@@ -79,213 +80,6 @@ def start(update, context):
             reply_markup=Keyboards.Start,
             parse_mode="Markdown")
 
-# BUY
-def buy(update, context):
-    context.user_data['section'] = "buy"
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['buy'],
-        reply_markup=Keyboards.Buy,
-        parse_mode="Markdown")
-
-def buy_search_by_name(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['buy_search_by_name'],
-        reply_markup=Keyboards.Undo,
-        parse_mode="Markdown")
-    return "DONE"
-
-def buy_search_by_name_done(update, context):
-    if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_undo'],
-            reply_markup=Keyboards.Buy,
-            parse_mode="markdown")
-        return ConversationHandler.END
-
-    if len(update.message.text) < 4:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_more_char'],
-            parse_mode="Markdown")
-        return "DONE"
-
-    items = get_items_by_name(update.message.chat_id, update.message.text)
-
-    if items:
-        #context.user_data['last_query'] = update.message.text
-        context.user_data['last_items'] = items
-        context.user_data['items_count'] = len(items)
-        context.user_data['last_count'] = 0
-
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_done'].replace('$$',str(context.user_data['items_count'])),
-            reply_markup=Keyboards.Buy,
-            parse_mode="Markdown")
-        context.bot.send_photo(
-            chat_id=update.message.chat_id,
-            photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
-            caption=build_item_caption(items[0], [1,context.user_data['items_count']] if context.user_data['items_count'] > 1 else []),
-            reply_markup=Keyboards.NavigationChat if context.user_data['items_count'] > 1 else Keyboards.OnlyChat,
-            parse_mode="Markdown")
-    else:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_no_result'],
-            reply_markup=Keyboards.Buy,
-            parse_mode="Markdown")
-        #return "DONE"
-
-    return ConversationHandler.END
-
-def buy_search_by_name_undo(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['buy_search_by_name_undo'],
-        reply_markup=Keyboards.Buy,
-        parse_mode="Markdown")
-
-def buy_search_by_course(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['buy_search_by_course'],
-        reply_markup=Keyboards.Cycle,
-        parse_mode="Markdown")
-    return "CYCLE"
-
-def buy_search_by_course_cycle(update, context):
-    if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_undo'],
-            reply_markup=Keyboards.Buy,
-            parse_mode="markdown")
-        return ConversationHandler.END
-
-    if update.message.text == statements['keyboards']['first_cycle'] \
-        or update.message.text == statements['keyboards']['long_cycle']:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_done'],
-            reply_markup=Keyboards.FirstCycle if update.message.text == statements['keyboards']['first_cycle'] else Keyboards.LongCycle,
-            parse_mode="markdown")
-        return "DONE"
-    else:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_wrong'],
-            reply_markup=Keyboards.Cycle,
-            parse_mode="markdown")
-        return "CYCLE"
-
-def buy_search_by_course_done(update, context):
-    if update.message.text == statements['keyboards']['abort']['abort']:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_undo'],
-            reply_markup=Keyboards.Buy,
-            parse_mode="markdown")
-        return ConversationHandler.END
-
-    if update.message.text == statements['keyboards']['first_cycle']:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_first'],
-            reply_markup=Keyboards.FirstCycle,
-            parse_mode="markdown")
-        return "DONE"
-    elif update.message.text == statements['keyboards']['long_cycle']:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_long'],
-            reply_markup=Keyboards.LongCycle,
-            parse_mode="markdown")
-        return "DONE"
-
-    if not update.message.text in statements['keyboards']['courses']['first_cycle'] \
-        and not update.message.text in statements['keyboards']['courses']['long_cycle']:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_invalid_course'],
-            reply_markup=Keyboards.Cycle,
-            parse_mode="markdown")
-        return "CYCLE"
-    
-    items = get_items_by_course(update.message.chat_id, update.message.text)
-
-    if items:
-        context.user_data['last_items'] = items
-        context.user_data['items_count'] = len(items)
-        context.user_data['last_count'] = 0
-
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_done'].replace('$$',str(context.user_data['items_count'])),
-            reply_markup=Keyboards.Buy,
-            parse_mode="Markdown")
-        context.bot.send_photo(
-            chat_id=update.message.chat_id,
-            photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
-            caption=build_item_caption(items[0], [1,context.user_data['items_count']] if context.user_data['items_count'] > 1 else []),
-            reply_markup=Keyboards.NavigationChat if context.user_data['items_count'] > 1 else Keyboards.OnlyChat,
-            parse_mode="Markdown")
-    else:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_no_result'],
-            reply_markup=Keyboards.Buy,
-            parse_mode="Markdown")
-        #return "DONE"
-
-    return ConversationHandler.END
-
-def buy_search_by_course_undo(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['buy_search_by_course_undo'],
-        reply_markup=Keyboards.Buy,
-        parse_mode="Markdown")
-
-def buy_last_added(update, context):
-    items = get_last_added(update.message.chat_id)
-    if items:
-        context.user_data['last_items'] = items
-        context.user_data['items_count'] = len(items)
-        context.user_data['last_count'] = 0
-
-        context.bot.send_photo(
-            chat_id=update.message.chat_id,
-            photo=items[0].photo if not items[0].photo == '0' else IMG_NOT_AVAILABLE,
-            caption=build_item_caption(items[0], [1,context.user_data['items_count']] if context.user_data['items_count'] > 1 else []),
-            reply_markup=Keyboards.NavigationChat if context.user_data['items_count'] > 1 else Keyboards.OnlyChat,
-            parse_mode="Markdown")
-    else:
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_last_added_no_result'],
-            reply_markup=Keyboards.Buy,
-            parse_mode="Markdown")
-
-def buy_chat(update, context):
-    seller_chat_id = context.user_data['last_items'][context.user_data['last_count']].chat_id
-    user = get_user_by_chat_id(seller_chat_id)
-    seller_username = f"@{user.username}" if user.username else f"[{user.first_name}](tg://user?id={seller_chat_id})"
-
-    context.bot.edit_message_caption(
-        chat_id=update.callback_query.message.chat_id,
-        message_id=update.callback_query.message.message_id,
-        caption=f"{update.callback_query.message.caption}\n👤 {seller_username}",
-        reply_markup=Keyboards.Navigation if len(context.user_data['last_items']) > 1 else None,
-        parse_mode="markdown"
-    )
-    context.bot.answer_callback_query(
-        update.callback_query.id,
-        text=statements['buy_username_chat'],
-        cache_time=5
-    )
 
 # INSTRUCTIONS
 def instructions(update, context):
@@ -410,20 +204,6 @@ def feedback_undo(update, context):
         parse_mode="Markdown")
 
 # UTILITY
-
-
-
-def get_items_by_name(chat_id, query):
-    return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.title.like(f"%{query}%")).all()
-
-def get_items_by_course(chat_id, course):
-    return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.course == course).order_by(desc(Item.timestamp)).all()
-
-def get_last_added(chat_id):
-    return session.query(Item).filter(Item.chat_id != chat_id).order_by(desc(Item.timestamp)).limit(3).all()
-
-def get_user_by_chat_id(chat_id):
-    return session.query(User).filter(User.chat_id == chat_id).first()
 
 def navigation_prev(update, context):
     if context.user_data['last_count'] == 0:
@@ -555,7 +335,7 @@ if __name__ == "__main__":
     feedback_answer_handler = CommandHandler
 
     sell_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['sell']}$"), Sell.sell)
-    buy_handler   = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['buy']}$"), buy)
+    buy_handler   = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['buy']}$"), Buy.buy)
     info_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['info']}$"), information)
     back_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['back']['back']}$"), back)
     instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), instructions)
@@ -576,25 +356,25 @@ if __name__ == "__main__":
     sell_my_items_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['my_items']}$"), Sell.sell_my_items)
     
     buy_search_by_name_handler = ConversationHandler(
-        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), buy_search_by_name)],
+        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), Buy.buy_search_by_name)],
         states = {
-            "DONE" : [MessageHandler(Filters.text, buy_search_by_name_done)]
+            "DONE" : [MessageHandler(Filters.text, Buy.buy_search_by_name_done)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"),buy_search_by_name_undo), CommandHandler('cancel',buy_search_by_name_undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"),Buy.buy_search_by_name_undo), CommandHandler('cancel',Buy.buy_search_by_name_undo)]
     )
     
     buy_search_by_course_handler = ConversationHandler(
-        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_course']}$"), buy_search_by_course)],
+        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_course']}$"), Buy.buy_search_by_course)],
         states = {
-            "CYCLE" : [MessageHandler(Filters.text, buy_search_by_course_cycle)],
-            "DONE" : [MessageHandler(Filters.text, buy_search_by_course_done)]
+            "CYCLE" : [MessageHandler(Filters.text, Buy.buy_search_by_course_cycle)],
+            "DONE" : [MessageHandler(Filters.text, Buy.buy_search_by_course_done)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), buy_search_by_course_undo), CommandHandler('cancel',buy_search_by_course_undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), Buy.buy_search_by_course_undo), CommandHandler('cancel',Buy.buy_search_by_course_undo)]
     )
 
-    buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), buy_last_added)
+    buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), Buy.buy_last_added)
 
-    buy_chat_handler = CallbackQueryHandler(buy_chat,pattern=r"^chat$")
+    buy_chat_handler = CallbackQueryHandler(Buy.buy_chat,pattern=r"^chat$")
 
     # Navigation    
     navigation_prev_handler = CallbackQueryHandler(navigation_prev,pattern=r"^prev$")

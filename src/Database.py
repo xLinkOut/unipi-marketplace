@@ -58,3 +58,15 @@ def get_my_items(chat_id):
 
 def get_item_by_id(item_id):
     return session.query(Item).filter_by(item_id=item_id).first()
+
+def get_items_by_name(chat_id, query):
+    return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.title.like(f"%{query}%")).all()
+
+def get_items_by_course(chat_id, course):
+    return session.query(Item).filter(Item.chat_id != chat_id).filter(Item.course == course).order_by(desc(Item.timestamp)).all()
+
+def get_last_added(chat_id):
+    return session.query(Item).filter(Item.chat_id != chat_id).order_by(desc(Item.timestamp)).limit(3).all()
+
+def get_user_by_chat_id(chat_id):
+    return session.query(User).filter(User.chat_id == chat_id).first()
