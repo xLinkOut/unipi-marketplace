@@ -13,6 +13,7 @@ cp .env.example .env
 # Fill .env file with your data as written below
 python Marketplace.py
 ```
+
 ### Config .env
 * **API_TOKEN**: token given to you by [@BotFather](https://t.me/botfather)
 * **DB_FILE**: name for the database file (empty for _Database.db_)
@@ -22,10 +23,12 @@ python Marketplace.py
 * **DEBUG**: set this to True to activate verbose mode, False otherwise
 
 ## Future
-- [x] Show page number in every section (my items, search...), like '3/7'
-- [x] Remove complex uuid key with an integer auto-increment
-- [ ] Think of a better feedback mechanism, based on 'reply to message'
-- [ ] Less monolithic, more modules
-- [ ] Translate statements to other languages
-- [ ] Add screenshots
-- [ ] ??
+- [ ] Move `feedback` stuffs into a separate module
+- [ ] Move `chat action` into a separate module
+- [ ] Move `env config` into a separate, global, module
+- [ ] `build_item_caption` is used by several modules, should be moved in a `Utility.py`
+- [ ] Clean functions name, deleting `buy_*`, `sell_*`...
+- [ ] Clean `import` sections for every file
+- [ ] Organize `statements` in relevant sections, and load in each module only those that are needed
+- [ ] Think of a better feedback mechanism, based on `reply to message`
+- [ ] Remove test functions (`add_test`, `set_section`)
