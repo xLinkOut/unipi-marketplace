@@ -5,6 +5,7 @@ import logging
 import Keyboards
 import Sell
 import Buy
+import Navigation
 
 from sys import exit
 from os import getenv
@@ -205,106 +206,6 @@ def feedback_undo(update, context):
 
 # UTILITY
 
-def navigation_prev(update, context):
-    if context.user_data['last_count'] == 0:
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['no_prev_items'],cache_time=5)
-    else:
-        context.user_data['last_count'] -= 1
-        prev_item  = context.user_data['last_items'][context.user_data['last_count']]
-
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['callback_answers']['previous'])
-        context.bot.edit_message_media(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id,
-            media=InputMediaPhoto(
-                media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(prev_item,[context.user_data['last_count']+1, context.user_data['items_count']]),
-                parse_mode="Markdown"),
-            reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.NavigationChat)
-
-def navigation_next(update, context):
-    if context.user_data['last_count'] == context.user_data['items_count']-1:
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['no_next_items'],cache_time=5)
-    else:
-        context.user_data['last_count'] += 1
-        next_item = context.user_data['last_items'][context.user_data['last_count']]
-
-        context.bot.answer_callback_query(
-            update.callback_query.id,
-            text=statements['callback_answers']['next'])
-        context.bot.edit_message_media(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id,
-            media=InputMediaPhoto(
-                media=next_item.photo if not next_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(next_item,[context.user_data['last_count']+1,context.user_data['items_count']]),
-                parse_mode="Markdown"),
-            reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.NavigationChat)
-
-
-def navigation_delete(update, context):
-    context.bot.edit_message_reply_markup(
-        chat_id=update.callback_query.message.chat_id,
-        message_id=update.callback_query.message.message_id,
-        reply_markup=Keyboards.Confirm
-    )
-    context.bot.answer_callback_query(
-        update.callback_query.id,
-        text=statements['callback_answers']['are_you_sure'],
-        cache_time=0)
-
-def navigation_yes(update, context):
-    # BUG: last_count index error when deleting last item of my items menu
-    item = context.user_data['last_items'][context.user_data['last_count']]
-    db_item = get_item_by_id(item.item_id)
-    session.delete(item)
-    session.commit()
-    context.user_data['last_items'].remove(item)
-    context.bot.answer_callback_query(
-        update.callback_query.id,
-        text=f"{item.title}  🚮",
-        cache_time=5)
-
-    if context.user_data['items_count'] == 0:
-        context.user_data['last_items'] = None
-        context.user_data['last_count'] = None
-        context.bot.delete_message(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id)
-        context.bot.send_message(
-            chat_id=update.callback_query.message.chat_id,
-            text=statements['sell_deleted_last_item'],
-            parse_mode="Markdown")
-    else:
-        context.user_data['last_count'] -= 1
-        prev_item  = context.user_data['last_items'][context.user_data['last_count']]
-    
-        context.bot.edit_message_media(
-            chat_id=update.callback_query.message.chat_id,
-            message_id=update.callback_query.message.message_id,
-            media=InputMediaPhoto(
-                media=prev_item.photo if not prev_item.photo == '0' else IMG_NOT_AVAILABLE,
-                caption=build_item_caption(prev_item),
-                parse_mode="Markdown"),
-            reply_markup=Keyboards.NavigationDelete if context.user_data['items_count'] > 1 else Keyboards.OnlyDelete)
-
-
-def navigation_no(update, context):
-    context.bot.edit_message_reply_markup(
-        chat_id=update.callback_query.message.chat_id,
-        message_id=update.callback_query.message.message_id,
-        reply_markup=Keyboards.NavigationDelete if context.user_data['items_count'] > 1 else Keyboards.OnlyDelete
-    )
-    context.bot.answer_callback_query(
-        update.callback_query.id,
-        text=statements['callback_answers']['as_you_want'],
-        cache_time=0)
 
 if __name__ == "__main__":
 
@@ -377,11 +278,11 @@ if __name__ == "__main__":
     buy_chat_handler = CallbackQueryHandler(Buy.buy_chat,pattern=r"^chat$")
 
     # Navigation    
-    navigation_prev_handler = CallbackQueryHandler(navigation_prev,pattern=r"^prev$")
-    navigation_next_handler = CallbackQueryHandler(navigation_next,pattern=r"^next$")
-    navigation_delete_handler = CallbackQueryHandler(navigation_delete,pattern=r"^delete$")
-    navigation_yes_handler = CallbackQueryHandler(navigation_yes,pattern=r"yes")
-    navigation_no_handler  = CallbackQueryHandler(navigation_no,pattern=r"no")
+    navigation_prev_handler = CallbackQueryHandler(Navigation.navigation_prev,pattern=r"^prev$")
+    navigation_next_handler = CallbackQueryHandler(Navigation.navigation_next,pattern=r"^next$")
+    navigation_delete_handler = CallbackQueryHandler(Navigation.navigation_delete,pattern=r"^delete$")
+    navigation_yes_handler = CallbackQueryHandler(Navigation.navigation_yes,pattern=r"yes")
+    navigation_no_handler  = CallbackQueryHandler(Navigation.navigation_no,pattern=r"no")
 
     def add_test(update, context):
         try:            
