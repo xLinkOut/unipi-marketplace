@@ -3,14 +3,9 @@
 import Database
 import Keyboards
 import json
-from os import getenv
-from dotenv import load_dotenv
+from Settings import *
 from telegram.ext import ConversationHandler
 from datetime import datetime
-
-load_dotenv()
-LANG_FILE = getenv("LANG_FILE") # [IT, EN, ES, DE]
-IMG_NOT_AVAILABLE = getenv("IMG_NOT_AVAILABLE")
 
 with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
     statements = json.load(lang_f)

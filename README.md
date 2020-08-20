@@ -25,7 +25,7 @@ python Marketplace.py
 ## Future
 - [x] Move `feedback` stuffs into a separate module
 - [ ] Move `chat action` into a separate module
-- [ ] Move `env config` into a separate, global, module
+- [x] Move `env config` into a separate, global, module
 - [ ] `build_item_caption` is used by several modules, should be moved in a `Utility.py`
 - [ ] Clean functions name, deleting `buy_*`, `sell_*`...
 - [ ] Clean `import` sections for every file

@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from os import getenv
-from dotenv import load_dotenv
 from os.path import isfile as file_exists
 
 # SQLAlchemy
@@ -10,11 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, Float, String, Boolean, text
-
-# Load environment
-load_dotenv()
-DB_FILE = getenv("DB_FILE")
-if not DB_FILE: DB_FILE = "Database.db"
+from Settings import *
 
 # DATABASE
 engine = create_engine(f"sqlite:///{DB_FILE}")

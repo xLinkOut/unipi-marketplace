@@ -7,6 +7,7 @@ import Sell
 import Buy
 import Navigation
 import Feedback
+from Settings import *
 
 from sys import exit
 from os import getenv
@@ -34,16 +35,6 @@ from telegram.ext import Updater
 from telegram import InputMediaPhoto
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, CallbackQueryHandler
-
-# Load environment
-load_dotenv()
-
-API_TOKEN = getenv("API_TOKEN")
-DB_FILE = getenv("DB_FILE")
-LANG_FILE = getenv("LANG_FILE") # [IT, EN, ES, DE]
-IMG_NOT_AVAILABLE = getenv("IMG_NOT_AVAILABLE")
-ADMIN_CHAT_ID = int(getenv("ADMIN_CHAT_ID"))
-DEBUG = True if getenv("DEBUG") == "True" else False
 
 # CHAT ACTION
 def typing_action(func):
@@ -116,16 +107,9 @@ def back(update, context):
             reply_markup=Keyboards.Start,
             parse_mode="Markdown")
 
-
-# UTILITY
-
-
+            
 if __name__ == "__main__":
 
-    # INIT
-    if not API_TOKEN: exit("Invalid token!")
-    if not DB_FILE: DB_FILE = "Database.db"
-    
     # UPDATER, DISPATCHER, LOGGING AND LANGUAGE
     updater = Updater(token=API_TOKEN, use_context=True)
     dispatcher = updater.dispatcher

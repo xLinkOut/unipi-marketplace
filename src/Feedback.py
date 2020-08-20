@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from os import getenv
-from dotenv import load_dotenv
 from telegram.ext import ConversationHandler
 import json
 import Database
-
-load_dotenv()
-LANG_FILE = getenv("LANG_FILE") # [IT, EN, ES, DE]
-ADMIN_CHAT_ID = int(getenv("ADMIN_CHAT_ID"))
+from Settings import *
 
 with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
     statements = json.load(lang_f)
