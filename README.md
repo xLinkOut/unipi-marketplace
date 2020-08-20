@@ -23,7 +23,7 @@ python Marketplace.py
 * **DEBUG**: set this to True to activate verbose mode, False otherwise
 
 ## Future
-- [ ] Move `feedback` stuffs into a separate module
+- [x] Move `feedback` stuffs into a separate module
 - [ ] Move `chat action` into a separate module
 - [ ] Move `env config` into a separate, global, module
 - [ ] `build_item_caption` is used by several modules, should be moved in a `Utility.py`
