@@ -6,6 +6,7 @@ import json
 from Settings import *
 from telegram.ext import ConversationHandler
 from datetime import datetime
+from Misc import build_item_caption
 
 with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
     statements = json.load(lang_f)
@@ -217,15 +218,3 @@ def buy_chat(update, context):
         text=statements['buy_username_chat'],
         cache_time=5
     )
-
-def build_item_caption(item,page=[]):
-    fromts = datetime.fromtimestamp(item.timestamp)
-    date = "{0}/{1}/{2}".format('%02d' % fromts.day, '%02d' % fromts.month, fromts.year)
-    caption = f"*{statements['caption']['title']}:* {item.title}\n" \
-            f"*{statements['caption']['price']}:* {item.price}€\n" \
-            f"*{statements['caption']['course']}:* {item.course}\n" \
-            f"*{statements['caption']['posted']}:* {date}"
-    if page:
-        return f"*{statements['caption']['page']}:* {page[0]}/{page[1]}\n{caption}"
-    else: 
-        return caption
