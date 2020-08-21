@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import json
 import logging
 import Keyboards
 import Sell
@@ -45,8 +44,6 @@ if __name__ == "__main__":
         level=logging.DEBUG if DEBUG else logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-    with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
-        statements = json.load(lang_f)
 
     # HANDLERS
     start_handler = CommandHandler('start', Menu.start)

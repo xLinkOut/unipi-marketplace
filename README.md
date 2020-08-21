@@ -31,7 +31,7 @@ python Marketplace.py
 - [x] Clean functions name, deleting `buy_*`, `sell_*`...
 - [ ] Clean `import` sections for every file
 - [x] Organize `statements` in relevant sections
-- [ ] ^ and load in each module only those that are needed
+- [x] ^ and load in each module only those that are needed
 - [ ] Think of a better feedback mechanism, based on `reply to message`
 - [ ] Remove test functions (`add_test`, `set_section`)
 - [ ] Redundant keyboards statements

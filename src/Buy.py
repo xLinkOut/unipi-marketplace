@@ -2,14 +2,10 @@
 
 import Database
 import Keyboards
-import json
 from Settings import *
 from telegram.ext import ConversationHandler
 from datetime import datetime
 from Misc import build_item_caption
-
-with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
-    statements = json.load(lang_f)
 
 # BUY
 def buy(update, context):

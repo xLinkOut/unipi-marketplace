@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+
 import Database
 import Keyboards
-import json
 from Settings import *
 from re import search
 from time import time
@@ -9,9 +9,6 @@ from datetime import datetime
 from Misc import typing_action
 from telegram.ext import ConversationHandler
 from Misc import build_item_caption
-
-with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
-    statements = json.load(lang_f)
 
 # SELL
 def sell(update, context):

@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
+
 from functools import wraps
 from telegram import ChatAction
-from Settings import LANG_FILE
-import json
+from Settings import *
 from datetime import datetime
-
-with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
-    statements = json.load(lang_f)
 
 # CHAT ACTION
 def typing_action(func):
@@ -22,9 +19,6 @@ def photo_action(func):
         context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.UPLOAD_PHOTO)
         return func(update, context,  *args, **kwargs)
     return command_func
-
-with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
-    statements = json.load(lang_f)
 
 # BUILD ITEM CAPTION
 def build_item_caption(item,page=[]):

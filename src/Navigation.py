@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import Keyboards
-import json
 import Database
 from Settings import *
 from telegram import InputMediaPhoto
 from datetime import datetime
 from Misc import build_item_caption
-
-with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
-    statements = json.load(lang_f)
 
 def prev(update, context):
     if context.user_data['last_count'] == 0:

@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from telegram.ext import ConversationHandler
-import json
 import Database
 from Settings import *
 
-with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
-    statements = json.load(lang_f)
 
 # FEEDBACK
 def feedback(update, context):

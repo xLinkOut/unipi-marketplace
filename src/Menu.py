@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
+
 import Database
 import Keyboards
-import json
 from Settings import *
-
-with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
-    statements = json.load(lang_f)
 
 # START
 def start(update, context):
