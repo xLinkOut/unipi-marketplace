@@ -139,25 +139,25 @@ if __name__ == "__main__":
     sell_my_items_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['my_items']}$"), Sell.my_items)
     
     buy_search_by_name_handler = ConversationHandler(
-        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), Buy.buy_search_by_name)],
+        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), Buy.search_by_name)],
         states = {
-            "DONE" : [MessageHandler(Filters.text, Buy.buy_search_by_name_done)]
+            "DONE" : [MessageHandler(Filters.text, Buy.search_by_name_done)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"),Buy.buy_search_by_name_undo), CommandHandler('cancel',Buy.buy_search_by_name_undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"),Buy.search_by_name_undo), CommandHandler('cancel',Buy.search_by_name_undo)]
     )
     
     buy_search_by_course_handler = ConversationHandler(
-        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_course']}$"), Buy.buy_search_by_course)],
+        entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_course']}$"), Buy.search_by_course)],
         states = {
-            "CYCLE" : [MessageHandler(Filters.text, Buy.buy_search_by_course_cycle)],
-            "DONE" : [MessageHandler(Filters.text, Buy.buy_search_by_course_done)]
+            "CYCLE" : [MessageHandler(Filters.text, Buy.search_by_course_cycle)],
+            "DONE" : [MessageHandler(Filters.text, Buy.search_by_course_done)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), Buy.buy_search_by_course_undo), CommandHandler('cancel',Buy.buy_search_by_course_undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), Buy.search_by_course_undo), CommandHandler('cancel',Buy.search_by_course_undo)]
     )
 
-    buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), Buy.buy_last_added)
+    buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), Buy.last_added)
 
-    buy_chat_handler = CallbackQueryHandler(Buy.buy_chat,pattern=r"^chat$")
+    buy_chat_handler = CallbackQueryHandler(Buy.chat,pattern=r"^chat$")
 
     # Navigation    
     navigation_prev_handler = CallbackQueryHandler(Navigation.navigation_prev,pattern=r"^prev$")

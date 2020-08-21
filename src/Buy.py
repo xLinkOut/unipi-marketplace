@@ -20,7 +20,7 @@ def buy(update, context):
         reply_markup=Keyboards.Buy,
         parse_mode="Markdown")
 
-def buy_search_by_name(update, context):
+def search_by_name(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements['buy_search_by_name'],
@@ -28,7 +28,7 @@ def buy_search_by_name(update, context):
         parse_mode="Markdown")
     return "DONE"
 
-def buy_search_by_name_done(update, context):
+def search_by_name_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -73,14 +73,14 @@ def buy_search_by_name_done(update, context):
 
     return ConversationHandler.END
 
-def buy_search_by_name_undo(update, context):
+def search_by_name_undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements['buy_search_by_name_undo'],
         reply_markup=Keyboards.Buy,
         parse_mode="Markdown")
 
-def buy_search_by_course(update, context):
+def search_by_course(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements['buy_search_by_course'],
@@ -88,7 +88,7 @@ def buy_search_by_course(update, context):
         parse_mode="Markdown")
     return "CYCLE"
 
-def buy_search_by_course_cycle(update, context):
+def search_by_course_cycle(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -113,7 +113,7 @@ def buy_search_by_course_cycle(update, context):
             parse_mode="markdown")
         return "CYCLE"
 
-def buy_search_by_course_done(update, context):
+def search_by_course_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -174,14 +174,14 @@ def buy_search_by_course_done(update, context):
 
     return ConversationHandler.END
 
-def buy_search_by_course_undo(update, context):
+def search_by_course_undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements['buy_search_by_course_undo'],
         reply_markup=Keyboards.Buy,
         parse_mode="Markdown")
 
-def buy_last_added(update, context):
+def last_added(update, context):
     items = Database.get_last_added(update.message.chat_id)
     if items:
         context.user_data['last_items'] = items
@@ -201,7 +201,7 @@ def buy_last_added(update, context):
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
 
-def buy_chat(update, context):
+def chat(update, context):
     seller_chat_id = context.user_data['last_items'][context.user_data['last_count']].chat_id
     user = Database.get_user_by_chat_id(seller_chat_id)
     seller_username = f"@{user.username}" if user.username else f"[{user.first_name}](tg://user?id={seller_chat_id})"
