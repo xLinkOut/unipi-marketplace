@@ -30,7 +30,8 @@ python Marketplace.py
 - [x] `build_item_caption` is used by several modules, should be moved in a ~~`Utility.py`~~ `Misc.py`
 - [x] Clean functions name, deleting `buy_*`, `sell_*`...
 - [ ] Clean `import` sections for every file
-- [ ] Organize `statements` in relevant sections
+- [x] Organize `statements` in relevant sections
 - [ ] ^ and load in each module only those that are needed
 - [ ] Think of a better feedback mechanism, based on `reply to message`
 - [ ] Remove test functions (`add_test`, `set_section`)
+- [ ] Redundant keyboards statements
