@@ -11,7 +11,7 @@ from Misc import build_item_caption
 with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
     statements = json.load(lang_f)
 
-def navigation_prev(update, context):
+def prev(update, context):
     if context.user_data['last_count'] == 0:
         context.bot.answer_callback_query(
             update.callback_query.id,
@@ -32,7 +32,7 @@ def navigation_prev(update, context):
                 parse_mode="Markdown"),
             reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.NavigationChat)
 
-def navigation_next(update, context):
+def next(update, context):
     if context.user_data['last_count'] == context.user_data['items_count']-1:
         context.bot.answer_callback_query(
             update.callback_query.id,
@@ -54,7 +54,7 @@ def navigation_next(update, context):
             reply_markup=Keyboards.NavigationDelete if context.user_data['section'] == "sell" else Keyboards.NavigationChat)
 
 
-def navigation_delete(update, context):
+def delete(update, context):
     context.bot.edit_message_reply_markup(
         chat_id=update.callback_query.message.chat_id,
         message_id=update.callback_query.message.message_id,
@@ -65,7 +65,7 @@ def navigation_delete(update, context):
         text=statements['callback_answers']['are_you_sure'],
         cache_time=0)
 
-def navigation_yes(update, context):
+def yes(update, context):
     # BUG: last_count index error when deleting last item of my items menu
     item = context.user_data['last_items'][context.user_data['last_count']]
     db_item = Database.get_item_by_id(item.item_id)
@@ -101,7 +101,7 @@ def navigation_yes(update, context):
             reply_markup=Keyboards.NavigationDelete if context.user_data['items_count'] > 1 else Keyboards.OnlyDelete)
 
 
-def navigation_no(update, context):
+def no(update, context):
     context.bot.edit_message_reply_markup(
         chat_id=update.callback_query.message.chat_id,
         message_id=update.callback_query.message.message_id,

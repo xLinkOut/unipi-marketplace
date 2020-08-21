@@ -160,11 +160,11 @@ if __name__ == "__main__":
     buy_chat_handler = CallbackQueryHandler(Buy.chat,pattern=r"^chat$")
 
     # Navigation    
-    navigation_prev_handler = CallbackQueryHandler(Navigation.navigation_prev,pattern=r"^prev$")
-    navigation_next_handler = CallbackQueryHandler(Navigation.navigation_next,pattern=r"^next$")
-    navigation_delete_handler = CallbackQueryHandler(Navigation.navigation_delete,pattern=r"^delete$")
-    navigation_yes_handler = CallbackQueryHandler(Navigation.navigation_yes,pattern=r"yes")
-    navigation_no_handler  = CallbackQueryHandler(Navigation.navigation_no,pattern=r"no")
+    navigation_prev_handler = CallbackQueryHandler(Navigation.prev,pattern=r"^prev$")
+    navigation_next_handler = CallbackQueryHandler(Navigation.next,pattern=r"^next$")
+    navigation_delete_handler = CallbackQueryHandler(Navigation.delete,pattern=r"^delete$")
+    navigation_yes_handler = CallbackQueryHandler(Navigation.yes,pattern=r"yes")
+    navigation_no_handler  = CallbackQueryHandler(Navigation.no,pattern=r"no")
 
     def add_test(update, context):
         try:            
