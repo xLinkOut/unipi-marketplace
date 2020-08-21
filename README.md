@@ -29,9 +29,10 @@ python Marketplace.py
 - [x] Move `start`, `back` ... functions into a menu module
 - [x] `build_item_caption` is used by several modules, should be moved in a ~~`Utility.py`~~ `Misc.py`
 - [x] Clean functions name, deleting `buy_*`, `sell_*`...
-- [ ] Clean `import` sections for every file
+- [x] Clean `import` sections for every file
 - [x] Organize `statements` in relevant sections
 - [x] ^ and load in each module only those that are needed
 - [ ] Think of a better feedback mechanism, based on `reply to message`
 - [ ] Remove test functions (`add_test`, `set_section`)
 - [ ] Redundant keyboards statements
+- [ ] Use f-string to represent DB results

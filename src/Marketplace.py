@@ -1,39 +1,25 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import Keyboards
-import Sell
+
+# Modules
 import Buy
-import Navigation
-import Feedback
 import Menu
-from Settings import *
+import Sell
+import Feedback
+import Keyboards
+import Navigation
 
-from sys import exit
-from os import getenv
-from re import search
-from time import time
-from time import sleep
-from random import choice
-from datetime import datetime
-from dotenv import load_dotenv
+# Test
+from time import time, sleep
 from Database import session, User, Item
-from os.path import isfile as file_exists
-
-# SQLAlchemy
-from sqlalchemy import desc, asc
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, Float, String, Boolean, text
 
 # Telegram Bot
 from telegram.ext import Filters
 from telegram.ext import Updater
-from telegram import InputMediaPhoto
-from telegram import ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, CallbackQueryHandler
 
+from Settings import *
         
 if __name__ == "__main__":
 
@@ -43,7 +29,6 @@ if __name__ == "__main__":
     logging.basicConfig(
         level=logging.DEBUG if DEBUG else logging.INFO,
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-
 
     # HANDLERS
     start_handler = CommandHandler('start', Menu.start)

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from telegram.ext import ConversationHandler
-import Database
 from Settings import *
-
+from random import choice
+from telegram.ext import ConversationHandler
 
 # FEEDBACK
 def feedback(update, context):

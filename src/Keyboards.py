@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from Settings import *
 from telegram import ReplyKeyboardMarkup
 from telegram import InlineKeyboardMarkup
 from telegram import InlineKeyboardButton
-from Settings import *
 
 # START
 Start = ReplyKeyboardMarkup([

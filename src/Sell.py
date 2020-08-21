@@ -2,13 +2,12 @@
 
 import Database
 import Keyboards
-from Settings import *
+
 from re import search
 from time import time
-from datetime import datetime
-from Misc import typing_action
+from Settings import *
 from telegram.ext import ConversationHandler
-from Misc import build_item_caption
+from Misc import typing_action, build_item_caption
 
 # SELL
 def sell(update, context):

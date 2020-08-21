@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from functools import wraps
-from telegram import ChatAction
 from Settings import *
+from functools import wraps
 from datetime import datetime
+from telegram import ChatAction
 
 # CHAT ACTION
 def typing_action(func):

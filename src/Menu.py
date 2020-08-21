@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import Database
 import Keyboards
+
 from Settings import *
+from Database import session, User, Item
 
 # START
 def start(update, context):
-    if Database.session.query(Database.User).filter_by(chat_id=update.message.chat_id).first():
+    if session.query(User).filter_by(chat_id=update.message.chat_id).first():
         # User already exists
         context.bot.send_message(
             chat_id=update.message.chat_id, 
@@ -15,11 +16,11 @@ def start(update, context):
             parse_mode="Markdown")
     else:
         # User not exists yet
-        Database.session.add(Database.User(
+        session.add(User(
             chat_id = update.message.chat_id,
             username = update.message.chat.username,
             first_name = update.message.chat.first_name))
-        Database.session.commit()
+        session.commit()
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['menu']['welcome'].replace("$$",update.message.chat.first_name),

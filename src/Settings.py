@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from os import getenv
-from json import load as json_load
 from dotenv import load_dotenv
+from json import load as json_load
 
 # Load environment
 load_dotenv()

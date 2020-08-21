@@ -2,10 +2,10 @@
 
 import Database
 import Keyboards
+
 from Settings import *
-from telegram.ext import ConversationHandler
-from datetime import datetime
 from Misc import build_item_caption
+from telegram.ext import ConversationHandler
 
 # BUY
 def buy(update, context):

@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from Settings import *
 from os.path import isfile as file_exists
-
 # SQLAlchemy
-from sqlalchemy import desc, asc
+from sqlalchemy import desc
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, Float, String, Boolean, text
-from Settings import *
 
 # DATABASE
 engine = create_engine(f"sqlite:///{DB_FILE}")

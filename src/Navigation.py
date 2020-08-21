@@ -2,10 +2,10 @@
 
 import Keyboards
 import Database
+
 from Settings import *
-from telegram import InputMediaPhoto
-from datetime import datetime
 from Misc import build_item_caption
+from telegram import InputMediaPhoto
 
 def prev(update, context):
     if context.user_data['last_count'] == 0:
