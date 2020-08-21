@@ -16,7 +16,7 @@ def buy(update, context):
     context.user_data['section'] = "buy"
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['buy'],
+        text=statements['menu']['buy'],
         reply_markup=Keyboards.Buy,
         parse_mode="Markdown")
 

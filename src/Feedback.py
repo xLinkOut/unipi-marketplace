@@ -16,26 +16,26 @@ def feedback(update, context):
         if not user_chatid:
             context.bot.send_message(
                 chat_id=ADMIN_CHAT_ID,
-                text=statements['feedback_wrong_id'],
+                text=statements['feedback']['wrong_id'],
                 parse_mode='markdown')
             return ConversationHandler.END
         elif not Database.get_user_by_chat_id(user_chatid):
             context.bot.send_message(
                 chat_id=ADMIN_CHAT_ID,
-                text=statements['feedback_missing_user'],
+                text=statements['feedback']['missing_user'],
                 parse_mode='markdown')
             return ConversationHandler.END
         else:
             context.bot.send_message(
                 chat_id=ADMIN_CHAT_ID,
-                text=statements['feedback_send_response'],
+                text=statements['feedback']['send_response'],
                 parse_mode='markdown')
             context.user_data['feedback_id'] = int(user_chatid)
             return "ANSWER"
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['feedback'],
+            text=statements['feedback']['feedback'],
             reply_markup=Keyboards.Undo,
             parse_mode="Markdown")
         return "DONE"
@@ -52,7 +52,7 @@ def feedback_done(update, context):
     username = f"@{update.message.chat.username}" if update.message.chat.username else choice(["🤷‍♀️","🤷‍♂️"])
     context.bot.send_message(
         chat_id=ADMIN_CHAT_ID,
-        text=statements['feedback_received'] \
+        text=statements['feedback']['received'] \
             .replace('$$',str(update.message.chat_id),1) \
             .replace('$$',username, 1) \
             .replace('$$',update.message.chat.first_name, 1),
@@ -67,7 +67,7 @@ def feedback_done(update, context):
 
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['feedback_done'],
+        text=statements['feedback']['done'],
         reply_markup=Keyboards.Start,
         parse_mode="Markdown")
     return ConversationHandler.END
@@ -77,14 +77,14 @@ def feedback_answer(update, context):
     if int(update.message.chat_id) == ADMIN_CHAT_ID:
         context.bot.send_message(
             chat_id=context.user_data['feedback_id'],
-            text=statements['feedback_response']\
+            text=statements['feedback']['response']\
                 .replace('$$',Database.get_user_by_chat_id(context.user_data['feedback_id']).first_name,1)\
                 .replace('$$',update.message.text,1),
             parse_mode='markdown')
         
         context.bot.send_message(
             chat_id=ADMIN_CHAT_ID,
-            text=statements['feedback_response_sent'],
+            text=statements['feedback']['response_sent'],
             parse_mode='markdown')
 
         context.user_data['feedback_id'] = None
@@ -93,6 +93,6 @@ def feedback_answer(update, context):
 def feedback_undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['feedback_undo'],
+        text=statements['feedback']['undo'],
         reply_markup=Keyboards.Start,
         parse_mode="Markdown")

@@ -1,22 +1,24 @@
 {
-    
-    "welcome": "Ciao $$! 😊 Io sono un bot e ti aiuterò a vendere e a comprare libri universitari, dispense ed appunti direttamente da altri studenti.\nIl mio funzionamento è molto semplice: ci sono due grandi menu, 💰 *Vendi* e 💸 *Compra*. Dal primo puoi inserire un nuovo annuncio di vendita e controllare gli annunci che hai già pubblicato; dal menu Compra invece puoi cercare un libro, una dispensa o più genericamente degli appunti, sia per *nome* che per *facoltà*. Se hai trovato qualcosa che ti interessa, puoi metterti in contatto con l'altra persona senza lasciare il bot, così da poter completare l'acquisto.\n\nSe hai bisogno di aiuto, se hai riscontrato un problema di qualsiasi natura (tecnico, errori nei testi...) o vuoi suggerire una modifica, posso recapitare un messaggio al mio sviluppatore tramite il comando /feedback. Allo stesso modo, posso inoltrarti una sua eventuale risposta, in modo completamente anonimo, in quanto il tuo nome e le tue informazioni non vengono inviate insieme al messaggio.\n\nGrazie del supporto! ❤️",
-    "welcome_back": "Ciao $$! 😎",
-    "information":"Il mio funzionamento è molto semplice: ci sono due grandi menu, 💰 *Vendi* e 💸 *Compra*. Dal primo puoi inserire un nuovo annuncio di vendita e controllare gli annunci che hai già pubblicato; dal menu Compra invece puoi cercare un libro, una dispensa o più genericamente degli appunti, sia per *nome* che per *facoltà*. Se hai trovato qualcosa che ti interessa, puoi metterti in contatto con l'altra persona senza lasciare il bot, così da poter completare l'acquisto.\n\nSe hai bisogno di aiuto, se hai riscontrato un problema di qualsiasi natura (tecnico, errori nei testi...) o vuoi suggerire una modifica, posso recapitare un messaggio al mio sviluppatore tramite il comando /feedback. Allo stesso modo, posso inoltrarti una sua eventuale risposta.\n\nGrazie del supporto! ❤️",
+    "menu": {
+        "welcome": "Ciao $$! 😊 Io sono un bot e ti aiuterò a vendere e a comprare libri universitari, dispense ed appunti direttamente da altri studenti.\nIl mio funzionamento è molto semplice: ci sono due grandi menu, 💰 *Vendi* e 💸 *Compra*. Dal primo puoi inserire un nuovo annuncio di vendita e controllare gli annunci che hai già pubblicato; dal menu Compra invece puoi cercare un libro, una dispensa o più genericamente degli appunti, sia per *nome* che per *facoltà*. Se hai trovato qualcosa che ti interessa, puoi metterti in contatto con l'altra persona senza lasciare il bot, così da poter completare l'acquisto.\n\nSe hai bisogno di aiuto, se hai riscontrato un problema di qualsiasi natura (tecnico, errori nei testi...) o vuoi suggerire una modifica, posso recapitare un messaggio al mio sviluppatore tramite il comando /feedback. Allo stesso modo, posso inoltrarti una sua eventuale risposta, in modo completamente anonimo, in quanto il tuo nome e le tue informazioni non vengono inviate insieme al messaggio.\n\nGrazie del supporto! ❤️",
+        "welcome_back": "Ciao $$! 😎",
+        "information":"Il mio funzionamento è molto semplice: ci sono due grandi menu, 💰 *Vendi* e 💸 *Compra*. Dal primo puoi inserire un nuovo annuncio di vendita e controllare gli annunci che hai già pubblicato; dal menu Compra invece puoi cercare un libro, una dispensa o più genericamente degli appunti, sia per *nome* che per *facoltà*. Se hai trovato qualcosa che ti interessa, puoi metterti in contatto con l'altra persona senza lasciare il bot, così da poter completare l'acquisto.\n\nSe hai bisogno di aiuto, se hai riscontrato un problema di qualsiasi natura (tecnico, errori nei testi...) o vuoi suggerire una modifica, posso recapitare un messaggio al mio sviluppatore tramite il comando /feedback. Allo stesso modo, posso inoltrarti una sua eventuale risposta.\n\nGrazie del supporto! ❤️",
+        "main_menu":"🔴 Menu principale",
+        "sell": "💰 Vendi",
+        "buy": "💸 Compra"
+    },
 
-    "feedback":"Se hai riscontrato un problema o un malfunzionamento, o vuoi suggerire una modifica al bot, puoi inviare un feedback tramite questa funzione. Scrivi qui il tuo messaggio, sarà mio dovere inviarlo in maniera *anonima* al mio sviluppatore. Se sarà necessario risponderti, io farò da tramite.\n\nGrazie per il supporto! ❤️",
-    "feedback_done":"Perfetto! Grazie del feedback! ⭐️",
-    "feedback_undo":"Nessun problema, ti riporto al menu principale.\nSe dovessi cambiare idea, usa il comando /feedback",
-    "feedback_received":"🔔 Feedback ricevuto!\n\n*Chat ID:* $$\n*Username:* $$\n*First name:* $$\n\n*Messaggio:* ⬇️",
-    "feedback_wrong_id":"*Manca l'ID*, non posso inviare una risposta senza.",
-    "feedback_missing_user":"Questo utente non è nel nostro database, non posso recapitare il messaggio.",
-    "feedback_send_response":"Bene, scrivi qui la risposta...",
-    "feedback_response_sent":"Ottimo, *risposta inviata!* ✅",
-    "feedback_response":"Ciao *$$*! 😊 Il tuo feedback è stato esaminato ed hai ricevuto una risposta, eccola qui: ⬇️\n\n$$",
-
-    "main_menu":"🔴 Menu principale",
-    "sell": "💰 Vendi",
-    "buy": "💸 Compra",
+    "feedback": {
+        "feedback":"Se hai riscontrato un problema o un malfunzionamento, o vuoi suggerire una modifica al bot, puoi inviare un feedback tramite questa funzione. Scrivi qui il tuo messaggio, sarà mio dovere inviarlo in maniera *anonima* al mio sviluppatore. Se sarà necessario risponderti, io farò da tramite.\n\nGrazie per il supporto! ❤️",
+        "done":"Perfetto! Grazie del feedback! ⭐️",
+        "undo":"Nessun problema, ti riporto al menu principale.\nSe dovessi cambiare idea, usa il comando /feedback",
+        "received":"🔔 Feedback ricevuto!\n\n*Chat ID:* $$\n*Username:* $$\n*First name:* $$\n\n*Messaggio:* ⬇️",
+        "wrong_id":"*Manca l'ID*, non posso inviare una risposta senza.",
+        "missing_user":"Questo utente non è nel nostro database, non posso recapitare il messaggio.",
+        "send_response":"Bene, scrivi qui la risposta...",
+        "response_sent":"Ottimo, *risposta inviata!* ✅",
+        "response":"Ciao *$$*! 😊 Il tuo feedback è stato esaminato ed hai ricevuto una risposta, eccola qui: ⬇️\n\n$$"
+    },
 
     "sell_title":"Bene, pubblichiamo insieme un nuovo annuncio. 📚\nMandami il *titolo* e gli *autori* del libro, il *nome* della dispensa oppure un *nome* sufficientemente descrittivo per i tuoi appunti.\n\n_Puoi tornare al menu in qualsiasi momento premendo su Annulla ⬇️_",
     "sell_price":"💰 A che *prezzo* vuoi vendere il libro?\n\n_Puoi usare la tastiera con alcune scorciatoie oppure inserire manualmente il prezzo in uno dei seguenti formati: '10', '10€', '10,50', '12.63', '23,42€'_",

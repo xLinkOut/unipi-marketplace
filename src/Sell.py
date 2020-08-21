@@ -18,7 +18,7 @@ def sell(update, context):
     context.user_data['section'] = "sell"
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements["sell"],
+        text=statements['menu']["sell"],
         reply_markup=Keyboards.Sell,
         parse_mode="markdown")
 
