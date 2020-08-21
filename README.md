@@ -27,7 +27,7 @@ python Marketplace.py
 - [x] Move `chat action` into a separate module
 - [x] Move `env config` into a separate, global, module
 - [x] `build_item_caption` is used by several modules, should be moved in a ~~`Utility.py`~~ `Misc.py`
-- [ ] Clean functions name, deleting `buy_*`, `sell_*`...
+- [x] Clean functions name, deleting `buy_*`, `sell_*`...
 - [ ] Clean `import` sections for every file
 - [ ] Organize `statements` in relevant sections
 - [ ] ^ and load in each module only those that are needed
