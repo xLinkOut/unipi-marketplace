@@ -6,6 +6,8 @@ from Settings import *
 from re import search
 from time import time
 from datetime import datetime
+from Misc import typing_action
+from telegram.ext import ConversationHandler
 
 with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
     statements = json.load(lang_f)
@@ -143,7 +145,7 @@ def sell_cycle(update, context):
             parse_mode="markdown")
         return "CYCLE"   
 
-#@typing_action
+@typing_action
 def sell_course(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
@@ -232,7 +234,7 @@ def sell_undo(update, context):
     context.user_data['course'] = None
     return ConversationHandler.END
 
-#@typing_action
+@typing_action
 def sell_my_items(update, context):
     my_items = Database.get_my_items(update.message.chat_id)
     if not my_items:

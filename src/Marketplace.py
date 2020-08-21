@@ -15,7 +15,6 @@ from re import search
 from time import time
 from time import sleep
 from random import choice
-from functools import wraps
 from datetime import datetime
 from dotenv import load_dotenv
 from Database import session, User, Item
@@ -29,27 +28,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, Float, String, Boolean, text
 
 # Telegram Bot
-from telegram import ChatAction
 from telegram.ext import Filters
 from telegram.ext import Updater
 from telegram import InputMediaPhoto
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, CallbackQueryHandler
 
-# CHAT ACTION
-def typing_action(func):
-    @wraps(func)
-    def command_func(update, context, *args, **kwargs):
-        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.TYPING)
-        return func(update, context,  *args, **kwargs)
-    return command_func
-
-def photo_action(func):
-    @wraps(func)
-    def command_func(update, context, *args, **kwargs):
-        context.bot.send_chat_action(chat_id=update.effective_message.chat_id, action=ChatAction.UPLOAD_PHOTO)
-        return func(update, context,  *args, **kwargs)
-    return command_func
 
 # START
 def start(update, context):
