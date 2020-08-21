@@ -22,7 +22,7 @@ def sell(update, context):
         reply_markup=Keyboards.Sell,
         parse_mode="markdown")
 
-def sell_new_item(update, context):
+def new_item(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements["sell_title"],
@@ -30,7 +30,7 @@ def sell_new_item(update, context):
         parse_mode="markdown")
     return "TITLE"
 
-def sell_title(update, context):
+def title(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -48,7 +48,7 @@ def sell_title(update, context):
         parse_mode="markdown")
     return "PRICE"
 
-def sell_price(update, context):
+def price(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -85,7 +85,7 @@ def sell_price(update, context):
             parse_mode="markdown")
         return "PRICE"
 
-def sell_photo(update, context):
+def photo(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -118,7 +118,7 @@ def sell_photo(update, context):
         parse_mode="markdown")
     return "CYCLE"
 
-def sell_cycle(update, context):
+def cycle(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -147,7 +147,7 @@ def sell_cycle(update, context):
         return "CYCLE"   
 
 @typing_action
-def sell_course(update, context):
+def course(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -223,7 +223,7 @@ def sell_course(update, context):
 
     return ConversationHandler.END
 
-def sell_undo(update, context):
+def undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
         text=statements["sell_undo"],
@@ -236,7 +236,7 @@ def sell_undo(update, context):
     return ConversationHandler.END
 
 @typing_action
-def sell_my_items(update, context):
+def my_items(update, context):
     my_items = Database.get_my_items(update.message.chat_id)
     if not my_items:
         context.bot.send_message(

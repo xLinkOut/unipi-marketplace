@@ -124,19 +124,19 @@ if __name__ == "__main__":
     instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), instructions)
 
     sell_new_item_handler = ConversationHandler(
-        entry_points = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['new_item']}$"), Sell.sell_new_item)],
+        entry_points = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['new_item']}$"), Sell.new_item)],
         states = {
-            "TITLE":  [MessageHandler(Filters.text, Sell.sell_title)],
-            "PRICE":  [MessageHandler(Filters.text, Sell.sell_price)],
-            "PHOTO":  [MessageHandler(Filters.photo, Sell.sell_photo),
-                       MessageHandler(Filters.regex(rf"^{statements['keyboards']['skip']['skip']}$"), Sell.sell_photo)],
-            "CYCLE":  [MessageHandler(Filters.text, Sell.sell_cycle)],
-            "COURSE": [MessageHandler(Filters.text, Sell.sell_course)]
+            "TITLE":  [MessageHandler(Filters.text, Sell.title)],
+            "PRICE":  [MessageHandler(Filters.text, Sell.price)],
+            "PHOTO":  [MessageHandler(Filters.photo, Sell.photo),
+                       MessageHandler(Filters.regex(rf"^{statements['keyboards']['skip']['skip']}$"), Sell.photo)],
+            "CYCLE":  [MessageHandler(Filters.text, Sell.cycle)],
+            "COURSE": [MessageHandler(Filters.text, Sell.course)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), Sell.sell_undo), CommandHandler('cancel', Sell.sell_undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), Sell.undo), CommandHandler('cancel', Sell.undo)]
     )
 
-    sell_my_items_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['my_items']}$"), Sell.sell_my_items)
+    sell_my_items_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['my_items']}$"), Sell.my_items)
     
     buy_search_by_name_handler = ConversationHandler(
         entry_points =[MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['search_by_name']}$"), Buy.buy_search_by_name)],
