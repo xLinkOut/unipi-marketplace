@@ -35,7 +35,7 @@ def instructions(update, context):
     if context.user_data['section'] == "sell":
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_instructions'],
+            text=statements['sell']['instructions'],
             parse_mode="Markdown")
     elif context.user_data['section'] == "buy":
         context.bot.send_message(

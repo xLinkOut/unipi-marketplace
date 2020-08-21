@@ -18,14 +18,14 @@ def sell(update, context):
     context.user_data['section'] = "sell"
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['menu']["sell"],
+        text=statements['menu']['sell'],
         reply_markup=Keyboards.Sell,
         parse_mode="markdown")
 
 def new_item(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements["sell_title"],
+        text=statements['sell']['new_item']['title'],
         reply_markup=Keyboards.Undo,
         parse_mode="markdown")
     return "TITLE"
@@ -34,7 +34,7 @@ def title(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_undo"],
+            text=statements['sell']['new_item']['undo'],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
         return ConversationHandler.END
@@ -43,7 +43,7 @@ def title(update, context):
     context.user_data['title'] = update.message.text
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements["sell_price"],
+        text=statements['sell']['new_item']['price'],
         reply_markup=Keyboards.Price,
         parse_mode="markdown")
     return "PRICE"
@@ -52,7 +52,7 @@ def price(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_undo"],
+            text=statements['sell']['new_item']['undo'],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
         context.user_data['title'] = None
@@ -74,14 +74,14 @@ def price(update, context):
         context.user_data['price'] = price
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_photo"],
+            text=statements['sell']['new_item']['photo'],
             reply_markup=Keyboards.Skip,
             parse_mode="markdown")
         return "PHOTO"
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_bad_price"],
+            text=statements['sell']['new_item']['bad_price'],
             parse_mode="markdown")
         return "PRICE"
 
@@ -89,7 +89,7 @@ def photo(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_undo"],
+            text=statements['sell']['new_item']['undo'],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
         context.user_data['title'] = None
@@ -100,20 +100,20 @@ def photo(update, context):
         context.user_data['photo'] = '0'
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_skip_photo"],
+            text=statements['sell']['new_item']['skip_photo'],
             parse_mode="markdown")
     elif update.message.photo:
         context.user_data["photo"] = update.message.photo[len(update.message.photo)-1].file_id
     else: # No "Skip", no photo
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_photo_wrong"],
+            text=statements['sell']['new_item']['photo_wrong'],
             parse_mode="markdown")
         return "PHOTO"
 
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements["sell_cycle"],
+        text=statements['sell']['new_item']['cycle'],
         reply_markup=Keyboards.Cycle,
         parse_mode="markdown")
     return "CYCLE"
@@ -122,7 +122,7 @@ def cycle(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_undo"],
+            text=statements['sell']['new_item']['undo'],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
         context.user_data['title'] = None
@@ -134,14 +134,14 @@ def cycle(update, context):
         or update.message.text == statements['keyboards']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_course'],
+            text=statements['sell']['new_item']['course'],
             reply_markup=Keyboards.FirstCycle if update.message.text == statements['keyboards']['first_cycle'] else Keyboards.LongCycle,
             parse_mode="markdown")
         return "COURSE"
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_cycle_wrong'],
+            text=statements['sell']['new_item']['cycle_wrong'],
             reply_markup=Keyboards.Cycle,
             parse_mode="markdown")
         return "CYCLE"   
@@ -151,7 +151,7 @@ def course(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements["sell_undo"],
+            text=statements['sell']['new_item']['undo'],
             reply_markup=Keyboards.Sell,
             parse_mode="markdown")
         context.user_data['title'] = None
@@ -162,7 +162,7 @@ def course(update, context):
     if update.message.text == statements['keyboards']['first_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_course'],
+            text=statements['sell']['new_item']['course'],
             reply_markup=Keyboards.FirstCycle,
             parse_mode="markdown")
         return "COURSE"
@@ -170,7 +170,7 @@ def course(update, context):
     elif update.message.text == statements['keyboards']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_course'],
+            text=statements['sell']['new_item']['course'],
             reply_markup=Keyboards.LongCycle,
             parse_mode="markdown")
         return "COURSE"
@@ -179,7 +179,7 @@ def course(update, context):
         and not update.message.text in statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_course_wrong'],
+            text=statements['sell']['new_item']['course_wrong'],
             parse_mode="markdown")
         return "COURSE"
 
@@ -201,7 +201,7 @@ def course(update, context):
     Database.session.commit()
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements["sell_done"],
+        text=statements['sell']['new_item']['done'],
         reply_markup=Keyboards.Sell,
         parse_mode="Markdown")
     
@@ -226,7 +226,7 @@ def course(update, context):
 def undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements["sell_undo"],
+        text=statements['sell']['new_item']['undo'],
         reply_markup=Keyboards.Sell,
         parse_mode="markdown")
     context.user_data['title'] = None
@@ -241,7 +241,7 @@ def my_items(update, context):
     if not my_items:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_empty_my_items'],
+            text=statements['sell']['my_items']['empty_my_items'],
             parse_mode="Markdown")
     else:
         context.user_data['last_items'] = my_items
@@ -250,7 +250,7 @@ def my_items(update, context):
 
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['sell_count_my_items_many'].replace('$$',str(context.user_data['items_count'])) if context.user_data['items_count'] > 1 else statements['sell_count_my_items_one'],
+            text=statements['sell']['my_items']['count_my_items_many'].replace('$$',str(context.user_data['items_count'])) if context.user_data['items_count'] > 1 else statements['sell']['my_items']['count_my_items_one'],
             parse_mode="Markdown")
         context.bot.send_photo(
             chat_id=update.message.chat_id,

@@ -85,7 +85,7 @@ def yes(update, context):
             message_id=update.callback_query.message.message_id)
         context.bot.send_message(
             chat_id=update.callback_query.message.chat_id,
-            text=statements['sell_deleted_last_item'],
+            text=statements['sell']['my_items']['deleted_last_item'],
             parse_mode="Markdown")
     else:
         context.user_data['last_count'] -= 1

@@ -20,26 +20,33 @@
         "response":"Ciao *$$*! 😊 Il tuo feedback è stato esaminato ed hai ricevuto una risposta, eccola qui: ⬇️\n\n$$"
     },
 
-    "sell_title":"Bene, pubblichiamo insieme un nuovo annuncio. 📚\nMandami il *titolo* e gli *autori* del libro, il *nome* della dispensa oppure un *nome* sufficientemente descrittivo per i tuoi appunti.\n\n_Puoi tornare al menu in qualsiasi momento premendo su Annulla ⬇️_",
-    "sell_price":"💰 A che *prezzo* vuoi vendere il libro?\n\n_Puoi usare la tastiera con alcune scorciatoie oppure inserire manualmente il prezzo in uno dei seguenti formati: '10', '10€', '10,50', '12.63', '23,42€'_",
-    "sell_bad_price":"Il formato del prezzo inserito *non è corretto*, riprova usando uno dei seguenti formati: '10', '10€', '10,50', '12.63', '23,42€'",
-    "sell_photo":"📷 Vuoi aggiungere una *foto*?\n\n_E' un passo facoltativo, puoi saltarlo premendo su ⏩ Salta._",
-    "sell_skip_photo":"D'accordo, niente foto. 🤷‍♂️",
-    "sell_photo_wrong":"Mh, se vuoi aggiungere una foto mandala come semplice foto, _non_ come file. Oppure premi su _⏩ Salta_, non posso accettare nient'altro 🙁.",
-    "sell_cycle":"Facoltà! Prima però: *Triennale* o *Magistrale*?",
-    "sell_cycle_wrong":"😥 Non ho capito... Triennale o Magistrale?",
-    "sell_course":"🎓 Scegli la *facoltà* dalla lista sottostante.\n\n_Se la tua facoltà non è presente segnalalo tramite il comando /feedback._",
-    "sell_course_wrong":"Scegli una delle falcotà presenti nella tastiera. ⬇️",
-    "sell_undo":"Nessun problema, ti riporto al menù principale.",
-    "sell_done":"✅ *Finito!* Ecco come apparirà il tuo annuncio nella ricerca.",
-    
-    "sell_empty_my_items":"Non hai ancora pubblicato *nessun annuncio!* Prova subito a vendere i tuoi libri o i tuoi appunti, premi su _➕ Nuovo annuncio._",
-    "sell_deleted_last_item":"Hai cancellato *l'ultimo* dei tuoi annunci. Se desideri aggiungerne un altro, premi su _➕ Nuovo annuncio._",
-    "sell_count_my_items_one":"Hai pubblicato *un solo annuncio*, eccolo qui. Prova a pubblicarne altri dal menu _Vendi_ e disfati dei tuoi vecchi appunti che stanno prendendo polvere!\n\n_Se vuoi rimuoverlo, premi su 🗑 Elimina._",
-    "sell_count_my_items_many":"Hai pubblicato *$$ annunci*, ti mando il più recente.\n\n_Usa i tasti ⬅️ Precedente e  ➡️ Successivo per navigare tra i tuoi annunci ed il tasto 🗑 Elimina se desideri rimuoverne qualcuno (ricorda, è un'azione_ *irreversibile*_)._",
-    
-    "sell_instructions":"Aggiungere un nuovo annuncio è molto semplice. Dal menu _💰 Vendi_ ti basta premere _➕ Nuovo annuncio_ per cominciare. All'inizio ti verrà chiesto un nome: se stai vendendo un *📕 libro* usato puoi scrivere il titolo e il nome degli autori, sarà sufficiente per essere trovato da altri studenti. Se stai vendendo una *📒 dispensa*, scritta da te o comprata ed usata, puoi scrivere 'Dispensa di <nome materia>' ed aggiungerci il tuo nome o il nome dello studente che leggi sulla copertina. Infine, se vuoi vendere *📑 i tuoi appunti* scegli il nome che preferisci ma fai in modo che sia il più descrittivo possibile: nome del corso, nome del professore, tuo nome...\n\nFatto ciò, è il momento di decidere il *💰 prezzo*. Puoi usare le scorciatoie che trovi nella tastiera oppure inserire un prezzo a tuo piacimento, rispettando i formati accettati.\n\n*📸 Foto*! Statisticamente, gli annunci con foto sono più apprezzati dai compratori. Aggiungi pure una foto, magari della copertina del libro o della dispensa. Tuttavia, se non desideri farlo, puoi premere su _⏩ Salta_ e passare allo step successivo in un attimo.\n\nInfine, il corso di laurea. E' più facile indicizzare gli annunci, e quindi portarli agli occhi di potenziali compratori, se specifichi anche la *🎓 facoltà* a cui il materiale fa riferimento.\n\nTutto qui! L'annuncio sarà visibile non appena avrai completato questi quattro velocissimi step. Ti verrà inviata un'anteprima di come comparirà il tuo annuncio nella ricerca. Per visualizzarlo o cancellarlo, usa il menu _📚 I miei annunci_.\n\n_Per qualsiasi altra informazione o dubbio, usa pure il comando /feedback._",
-    
+    "sell": {
+        "new_item": {
+            "title":"Bene, pubblichiamo insieme un nuovo annuncio. 📚\nMandami il *titolo* e gli *autori* del libro, il *nome* della dispensa oppure un *nome* sufficientemente descrittivo per i tuoi appunti.\n\n_Puoi tornare al menu in qualsiasi momento premendo su Annulla ⬇️_",
+            "price":"💰 A che *prezzo* vuoi vendere il libro?\n\n_Puoi usare la tastiera con alcune scorciatoie oppure inserire manualmente il prezzo in uno dei seguenti formati: '10', '10€', '10,50', '12.63', '23,42€'_",
+            "bad_price":"Il formato del prezzo inserito *non è corretto*, riprova usando uno dei seguenti formati: '10', '10€', '10,50', '12.63', '23,42€'",
+            "photo":"📷 Vuoi aggiungere una *foto*?\n\n_E' un passo facoltativo, puoi saltarlo premendo su ⏩ Salta._",
+            "skip_photo":"D'accordo, niente foto. 🤷‍♂️",
+            "photo_wrong":"Mh, se vuoi aggiungere una foto mandala come semplice foto, _non_ come file. Oppure premi su _⏩ Salta_, non posso accettare nient'altro 🙁.",
+            "cycle":"Facoltà! Prima però: *Triennale* o *Magistrale*?",
+            "cycle_wrong":"😥 Non ho capito... Triennale o Magistrale?",
+            "course":"🎓 Scegli la *facoltà* dalla lista sottostante.\n\n_Se la tua facoltà non è presente segnalalo tramite il comando /feedback._",
+            "course_wrong":"Scegli una delle falcotà presenti nella tastiera. ⬇️",
+            "undo":"Nessun problema, ti riporto al menù principale.",
+            "done":"✅ *Finito!* Ecco come apparirà il tuo annuncio nella ricerca."
+        },
+
+        "my_items": {
+            "empty_my_items":"Non hai ancora pubblicato *nessun annuncio!* Prova subito a vendere i tuoi libri o i tuoi appunti, premi su _➕ Nuovo annuncio._",
+            "deleted_last_item":"Hai cancellato *l'ultimo* dei tuoi annunci. Se desideri aggiungerne un altro, premi su _➕ Nuovo annuncio._",
+            "count_my_items_one":"Hai pubblicato *un solo annuncio*, eccolo qui. Prova a pubblicarne altri dal menu _Vendi_ e disfati dei tuoi vecchi appunti che stanno prendendo polvere!\n\n_Se vuoi rimuoverlo, premi su 🗑 Elimina._",
+            "count_my_items_many":"Hai pubblicato *$$ annunci*, ti mando il più recente.\n\n_Usa i tasti ⬅️ Precedente e  ➡️ Successivo per navigare tra i tuoi annunci ed il tasto 🗑 Elimina se desideri rimuoverne qualcuno (ricorda, è un'azione_ *irreversibile*_)._"
+        },
+        
+        "instructions":"Aggiungere un nuovo annuncio è molto semplice. Dal menu _💰 Vendi_ ti basta premere _➕ Nuovo annuncio_ per cominciare. All'inizio ti verrà chiesto un nome: se stai vendendo un *📕 libro* usato puoi scrivere il titolo e il nome degli autori, sarà sufficiente per essere trovato da altri studenti. Se stai vendendo una *📒 dispensa*, scritta da te o comprata ed usata, puoi scrivere 'Dispensa di <nome materia>' ed aggiungerci il tuo nome o il nome dello studente che leggi sulla copertina. Infine, se vuoi vendere *📑 i tuoi appunti* scegli il nome che preferisci ma fai in modo che sia il più descrittivo possibile: nome del corso, nome del professore, tuo nome...\n\nFatto ciò, è il momento di decidere il *💰 prezzo*. Puoi usare le scorciatoie che trovi nella tastiera oppure inserire un prezzo a tuo piacimento, rispettando i formati accettati.\n\n*📸 Foto*! Statisticamente, gli annunci con foto sono più apprezzati dai compratori. Aggiungi pure una foto, magari della copertina del libro o della dispensa. Tuttavia, se non desideri farlo, puoi premere su _⏩ Salta_ e passare allo step successivo in un attimo.\n\nInfine, il corso di laurea. E' più facile indicizzare gli annunci, e quindi portarli agli occhi di potenziali compratori, se specifichi anche la *🎓 facoltà* a cui il materiale fa riferimento.\n\nTutto qui! L'annuncio sarà visibile non appena avrai completato questi quattro velocissimi step. Ti verrà inviata un'anteprima di come comparirà il tuo annuncio nella ricerca. Per visualizzarlo o cancellarlo, usa il menu _📚 I miei annunci_.\n\n_Per qualsiasi altra informazione o dubbio, usa pure il comando /feedback._"
+    },
+
+
     "buy_search_by_name":"Per cercare un articolo per nome, mandami un messaggio con i termini della ricerca, che possono essere: il *titolo* di un libro, il nome (o più di uno) dell'*autore*, il titolo di una dispensa e così via.\n\n_Se non riesci a trovare quello che cerchi, prova ad affinare o generalizzale la tua ricerca, oppure usa la funzione 'Cerca per facoltà'!_",
     "buy_search_by_name_done":"Ho trovato *$$ elementi* che probabilmente corrispondono a quello che stai cercando. Usa i *tasti di navigazione* per vederli tutti.",
     "buy_search_by_name_more_char":"Aggiungi qualche altro carattere alla tua ricerca, con così poco non posso fare nulla...",
