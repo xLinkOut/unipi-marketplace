@@ -7,6 +7,7 @@ import Sell
 import Buy
 import Navigation
 import Feedback
+import Menu
 from Settings import *
 
 from sys import exit
@@ -34,64 +35,7 @@ from telegram import InputMediaPhoto
 from telegram import ReplyKeyboardMarkup
 from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, CallbackQueryHandler
 
-
-# START
-def start(update, context):
-    if session.query(User).filter_by(chat_id=update.message.chat_id).first():
-        # User already exists
-        context.bot.send_message(
-            chat_id=update.message.chat_id, 
-            text=statements['welcome_back'].replace("$$",update.message.chat.first_name), 
-            reply_markup=Keyboards.Start,
-            parse_mode="Markdown")
-    else:
-        # User not exists yet
-        session.add(User(
-            chat_id = update.message.chat_id,
-            username = update.message.chat.username,
-            first_name = update.message.chat.first_name))
-        session.commit()
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['welcome'].replace("$$",update.message.chat.first_name),
-            reply_markup=Keyboards.Start,
-            parse_mode="Markdown")
-
-
-# INSTRUCTIONS
-def instructions(update, context):
-    if context.user_data['section'] == "sell":
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['sell_instructions'],
-            parse_mode="Markdown")
-    elif context.user_data['section'] == "buy":
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['buy_instructions'],
-            parse_mode="Markdown")
-
-# INFORMATION
-def information(update, context):
-    context.bot.send_message(
-        chat_id=update.message.chat_id,
-        text=statements['information'],
-        parse_mode="Markdown")
-
-# BACK
-def back(update, context):
-    if context.user_data['section'] == "sell" \
-        or context.user_data['section'] == "buy":
-        context.user_data['last_items'] = None
-        context.user_data['items_count'] = 0
-        context.user_data['last_count'] = 0
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['main_menu'],
-            reply_markup=Keyboards.Start,
-            parse_mode="Markdown")
-
-            
+        
 if __name__ == "__main__":
 
     # UPDATER, DISPATCHER, LOGGING AND LANGUAGE
@@ -105,7 +49,7 @@ if __name__ == "__main__":
         statements = json.load(lang_f)
 
     # HANDLERS
-    start_handler = CommandHandler('start', start)
+    start_handler = CommandHandler('start', Menu.start)
    
     feedback_handler = ConversationHandler(
         entry_points = [CommandHandler('feedback', Feedback.feedback)],
@@ -119,9 +63,9 @@ if __name__ == "__main__":
 
     sell_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['sell']}$"), Sell.sell)
     buy_handler   = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['buy']}$"), Buy.buy)
-    info_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['info']}$"), information)
-    back_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['back']['back']}$"), back)
-    instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), instructions)
+    info_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['info']}$"), Menu.information)
+    back_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['back']['back']}$"), Menu.back)
+    instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), Menu.instructions)
 
     sell_new_item_handler = ConversationHandler(
         entry_points = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['new_item']}$"), Sell.new_item)],
