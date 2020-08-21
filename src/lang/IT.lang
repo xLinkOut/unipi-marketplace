@@ -42,31 +42,35 @@
             "count_my_items_one":"Hai pubblicato *un solo annuncio*, eccolo qui. Prova a pubblicarne altri dal menu _Vendi_ e disfati dei tuoi vecchi appunti che stanno prendendo polvere!\n\n_Se vuoi rimuoverlo, premi su 🗑 Elimina._",
             "count_my_items_many":"Hai pubblicato *$$ annunci*, ti mando il più recente.\n\n_Usa i tasti ⬅️ Precedente e  ➡️ Successivo per navigare tra i tuoi annunci ed il tasto 🗑 Elimina se desideri rimuoverne qualcuno (ricorda, è un'azione_ *irreversibile*_)._"
         },
-        
+
         "instructions":"Aggiungere un nuovo annuncio è molto semplice. Dal menu _💰 Vendi_ ti basta premere _➕ Nuovo annuncio_ per cominciare. All'inizio ti verrà chiesto un nome: se stai vendendo un *📕 libro* usato puoi scrivere il titolo e il nome degli autori, sarà sufficiente per essere trovato da altri studenti. Se stai vendendo una *📒 dispensa*, scritta da te o comprata ed usata, puoi scrivere 'Dispensa di <nome materia>' ed aggiungerci il tuo nome o il nome dello studente che leggi sulla copertina. Infine, se vuoi vendere *📑 i tuoi appunti* scegli il nome che preferisci ma fai in modo che sia il più descrittivo possibile: nome del corso, nome del professore, tuo nome...\n\nFatto ciò, è il momento di decidere il *💰 prezzo*. Puoi usare le scorciatoie che trovi nella tastiera oppure inserire un prezzo a tuo piacimento, rispettando i formati accettati.\n\n*📸 Foto*! Statisticamente, gli annunci con foto sono più apprezzati dai compratori. Aggiungi pure una foto, magari della copertina del libro o della dispensa. Tuttavia, se non desideri farlo, puoi premere su _⏩ Salta_ e passare allo step successivo in un attimo.\n\nInfine, il corso di laurea. E' più facile indicizzare gli annunci, e quindi portarli agli occhi di potenziali compratori, se specifichi anche la *🎓 facoltà* a cui il materiale fa riferimento.\n\nTutto qui! L'annuncio sarà visibile non appena avrai completato questi quattro velocissimi step. Ti verrà inviata un'anteprima di come comparirà il tuo annuncio nella ricerca. Per visualizzarlo o cancellarlo, usa il menu _📚 I miei annunci_.\n\n_Per qualsiasi altra informazione o dubbio, usa pure il comando /feedback._"
     },
 
+    "buy": {
 
-    "buy_search_by_name":"Per cercare un articolo per nome, mandami un messaggio con i termini della ricerca, che possono essere: il *titolo* di un libro, il nome (o più di uno) dell'*autore*, il titolo di una dispensa e così via.\n\n_Se non riesci a trovare quello che cerchi, prova ad affinare o generalizzale la tua ricerca, oppure usa la funzione 'Cerca per facoltà'!_",
-    "buy_search_by_name_done":"Ho trovato *$$ elementi* che probabilmente corrispondono a quello che stai cercando. Usa i *tasti di navigazione* per vederli tutti.",
-    "buy_search_by_name_more_char":"Aggiungi qualche altro carattere alla tua ricerca, con così poco non posso fare nulla...",
-    "buy_search_by_name_no_result":"Mi spiace, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
-    "buy_search_by_name_undo":"D'accordo, niente ricerca! 🧐",
+        "search_by_name": {
+            "search_by_name":"Per cercare un articolo per nome, mandami un messaggio con i termini della ricerca, che possono essere: il *titolo* di un libro, il nome (o più di uno) dell'*autore*, il titolo di una dispensa e così via.\n\n_Se non riesci a trovare quello che cerchi, prova ad affinare o generalizzale la tua ricerca, oppure usa la funzione 'Cerca per facoltà'!_",
+            "done":"Ho trovato *$$ elementi* che probabilmente corrispondono a quello che stai cercando. Usa i *tasti di navigazione* per vederli tutti.",
+            "more_char":"Aggiungi qualche altro carattere alla tua ricerca, con così poco non posso fare nulla...",
+            "no_result":"Mi spiace, non ho trovato nulla che corrisponde a quello che stai cercando 😔\n\n_Se la ricerca è molto generica, prova ad affinarla, oppure viceversa._",
+            "undo":"D'accordo, niente ricerca! 🧐"
+        },
 
-    "buy_search_by_course":"Puoi cercare libri, dispense o appunti per facoltà. Prima, però, *Triennale* o *Magistrale*?",
-    "buy_search_by_course_undo":"D'accordo, niente ricerca! 🧐",
-    "buy_search_by_course_wrong":"Mh, non ho capito!",
-    "buy_search_by_course_first":"Eccoti le triennali",
-    "buy_search_by_course_long":"Eccoti le magistrali (e a ciclo unico)",
-    "buy_search_by_course_done":"Bene, nella tastiera in basso trovi una lista di *corsi di laurea*, premi su quello che ti interessa e, se sono presenti annunci, te li farò vedere!",
-    "buy_search_by_course_invalid_course":"Non conosco questo corso di laurea! 😥 Quelli disponibili sono elencati nella tastiera che trovi in basso ⬇️.\n\n_Se la tua facoltà non è presente segnalalo tramite il comando /feedback._",
-    "buy_search_by_course_no_result":"Mi spiace, non ci sono annunci per questa facoltà 😔.",
+        "search_by_course": {
+            "search_by_course":"Puoi cercare libri, dispense o appunti per facoltà. Prima, però, *Triennale* o *Magistrale*?",
+            "undo":"D'accordo, niente ricerca! 🧐",
+            "wrong":"Mh, non ho capito!",
+            "first":"Eccoti le triennali",
+            "long":"Eccoti le magistrali (e a ciclo unico)",
+            "done":"Bene, nella tastiera in basso trovi una lista di *corsi di laurea*, premi su quello che ti interessa e, se sono presenti annunci, te li farò vedere!",
+            "invalid_course":"Non conosco questo corso di laurea! 😥 Quelli disponibili sono elencati nella tastiera che trovi in basso ⬇️.\n\n_Se la tua facoltà non è presente segnalalo tramite il comando /feedback._",
+            "no_result":"Mi spiace, non ci sono annunci per questa facoltà 😔."
+        },
 
-    "buy_last_added_no_result":"Oh no, *non ci sono annunci*! Vuoi essere il primo ad aggiungerne uno? Vai subito nel menù _💰 Vendi_ 😎.",
-
-    "buy_username_chat":"👤 Premi sul nome utente visualizzato per contattare il venditore.",
-
-    "buy_instructions":"Se vendere è semplice, comprare lo è ancora di più! Ci sono sostanzialmente due modi per cercare materiale in vendita: per nome e per facoltà.\n\n*Cercare per nome* è molto intuitivo: premi su _🔍 Cerca per nome_, quindi scrivi quello che vuoi cercare. I libri sono indicizzati per titolo e per autori, così come le dispense e gli appunti. Fai qualche prova, se non riesci a trovare quello che cerci prova a rendere la ricerca più generale, oppure se vuoi filtrare maggiormente i risultati, usa termini più specifici.\n\nLa *ricerca per facoltà* può tornare utile quando quella per nome non porta il risultato sperato oppure vuoi solo guardare, come quando entri in un negozio di abbigliamento. Premi su _🎓 Cerca per facoltà_, scegli la facoltà che ti interessa e ad avrai una lista degli annunci disponibili.\n\n_Per qualsiasi altra informazione o dubbio, usa pure il comando /feedback._",
+        "last_added_no_result":"Oh no, *non ci sono annunci*! Vuoi essere il primo ad aggiungerne uno? Vai subito nel menù _💰 Vendi_ 😎.",
+        "username_chat":"👤 Premi sul nome utente visualizzato per contattare il venditore.",
+        "instructions":"Se vendere è semplice, comprare lo è ancora di più! Ci sono sostanzialmente due modi per cercare materiale in vendita: per nome e per facoltà.\n\n*Cercare per nome* è molto intuitivo: premi su _🔍 Cerca per nome_, quindi scrivi quello che vuoi cercare. I libri sono indicizzati per titolo e per autori, così come le dispense e gli appunti. Fai qualche prova, se non riesci a trovare quello che cerci prova a rendere la ricerca più generale, oppure se vuoi filtrare maggiormente i risultati, usa termini più specifici.\n\nLa *ricerca per facoltà* può tornare utile quando quella per nome non porta il risultato sperato oppure vuoi solo guardare, come quando entri in un negozio di abbigliamento. Premi su _🎓 Cerca per facoltà_, scegli la facoltà che ti interessa e ad avrai una lista degli annunci disponibili.\n\n_Per qualsiasi altra informazione o dubbio, usa pure il comando /feedback._"
+    },
     
     "no_prev_items":"🚫 Non ci sono annunci precedenti.",
     "no_next_items":"🚫 Non ci sono annunci successivi.",

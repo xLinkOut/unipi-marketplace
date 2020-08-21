@@ -23,7 +23,7 @@ def buy(update, context):
 def search_by_name(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['buy_search_by_name'],
+        text=statements['search_by_name']['search_by_name'],
         reply_markup=Keyboards.Undo,
         parse_mode="Markdown")
     return "DONE"
@@ -32,7 +32,7 @@ def search_by_name_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_undo'],
+            text=statements['search_by_name']['undo'],
             reply_markup=Keyboards.Buy,
             parse_mode="markdown")
         return ConversationHandler.END
@@ -40,7 +40,7 @@ def search_by_name_done(update, context):
     if len(update.message.text) < 4:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_more_char'],
+            text=statements['search_by_name']['more_char'],
             parse_mode="Markdown")
         return "DONE"
 
@@ -54,7 +54,7 @@ def search_by_name_done(update, context):
 
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_done'].replace('$$',str(context.user_data['items_count'])),
+            text=statements['search_by_name']['done'].replace('$$',str(context.user_data['items_count'])),
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         context.bot.send_photo(
@@ -66,7 +66,7 @@ def search_by_name_done(update, context):
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_no_result'],
+            text=statements['search_by_name']['no_result'],
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         #return "DONE"
@@ -76,14 +76,14 @@ def search_by_name_done(update, context):
 def search_by_name_undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['buy_search_by_name_undo'],
+        text=statements['search_by_name']['undo'],
         reply_markup=Keyboards.Buy,
         parse_mode="Markdown")
 
 def search_by_course(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['buy_search_by_course'],
+        text=statements['search_by_course']['search_by_course'],
         reply_markup=Keyboards.Cycle,
         parse_mode="Markdown")
     return "CYCLE"
@@ -92,7 +92,7 @@ def search_by_course_cycle(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_undo'],
+            text=statements['search_by_course']['undo'],
             reply_markup=Keyboards.Buy,
             parse_mode="markdown")
         return ConversationHandler.END
@@ -101,14 +101,14 @@ def search_by_course_cycle(update, context):
         or update.message.text == statements['keyboards']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_done'],
+            text=statements['search_by_course']['done'],
             reply_markup=Keyboards.FirstCycle if update.message.text == statements['keyboards']['first_cycle'] else Keyboards.LongCycle,
             parse_mode="markdown")
         return "DONE"
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_wrong'],
+            text=statements['search_by_course']['wrong'],
             reply_markup=Keyboards.Cycle,
             parse_mode="markdown")
         return "CYCLE"
@@ -117,7 +117,7 @@ def search_by_course_done(update, context):
     if update.message.text == statements['keyboards']['abort']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_undo'],
+            text=statements['search_by_course']['undo'],
             reply_markup=Keyboards.Buy,
             parse_mode="markdown")
         return ConversationHandler.END
@@ -125,14 +125,14 @@ def search_by_course_done(update, context):
     if update.message.text == statements['keyboards']['first_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_first'],
+            text=statements['search_by_course']['first'],
             reply_markup=Keyboards.FirstCycle,
             parse_mode="markdown")
         return "DONE"
     elif update.message.text == statements['keyboards']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_long'],
+            text=statements['search_by_course']['long'],
             reply_markup=Keyboards.LongCycle,
             parse_mode="markdown")
         return "DONE"
@@ -141,7 +141,7 @@ def search_by_course_done(update, context):
         and not update.message.text in statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_invalid_course'],
+            text=statements['search_by_course']['invalid_course'],
             reply_markup=Keyboards.Cycle,
             parse_mode="markdown")
         return "CYCLE"
@@ -155,7 +155,7 @@ def search_by_course_done(update, context):
 
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_name_done'].replace('$$',str(context.user_data['items_count'])),
+            text=statements['search_by_name']['done'].replace('$$',str(context.user_data['items_count'])),
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         context.bot.send_photo(
@@ -167,7 +167,7 @@ def search_by_course_done(update, context):
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_search_by_course_no_result'],
+            text=statements['search_by_course']['no_result'],
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
         #return "DONE"
@@ -177,7 +177,7 @@ def search_by_course_done(update, context):
 def search_by_course_undo(update, context):
     context.bot.send_message(
         chat_id=update.message.chat_id,
-        text=statements['buy_search_by_course_undo'],
+        text=statements['search_by_course']['undo'],
         reply_markup=Keyboards.Buy,
         parse_mode="Markdown")
 
@@ -197,7 +197,7 @@ def last_added(update, context):
     else:
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_last_added_no_result'],
+            text=statements['buy']['last_added_no_result'],
             reply_markup=Keyboards.Buy,
             parse_mode="Markdown")
 
@@ -215,6 +215,6 @@ def chat(update, context):
     )
     context.bot.answer_callback_query(
         update.callback_query.id,
-        text=statements['buy_username_chat'],
+        text=statements['buy']['username_chat'],
         cache_time=5
     )

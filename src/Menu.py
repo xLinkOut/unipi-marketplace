@@ -40,7 +40,7 @@ def instructions(update, context):
     elif context.user_data['section'] == "buy":
         context.bot.send_message(
             chat_id=update.message.chat_id,
-            text=statements['buy_instructions'],
+            text=statements['buy']['instructions'],
             parse_mode="Markdown")
 
 # INFORMATION
