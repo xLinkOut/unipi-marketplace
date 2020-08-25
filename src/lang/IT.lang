@@ -99,28 +99,19 @@
 
         "sell": {
             "new_item": "➕ Nuovo annuncio",
-            "my_items": "📚 I miei annunci",
-            "back": "🔙 Indietro",
-            "instructions": "❓ Istruzioni"
-        },
-
-        "back": {
-            "back":"🔙 Indietro"
+            "my_items": "📚 I miei annunci"
         },
 
         "buy": {
             "search_by_name": "🔍 Cerca per nome",
             "search_by_course": "🎓 Cerca per facoltà",
-            "last_added": "🔝 Ultimi aggiunti",
-            "back": "🔙 Indietro",
-            "instructions": "❓ Istruzioni"
+            "last_added": "🔝 Ultimi aggiunti"
         },
 
-        "abort": {
-            "abort": "❌ Annulla"
-        },
-
-        "skip": {
+        "misc": {
+            "abort": "❌ Annulla",
+            "back":"🔙 Indietro",
+            "instructions": "❓ Istruzioni",
             "skip": "⏩ Salta"
         },
 
@@ -133,11 +124,12 @@
             "no":"No ❌"
         },
 
-        "first_cycle":"1️⃣ Triennale",
-        "long_cycle":"2️⃣ Magistrale",
 
         "courses": {
-            "first_cycle": [
+            "first_cycle":"1️⃣ Triennale",
+            "long_cycle":"2️⃣ Magistrale",
+
+            "first_cycle_list": [
                 "Banca e finanza",
                 "Biotecnologie",
                 "Chimica",
@@ -193,7 +185,8 @@
                 "Storia",
                 "Viticoltura ed enologia"
             ],
-            "long_cycle": [
+
+            "long_cycle_list": [
                 "Archeologia",
                 "Artificial intelligence and data engineering",
                 "Banca, finanza aziendale e mercati finanziari",

@@ -34,5 +34,5 @@ python Marketplace.py
 - [x] ^ and load in each module only those that are needed
 - [ ] Think of a better feedback mechanism, based on `reply to message`
 - [ ] Remove test functions (`add_test`, `set_section`)
-- [ ] Redundant keyboards statements
+- [x] Redundant keyboards statements
 - [x] Use f-string to represent DB results

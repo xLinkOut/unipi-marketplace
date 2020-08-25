@@ -39,15 +39,15 @@ if __name__ == "__main__":
             "DONE": [MessageHandler(Filters.text, Feedback.feedback_done)],
             "ANSWER": [MessageHandler(Filters.text, Feedback.feedback_answer)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), Feedback.feedback_undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['misc']['abort']}$"), Feedback.feedback_undo)]
     )
     #feedback_answer_handler = CommandHandler
 
     sell_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['sell']}$"), Sell.sell)
     buy_handler   = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['buy']}$"), Buy.buy)
     info_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['start']['info']}$"), Menu.information)
-    back_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['back']['back']}$"), Menu.back)
-    instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['instructions']}$"), Menu.instructions)
+    back_handler  = MessageHandler(Filters.regex(rf"^{statements['keyboards']['misc']['back']}$"), Menu.back)
+    instruction_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['misc']['instructions']}$"), Menu.instructions)
 
     sell_new_item_handler = ConversationHandler(
         entry_points = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['new_item']}$"), Sell.new_item)],
@@ -55,11 +55,11 @@ if __name__ == "__main__":
             "TITLE":  [MessageHandler(Filters.text, Sell.title)],
             "PRICE":  [MessageHandler(Filters.text, Sell.price)],
             "PHOTO":  [MessageHandler(Filters.photo, Sell.photo),
-                       MessageHandler(Filters.regex(rf"^{statements['keyboards']['skip']['skip']}$"), Sell.photo)],
+                       MessageHandler(Filters.regex(rf"^{statements['keyboards']['misc']['skip']}$"), Sell.photo)],
             "CYCLE":  [MessageHandler(Filters.text, Sell.cycle)],
             "COURSE": [MessageHandler(Filters.text, Sell.course)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), Sell.undo), CommandHandler('cancel', Sell.undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['misc']['abort']}$"), Sell.undo), CommandHandler('cancel', Sell.undo)]
     )
 
     sell_my_items_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['sell']['my_items']}$"), Sell.my_items)
@@ -69,7 +69,7 @@ if __name__ == "__main__":
         states = {
             "DONE" : [MessageHandler(Filters.text, Buy.search_by_name_done)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"),Buy.search_by_name_undo), CommandHandler('cancel',Buy.search_by_name_undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['misc']['abort']}$"),Buy.search_by_name_undo), CommandHandler('cancel',Buy.search_by_name_undo)]
     )
     
     buy_search_by_course_handler = ConversationHandler(
@@ -78,7 +78,7 @@ if __name__ == "__main__":
             "CYCLE" : [MessageHandler(Filters.text, Buy.search_by_course_cycle)],
             "DONE" : [MessageHandler(Filters.text, Buy.search_by_course_done)]
         },
-        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['abort']['abort']}$"), Buy.search_by_course_undo), CommandHandler('cancel',Buy.search_by_course_undo)]
+        fallbacks = [MessageHandler(Filters.regex(rf"^{statements['keyboards']['misc']['abort']}$"), Buy.search_by_course_undo), CommandHandler('cancel',Buy.search_by_course_undo)]
     )
 
     buy_last_added_handler = MessageHandler(Filters.regex(rf"^{statements['keyboards']['buy']['last_added']}$"), Buy.last_added)
