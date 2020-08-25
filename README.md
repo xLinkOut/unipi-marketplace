@@ -35,4 +35,4 @@ python Marketplace.py
 - [ ] Think of a better feedback mechanism, based on `reply to message`
 - [ ] Remove test functions (`add_test`, `set_section`)
 - [ ] Redundant keyboards statements
-- [ ] Use f-string to represent DB results
+- [x] Use f-string to represent DB results

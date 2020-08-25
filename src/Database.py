@@ -21,8 +21,7 @@ class User(Base):
     first_name = Column(String)
 
     def __repr__(self):
-        return "<User(chat_id='%s', username='%s', first_name='%s')>" % \
-                (self.chat_id, self.username, self.first_name)
+        return f"<User(chat_id='{self.chat_id}', username='{self.username}', first_name='self.first_name')>"
 
 class Item(Base):
     __tablename__ = "Items"
@@ -37,8 +36,8 @@ class Item(Base):
     visible   = Column(Boolean, default=True)
 
     def __repr__(self):
-        return "<Item(item_id='%s', chat_id='%s',title='%s',photo='%s',price='%s',course='%s',visible='%s')" % \
-            (self.item_id, self.chat_id, self.title, self.photo, self.price, self.course, self.visible)
+        return f"<Item(item_id='{self.item_id}', chat_id='{self.chat_id}', title='{self.title}', "\
+            f"photo='{self.photo}', price='{self.price}', course='{self.course}',visible='{self.visible}')"
 
 if not file_exists(DB_FILE): Base.metadata.create_all(engine)
 session = sessionmaker(bind=engine)()
