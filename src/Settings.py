@@ -21,7 +21,13 @@ if not DB_FILE: DB_FILE = "Database.db"
 if not LANG_FILE: LANG_FILE = "IT"
 if not IMG_NOT_AVAILABLE: print("Warning: missing IMG_NOT_AVAILABLE token! Sending messages that contain the placeholder 'photo not available' will not be sent and will generate an error.")
 if not IMG_NOT_AVAILABLE: print("Warning: missing ADMIN_CHAT_ID! You will not be able to respond to user feedback.")
-if DEBUG: print(API_TOKEN,DB_FILE,LANG_FILE,IMG_NOT_AVAILABLE,ADMIN_CHAT_ID,DEBUG)
+if DEBUG: 
+    print(f"\nAPI_TOKEN: {API_TOKEN}\n" \
+            f"DB_FILE: {DB_FILE}\n" \
+            f"LANG_FILE: {LANG_FILE}\n" \
+            f"IMG_NOT_AVAILABLE: {IMG_NOT_AVAILABLE}\n" \
+            f"ADMIN_CHAT_ID: {ADMIN_CHAT_ID}\n" \
+            f"DEBUG: {DEBUG}\n")
 
 # Statements
 with open(f"lang/{LANG_FILE}.lang", 'r') as lang_f:
