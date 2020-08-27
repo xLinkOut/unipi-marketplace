@@ -27,7 +27,7 @@ def new_item(update, context):
     return "TITLE"
 
 def title(update, context):
-    if update.message.text == statements['keyboards']['abort']['abort']:
+    if update.message.text == statements['keyboards']['misc']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['undo'],
@@ -45,7 +45,7 @@ def title(update, context):
     return "PRICE"
 
 def price(update, context):
-    if update.message.text == statements['keyboards']['abort']['abort']:
+    if update.message.text == statements['keyboards']['misc']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['undo'],
@@ -82,7 +82,7 @@ def price(update, context):
         return "PRICE"
 
 def photo(update, context):
-    if update.message.text == statements['keyboards']['abort']['abort']:
+    if update.message.text == statements['keyboards']['misc']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['undo'],
@@ -92,7 +92,7 @@ def photo(update, context):
         context.user_data['price'] = None
         return ConversationHandler.END
 
-    if update.message.text and update.message.text == statements['keyboards']['skip']['skip']:
+    if update.message.text and update.message.text == statements['keyboards']['misc']['skip']:
         context.user_data['photo'] = '0'
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -115,7 +115,7 @@ def photo(update, context):
     return "CYCLE"
 
 def cycle(update, context):
-    if update.message.text == statements['keyboards']['abort']['abort']:
+    if update.message.text == statements['keyboards']['misc']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['undo'],
@@ -126,12 +126,12 @@ def cycle(update, context):
         context.user_data['photo'] = None
         return ConversationHandler.END
 
-    if update.message.text == statements['keyboards']['first_cycle'] \
-        or update.message.text == statements['keyboards']['long_cycle']:
+    if update.message.text == statements['keyboards']['courses']['first_cycle'] \
+        or update.message.text == statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['course'],
-            reply_markup=Keyboards.FirstCycle if update.message.text == statements['keyboards']['first_cycle'] else Keyboards.LongCycle,
+            reply_markup=Keyboards.FirstCycle if update.message.text == statements['keyboards']['courses']['first_cycle'] else Keyboards.LongCycle,
             parse_mode="markdown")
         return "COURSE"
     else:
@@ -144,7 +144,7 @@ def cycle(update, context):
 
 @typing_action
 def course(update, context):
-    if update.message.text == statements['keyboards']['abort']['abort']:
+    if update.message.text == statements['keyboards']['misc']['abort']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['undo'],
@@ -155,7 +155,7 @@ def course(update, context):
         context.user_data['photo'] = None
         return ConversationHandler.END
 
-    if update.message.text == statements['keyboards']['first_cycle']:
+    if update.message.text == statements['keyboards']['courses']['first_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['course'],
@@ -163,7 +163,7 @@ def course(update, context):
             parse_mode="markdown")
         return "COURSE"
     
-    elif update.message.text == statements['keyboards']['long_cycle']:
+    elif update.message.text == statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['course'],
