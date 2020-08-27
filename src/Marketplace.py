@@ -111,10 +111,24 @@ if __name__ == "__main__":
             context.bot.send_message(chat_id=update.message.chat_id,text=f"Errore: {e}")
     def set_section(update, context):
         context.user_data['section'] = "sell"
+    def add_user(update, context):
+        try:
+            session.query(User).delete()
+            session.add(User(chat_id=123456781,username='user1'))
+            session.add(User(chat_id=123456782,username='user2'))
+            session.add(User(chat_id=123456783,username='user3'))
+            session.add(User(chat_id=123456784,username='user4'))
+            session.add(User(chat_id=123456785,username=''))
+            session.commit()
+            context.bot.send_message(chat_id=update.message.chat_id,text="Ho aggiunti gli users al db!")
+        except Exception as e:
+            context.bot.send_message(chat_id=update.message.chat_id,text=f"Errore: {e}")
     add_test_handler = CommandHandler('add', add_test)
     set_section_handler = CommandHandler('section', set_section)
+    add_user_handler = CommandHandler('user', add_user)
     dispatcher.add_handler(add_test_handler)
     dispatcher.add_handler(set_section_handler)
+    dispatcher.add_handler(add_user_handler)
     # END TEST AREA
 
     # DISPATCHER
