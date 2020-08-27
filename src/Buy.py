@@ -200,7 +200,15 @@ def last_added(update, context):
 def chat(update, context):
     seller_chat_id = context.user_data['last_items'][context.user_data['last_count']].chat_id
     user = Database.get_user_by_chat_id(seller_chat_id)
-    seller_username = f"@{user.username}" if user.username else f"[{user.first_name}](tg://user?id={seller_chat_id})"
+    if user.username:
+        seller_username = f"@{user.username}"
+    else:
+        if user.first_name:
+            seller_username= f"[{user.first_name}](tg://user?id={seller_chat_id})"
+        else:
+            seller_username = f"[{statements['buy']['seller']}](tg://user?id={seller_chat_id})"
+
+    #seller_username = f"@{user.username}" if user.username else f"[{user.first_name}](tg://user?id={seller_chat_id})"
 
     context.bot.edit_message_caption(
         chat_id=update.callback_query.message.chat_id,
