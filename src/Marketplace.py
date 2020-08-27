@@ -92,6 +92,7 @@ if __name__ == "__main__":
     navigation_yes_handler = CallbackQueryHandler(Navigation.yes,pattern=r"yes")
     navigation_no_handler  = CallbackQueryHandler(Navigation.no,pattern=r"no")
 
+    # TEST AREA
     def add_test(update, context):
         try:            
             #session.query(Item).delete()
@@ -112,7 +113,10 @@ if __name__ == "__main__":
         context.user_data['section'] = "sell"
     add_test_handler = CommandHandler('add', add_test)
     set_section_handler = CommandHandler('section', set_section)
-    
+    dispatcher.add_handler(add_test_handler)
+    dispatcher.add_handler(set_section_handler)
+    # END TEST AREA
+
     # DISPATCHER
     dispatcher.add_handler(start_handler)
     dispatcher.add_handler(sell_handler)
@@ -123,8 +127,6 @@ if __name__ == "__main__":
     dispatcher.add_handler(sell_new_item_handler)
     dispatcher.add_handler(sell_my_items_handler)
     dispatcher.add_handler(feedback_handler)
-    dispatcher.add_handler(add_test_handler)
-    dispatcher.add_handler(set_section_handler)
     dispatcher.add_handler(buy_last_added_handler)
     dispatcher.add_handler(buy_search_by_name_handler)
     dispatcher.add_handler(buy_search_by_course_handler)
