@@ -73,7 +73,7 @@ def yes(update, context):
         text=f"{item.title}  🚮",
         cache_time=5)
 
-    if context.user_data['items_count'] == 0:
+    if len(context.user_data['last_items']) <= 0:
         context.user_data['last_items'] = None
         context.user_data['last_count'] = None
         context.bot.delete_message(
@@ -85,8 +85,8 @@ def yes(update, context):
             parse_mode="Markdown")
     else:
         context.user_data['last_count'] -= 1
+        # Load prev item
         prev_item  = context.user_data['last_items'][context.user_data['last_count']]
-    
         context.bot.edit_message_media(
             chat_id=update.callback_query.message.chat_id,
             message_id=update.callback_query.message.message_id,

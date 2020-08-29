@@ -204,6 +204,7 @@ def course(update, context):
     item = Database.get_item_by_id(new_item.item_id)
     context.user_data['last_items'] = [item]
     context.user_data['last_count'] = 0
+    context.user_data['items_count'] = 1 # Otherwise 'delete' button doesn't work
     context.bot.send_photo(
         chat_id=update.message.chat_id,
         photo=item.photo if not item.photo == '0' else IMG_NOT_AVAILABLE,
