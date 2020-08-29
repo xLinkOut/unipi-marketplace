@@ -222,5 +222,5 @@ def chat(update, context):
     context.bot.answer_callback_query(
         update.callback_query.id,
         text=statements['buy']['username_chat'],
-        cache_time=5
+        cache_time=0
     )

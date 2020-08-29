@@ -71,7 +71,7 @@ def yes(update, context):
     context.bot.answer_callback_query(
         update.callback_query.id,
         text=f"{item.title}  🚮",
-        cache_time=5)
+        cache_time=0)
 
     if len(context.user_data['last_items']) <= 0:
         context.user_data['last_items'] = None
