@@ -50,15 +50,15 @@ def information(update, context):
 
 # BACK
 def back(update, context):
-    if context.user_data['section'] == "sell" \
-        or context.user_data['section'] == "buy":
-        context.user_data['last_items'] = None
-        context.user_data['items_count'] = 0
-        context.user_data['last_count'] = 0
-        context.bot.send_message(
-            chat_id=update.message.chat_id,
-            text=statements['menu']['main_menu'],
-            reply_markup=Keyboards.Start,
-            parse_mode="Markdown")
+    #if context.user_data['section'] == "sell" \
+        #or context.user_data['section'] == "buy":
+    context.user_data['last_items'] = None
+    context.user_data['items_count'] = 0
+    context.user_data['last_count'] = 0
+    context.bot.send_message(
+        chat_id=update.message.chat_id,
+        text=statements['menu']['main_menu'],
+        reply_markup=Keyboards.Start,
+        parse_mode="Markdown")
 
     
