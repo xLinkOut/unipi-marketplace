@@ -155,6 +155,7 @@ def course(update, context):
         context.user_data['photo'] = None
         return ConversationHandler.END
 
+    # Switch to first cycle keyboard
     if update.message.text == statements['keyboards']['courses']['first_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -162,7 +163,7 @@ def course(update, context):
             reply_markup=Keyboards.FirstCycle,
             parse_mode="markdown")
         return "COURSE"
-    
+    # Switch to long cycle keyboard
     elif update.message.text == statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -171,19 +172,17 @@ def course(update, context):
             parse_mode="markdown")
         return "COURSE"
 
-    if not update.message.text in statements['keyboards']['courses']['first_cycle'] \
-        and not update.message.text in statements['keyboards']['courses']['long_cycle']:
+    if not update.message.text in statements['keyboards']['courses']['first_cycle_list'] \
+        and not update.message.text in statements['keyboards']['courses']['long_cycle_list']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['sell']['new_item']['course_wrong'],
             parse_mode="markdown")
         return "COURSE"
 
-    # Check SQLi 
-    context.user_data['course'] = update.message.text
 
     # Done
-    # Check for SQL Injection
+    context.user_data['course'] = update.message.text
     new_item = Database.Item(
             chat_id   = update.message.chat_id,
             title     = context.user_data['title'],
