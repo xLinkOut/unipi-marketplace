@@ -118,6 +118,7 @@ def search_by_course_done(update, context):
             parse_mode="markdown")
         return ConversationHandler.END
 
+    # Switch to first cycle keyboard
     if update.message.text == statements['keyboards']['courses']['first_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -125,6 +126,7 @@ def search_by_course_done(update, context):
             reply_markup=Keyboards.FirstCycle,
             parse_mode="markdown")
         return "DONE"
+    # Switch to long cycle keyboard
     elif update.message.text == statements['keyboards']['courses']['long_cycle']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
@@ -133,8 +135,8 @@ def search_by_course_done(update, context):
             parse_mode="markdown")
         return "DONE"
 
-    if not update.message.text in statements['keyboards']['courses']['first_cycle'] \
-        and not update.message.text in statements['keyboards']['courses']['long_cycle']:
+    if not update.message.text in statements['keyboards']['courses']['first_cycle_list'] \
+        and not update.message.text in statements['keyboards']['courses']['long_cycle_list']:
         context.bot.send_message(
             chat_id=update.message.chat_id,
             text=statements['buy']['search_by_course']['invalid_course'],
